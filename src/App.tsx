@@ -129,7 +129,8 @@ function App() {
     <AuthProvider>
       <Routes>
         {/* Public Routes */}
-        <Route path='/' element={<IndexOne/>}/>
+        <Route path='/' element={<IndexTwo/>}/>
+        <Route path='/home-1' element={<IndexOne/>}/>
         <Route path='/home-2' element={<IndexTwo/>}/>
         <Route path='/home-3' element={<IndexThree/>}/>
         <Route path='/home-4' element={<IndexFour/>}/>
@@ -142,6 +143,13 @@ function App() {
         <Route path='/home-splash' element={<IndexEleven/>}/>
         <Route path='/home-map' element={<IndexMap/>}/>
 
+        {/* Contractor Listings Routes */}
+        <Route path='/contractors' element={<GridLayout1/>}/>
+        <Route path='/contractors/list' element={<ListLayout1/>}/>
+        <Route path='/contractors/map' element={<HalfMap1/>}/>
+        <Route path='/contractor/:id' element={<SingleListing1/>}/>
+        
+        {/* Legacy Grid Layout Routes */}
         <Route path='/grid-layout-01' element={<GridLayout1/>}/>
         <Route path='/grid-layout-02' element={<GridLayout2/>}/>
         <Route path='/grid-layout-03' element={<GridLayout3/>}/>
@@ -173,6 +181,17 @@ function App() {
         <Route path='/single-listing-05/:id' element={<SingleListing5/>}/>
 
         {/* Protected Dashboard Routes */}
+        <Route path='/dashboard' element={<ProtectedRoute><DashboardUser/></ProtectedRoute>}/>
+        <Route path='/dashboard/profile' element={<ProtectedRoute><DashboardMyProfile/></ProtectedRoute>}/>
+        <Route path='/dashboard/bookings' element={<ProtectedRoute><DashboardMyBookings/></ProtectedRoute>}/>
+        <Route path='/dashboard/listings' element={<ProtectedRoute><DashboardMyListings/></ProtectedRoute>}/>
+        <Route path='/dashboard/add-listing' element={<ProtectedRoute><DashboardAddListing/></ProtectedRoute>}/>
+        <Route path='/dashboard/bookmarks' element={<ProtectedRoute><DashboardBookmarks/></ProtectedRoute>}/>
+        <Route path='/dashboard/messages' element={<ProtectedRoute><DashboardMessages/></ProtectedRoute>}/>
+        <Route path='/dashboard/reviews' element={<ProtectedRoute><DashboardReviews/></ProtectedRoute>}/>
+        <Route path='/dashboard/wallet' element={<ProtectedRoute><DashboardWallet/></ProtectedRoute>}/>
+        
+        {/* Legacy Dashboard Routes */}
         <Route path='/dashboard-user' element={<ProtectedRoute><DashboardUser/></ProtectedRoute>}/>
         <Route path='/dashboard-my-profile' element={<ProtectedRoute><DashboardMyProfile/></ProtectedRoute>}/>
         <Route path='/dashboard-my-bookings' element={<ProtectedRoute><DashboardMyBookings/></ProtectedRoute>}/>
@@ -189,22 +208,41 @@ function App() {
         <Route path='/forgot-password' element={<PublicRoute><ForgotPassword/></PublicRoute>}/>
         <Route path='/two-factor-auth' element={<PublicRoute><TwoFactorAuth/></PublicRoute>}/>
 
-        {/* Other Public Routes */}
+        {/* Static Pages */}
+        <Route path='/about' element={<AboutUs/>}/>
+        <Route path='/contact' element={<ContactUs/>}/>
+        <Route path='/pricing' element={<Pricing/>}/>
+        <Route path='/help' element={<HelpCenter/>}/>
+        <Route path='/faq' element={<Faq/>}/>
+        <Route path='/blog' element={<Blog/>}/>
+        <Route path='/blog/:id' element={<BlogDetail/>}/>
+        <Route path='/privacy' element={<PrivacyPolicy/>}/>
+        <Route path='/terms' element={<PrivacyPolicy/>}/>
+        
+        {/* Booking & Payment Flow */}
+        <Route path='/book/:contractorId' element={<BookingPage/>}/>
+        <Route path='/checkout' element={<CheckoutPage/>}/>
+        <Route path='/payment/success' element={<SuccessPayment/>}/>
+        <Route path='/invoice/:id' element={<InvoicePage/>}/>
+        <Route path='/cart' element={<Viewcart/>}/>
+        
+        {/* Utility Pages */}
+        <Route path='/contractor-profile/:id' element={<AuthorProfile/>}/>
+        <Route path='/404' element={<Error/>}/>
+        <Route path='/coming-soon' element={<Comingsoon/>}/>
+        <Route path='/elements' element={<Elements/>}/>
+        
+        {/* Legacy Routes */}
         <Route path='/author-profile' element={<AuthorProfile/>}/>
         <Route path='/booking-page' element={<BookingPage/>}/>
         <Route path='/about-us' element={<AboutUs/>}/>
-        <Route path='/blog' element={<Blog/>}/>
         <Route path='/blog-detail' element={<BlogDetail/>}/>
         <Route path='/blog-detail/:id' element={<BlogDetail/>}/>
         <Route path='/contact-us' element={<ContactUs/>}/>
-        <Route path='/pricing' element={<Pricing/>}/>
         <Route path='/help-center' element={<HelpCenter/>}/>
         <Route path='/single-helps' element={<SingleHelps/>}/>
         <Route path='/comingsoon' element={<Comingsoon/>}/>
-        <Route path='/faq' element={<Faq/>}/>
         <Route path='/error' element={<Error/>}/>
-        <Route path='/elements' element={<Elements/>}/>
-
         <Route path='/checkout-page' element={<CheckoutPage/>}/>
         <Route path='/success-payment' element={<SuccessPayment/>}/>
         <Route path='/invoice-page' element={<InvoicePage/>}/>

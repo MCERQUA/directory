@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom'
 
 import Bg from '../../assets/img/banner-2.jpg'
 
-import { FaSpa } from 'react-icons/fa'
-import { FaBagShopping, FaBowlRice, FaMartiniGlass, FaMugSaucer } from 'react-icons/fa6'
+import { FaHammer, FaWrench, FaPaintRoller, FaPlug, FaTools } from 'react-icons/fa'
 
 import NavbarLight from '../../components/navbar/navbar-light'
 import FormOne from '../../components/form-one'
@@ -35,8 +34,8 @@ export default function IndexTwo() {
                 <div className="row justify-content-center align-items-center mb-5 pt-lg-0 pt-5">
                     <div className="col-xl-10 col-lg-11 col-md-12 col-sm-12">
                         <div className="position-relative text-center">
-                            <h1>Explore Nearby Restaurants</h1>
-                            <p className="fs-5 fw-light">Browse high-rated hotels, restaurants, attractions, activities and more!</p>
+                            <h1>Find Trusted Local Contractors</h1>
+                            <p className="fs-5 fw-light">Connect with verified contractors for all your home improvement and repair needs!</p>
                         </div>
                     </div>
                 </div>
@@ -47,11 +46,11 @@ export default function IndexTwo() {
                     <div className="col-xl-7 col-lg-8 col-md-11 col-sm-12">
                         <div className="d-block position-relative">
                             <div className="popularSearches d-flex align-items-center justify-content-center gap-4 flex-wrap">
-                                <div className="singleItem"><Link to="#" data-bs-toggle="tooltip" data-bs-title="Beauty & Spa" className="badge-transparent square--70 circle"><FaSpa className="fs-3"/></Link></div>	
-                                <div className="singleItem"><Link to="#" data-bs-toggle="tooltip" data-bs-title="Eat & Drink" className="badge-transparent square--70 circle"><FaBowlRice className="fs-3"/></Link></div>	
-                                <div className="singleItem"><Link to="#" data-bs-toggle="tooltip" data-bs-title="Shopping" className="badge-transparent square--70 circle"><FaBagShopping className="fs-3"/></Link></div>	
-                                <div className="singleItem"><Link to="#" data-bs-toggle="tooltip" data-bs-title="Nightlife" className="badge-transparent square--70 circle"><FaMartiniGlass className="fs-3"/></Link></div>	
-                                <div className="singleItem"><Link to="#" data-bs-toggle="tooltip" data-bs-title="Coffee Shop" className="badge-transparent square--70 circle"><FaMugSaucer className="fs-3"/></Link></div>		
+                                <div className="singleItem"><Link to="#" data-bs-toggle="tooltip" data-bs-title="General Contractors" className="badge-transparent square--70 circle"><FaHammer className="fs-3"/></Link></div>	
+                                <div className="singleItem"><Link to="#" data-bs-toggle="tooltip" data-bs-title="Plumbing" className="badge-transparent square--70 circle"><FaWrench className="fs-3"/></Link></div>	
+                                <div className="singleItem"><Link to="#" data-bs-toggle="tooltip" data-bs-title="Painting" className="badge-transparent square--70 circle"><FaPaintRoller className="fs-3"/></Link></div>	
+                                <div className="singleItem"><Link to="#" data-bs-toggle="tooltip" data-bs-title="Electrical" className="badge-transparent square--70 circle"><FaPlug className="fs-3"/></Link></div>	
+                                <div className="singleItem"><Link to="#" data-bs-toggle="tooltip" data-bs-title="Home Repair" className="badge-transparent square--70 circle"><FaTools className="fs-3"/></Link></div>		
                             </div>
                         </div>
                     </div>
@@ -64,8 +63,8 @@ export default function IndexTwo() {
                 <div className="row align-items-center justify-content-center">
                     <div className="col-xl-7 col-lg-8 col-md-11 col-sm-12">
                         <div className="secHeading-wrap text-center">
-                            <h3 className="sectionHeading">Hot & Trending <span className="text-primary">Categories</span></h3>
-                            <p>Explore all types of popular category for submit your listings</p>
+                            <h3 className="sectionHeading">Popular Contractor <span className="text-primary">Services</span></h3>
+                            <p>Find contractors for all types of home improvement and repair services</p>
                         </div>
                     </div>
                 </div>
@@ -78,8 +77,8 @@ export default function IndexTwo() {
                 <div className="row align-items-center justify-content-center">
                     <div className="col-xl-7 col-lg-8 col-md-11 col-sm-12">
                         <div className="secHeading-wrap text-center">
-                            <h3 className="sectionHeading">Popular Listings In <span className="text-primary">Chicago</span></h3>
-                            <p>Explore Hot & Popular Business Listings</p>
+                            <h3 className="sectionHeading">Top-Rated Contractors In <span className="text-primary">Your Area</span></h3>
+                            <p>Browse trusted contractors with verified reviews and ratings</p>
                         </div>
                     </div>
                 </div>
@@ -92,8 +91,8 @@ export default function IndexTwo() {
                 <div className="row align-items-center justify-content-center">
                     <div className="col-xl-7 col-lg-8 col-md-11 col-sm-12">
                         <div className="secHeading-wrap text-center">
-                            <h3 className="sectionHeading">Explore Listings By <span className="text-primary">Cities</span></h3>
-                            <p>Our cliens love our services and give great & positive reviews</p>
+                            <h3 className="sectionHeading">Find Contractors By <span className="text-primary">Location</span></h3>
+                            <p>Connect with local contractors in your city and surrounding areas</p>
                         </div>
                     </div>
                 </div>
@@ -106,8 +105,8 @@ export default function IndexTwo() {
                 <div className="row align-items-center justify-content-center">
                     <div className="col-xl-7 col-lg-8 col-md-11 col-sm-12">
                         <div className="secHeading-wrap text-center">
-                            <h3 className="sectionHeading">Our Great <span className="text-primary">Reviews</span></h3>
-                            <p>Our cliens love our services and give great & positive reviews</p>
+                            <h3 className="sectionHeading">Customer <span className="text-primary">Success Stories</span></h3>
+                            <p>Read what homeowners say about their contractor experiences</p>
                         </div>
                     </div>
                 </div>
@@ -120,8 +119,8 @@ export default function IndexTwo() {
                 <div className="row align-items-center justify-content-center">
                     <div className="col-xl-7 col-lg-8 col-md-11 col-sm-12">
                         <div className="secHeading-wrap text-center">
-                            <h3 className="sectionHeading">Latest Updates <span className="text-primary">News</span></h3>
-                            <p>Join ListingHub and get latest & trending updates about listing</p>
+                            <h3 className="sectionHeading">Home Improvement <span className="text-primary">Tips & News</span></h3>
+                            <p>Stay updated with the latest trends, tips, and contractor insights</p>
                         </div>
                     </div>
                 </div>
@@ -134,8 +133,8 @@ export default function IndexTwo() {
                 <div className="row align-items-center justify-content-center">
                     <div className="col-xl-7 col-lg-8 col-md-11 col-sm-12">
                         <div className="secHeading-wrap text-center">
-                            <h3 className="sectionHeading">Explore Upcoming <span className="text-primary">Events</span></h3>
-                            <p>Browse our upcoming events and join soon.</p>
+                            <h3 className="sectionHeading">Home & Garden <span className="text-primary">Events</span></h3>
+                            <p>Join local home improvement shows and contractor networking events</p>
                         </div>
                     </div>
                 </div>

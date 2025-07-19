@@ -1,5 +1,5 @@
-import { BsBackpack, BsBarChart, BsBasket2, BsCameraReels, BsCodeSlash, BsCoin, BsCreditCard2Back, BsCupHot, BsCupStraw, BsEnvelopeAt, BsFacebook, BsFileEarmarkTextFill, BsGraphUpArrow, BsHouseCheck, BsInstagram, BsLamp, BsLayers, BsLinkedin, BsLungs, BsPatchCheck, BsPatchQuestion, BsPeopleFill, BsPersonCheck, BsPinMap, BsPinMapFill, BsPinterest, BsShop, BsSuitHeart, BsTwitter, BsYelp } from "react-icons/bs";
-import { FaDumbbell, FaStar,  FaStarHalfStroke } from "react-icons/fa6";
+import { BsBarChart, BsCameraReels, BsCodeSlash, BsCoin, BsCreditCard2Back, BsEnvelopeAt, BsFacebook, BsFileEarmarkTextFill, BsGraphUpArrow, BsHouseCheck, BsInstagram, BsLayers, BsLinkedin, BsPatchCheck, BsPatchQuestion, BsPeopleFill, BsPersonCheck, BsPinMap, BsPinMapFill, BsPinterest, BsSuitHeart, BsTwitter, BsYelp } from "react-icons/bs";
+import { FaStar, FaStarHalfStroke, FaHammer, FaWrench, FaPaintRoller, FaPlug, FaScrewdriverWrench, FaHouse, FaBroom, FaLeaf } from "react-icons/fa6";
 
 import list1 from '../assets/img/list-1.jpg'
 import list2 from '../assets/img/list-2.jpg'
@@ -57,75 +57,75 @@ import review3 from '../assets/img/capterra.png'
 export const categoryData = [
     {
         image:cats1,
-        icon:BsBackpack,
-        title:'Showroom',
-        list:'103 Lists'
+        icon:FaHammer,
+        title:'General Contractors',
+        list:'85 Contractors'
     },
     {
         image:cats2,
-        icon:BsBasket2,
-        title:'Fashion & Beauty',
-        list:'110 Lists'
+        icon:FaWrench,
+        title:'Plumbing Services',
+        list:'67 Contractors'
     },
     {
         image:cats3,
-        icon:BsHouseCheck,
-        title:'Real Estate',
-        list:'35 Lists'
+        icon:FaPlug,
+        title:'Electrical Services',
+        list:'52 Contractors'
     },
     {
         image:cats4,
-        icon:FaDumbbell,
-        title:'Health & Fitness',
-        list:'120 Lists'
+        icon:FaPaintRoller,
+        title:'Painting & Decorating',
+        list:'73 Contractors'
     },
     {
         image:cats5,
-        icon:BsShop,
-        title:'Business Shop',
-        list:'69 Lists'
+        icon:BsHouseCheck,
+        title:'HVAC Services',
+        list:'44 Contractors'
     },
     {
         image:cats6,
-        icon:BsCupHot,
-        title:'Coffe Shop',
-        list:'78 Lists'
+        icon:FaScrewdriverWrench,
+        title:'Home Repair',
+        list:'91 Contractors'
     },
     {
         image:cats7,
-        icon:BsCupStraw,
-        title:'Restaurants',
-        list:'69 Lists'
+        icon:FaHouse,
+        title:'Roofing Specialists',
+        list:'38 Contractors'
     },
     {
         image:cats8,
-        icon:BsLungs,
-        title:'Hospital & Med',
-        list:'75 Lists'
-    },
-    {
-        image:cats9,
-        icon:BsLamp,
-        title:'Wedding & Events',
-        list:'16 Lists'
-    },
-    {
-        image:cats10,
-        icon:BsCupHot,
-        title:'Coffe Shop',
-        list:'32 Lists'
-    },
-    {
-        image:cats9,
         icon:BsLayers,
-        title:'Account Finance',
-        list:'16 Lists'
+        title:'Flooring Installation',
+        list:'56 Contractors'
+    },
+    {
+        image:cats9,
+        icon:FaLeaf,
+        title:'Landscaping & Gardening',
+        list:'62 Contractors'
     },
     {
         image:cats10,
+        icon:FaBroom,
+        title:'Cleaning Services',
+        list:'49 Contractors'
+    },
+    {
+        image:cats1,
         icon:BsCodeSlash,
-        title:'Web Development',
-        list:'32 Lists'
+        title:'Kitchen Remodeling',
+        list:'35 Contractors'
+    },
+    {
+        image:cats2,
+        icon:BsSuitHeart,
+        title:'Bathroom Renovation',
+        list:'41 Contractors'
     },
 ]
 
@@ -136,12 +136,12 @@ export const listData = [
         user:team1,
         status:'open',
         featured:true,
-        title:' The Big Bumbble Gym      ',
-        desc:'Cicero famously orated against his political.',
-        call:'+42 515 635 4758',
-        loction:'Tokyo Japan',
-        tag:'Fitness',
-        tagIcon:FaDumbbell,
+        title:'Elite Home Builders',
+        desc:'Professional general contracting services for residential and commercial projects.',
+        call:'+1 (555) 123-4567',
+        loction:'Denver, Colorado',
+        tag:'General Contractor',
+        tagIcon:FaHammer,
         tagIconStyle:'catIcon me-2 cats-1',
         review:'46 Reviews',
         rating:'good',
@@ -154,12 +154,12 @@ export const listData = [
         user:team2,
         status:'open',
         featured:false,
-        title:'Greenvally Real Estate',
-        desc:'Cicero famously orated against his political.',
-        call:'+42 515 635 6150',
-        loction:'Paris France',
-        tag:'Real Estate',
-        tagIcon:BsHouseCheck,
+        title:'Pro Plumbing Solutions',
+        desc:'Licensed plumber with 15+ years experience in residential and commercial plumbing.',
+        call:'+1 (555) 987-6543',
+        loction:'Austin, Texas',
+        tag:'Plumbing',
+        tagIcon:FaWrench,
         tagIconStyle:'catIcon me-2 cats-2',
         review:'35 Reviews',
         rating:'midium',
@@ -170,16 +170,16 @@ export const listData = [
         id:3,
         image:list3,
         user:team3,
-        status:'closed',
+        status:'open',
         featured:true,
-        title:'Shree Wedding Planner',
-        desc:'Cicero famously orated against his political.',
-        call:'+42 515 635 4785',
-        loction:'Toronto Canada',
-        tag:'Weddings',
-        tagIcon:BsLamp,
+        title:'Spark Electric Services',
+        desc:'Certified electrician providing safe and reliable electrical installations and repairs.',
+        call:'+1 (555) 456-7890',
+        loction:'Seattle, Washington',
+        tag:'Electrical',
+        tagIcon:FaPlug,
         tagIconStyle:'catIcon me-2 cats-3',
-        review:'12 Reviews',
+        review:'52 Reviews',
         rating:'excellent',
         ratingRate:'4.8',
         instantBooking:false
@@ -190,12 +190,12 @@ export const listData = [
         user:team4,
         status:'open',
         featured:false,
-        title:'The Blue Ley Light',
-        desc:'Cicero famously orated against his political.',
-        call:'+42 515 635 6358',
-        loction:'Sydney Australia',
-        tag:'Restaurant',
-        tagIcon:BsCupStraw,
+        title:'Perfect Paint Professionals',
+        desc:'Interior and exterior painting specialists with premium quality finishes.',
+        call:'+1 (555) 321-9876',
+        loction:'Phoenix, Arizona',
+        tag:'Painting',
+        tagIcon:FaPaintRoller,
         tagIconStyle:'catIcon me-2 cats-4',
         review:'72 Reviews',
         rating:'good',
@@ -206,18 +206,18 @@ export const listData = [
         id:5,
         image:list5,
         user:team5,
-        status:'close',
+        status:'open',
         featured:true,
-        title:'Shreya Study Center',
-        desc:'Cicero famously orated against his political.',
-        call:'+42 515 635 0210',
-        loction:'Berlin Germany',
-        tag:'Education',
-        tagIcon:FaDumbbell,
+        title:'Climate Control HVAC',
+        desc:'Expert heating, ventilation, and air conditioning services for optimal comfort.',
+        call:'+1 (555) 654-3210',
+        loction:'Miami, Florida',
+        tag:'HVAC',
+        tagIcon:BsHouseCheck,
         tagIconStyle:'catIcon me-2 cats-5',
-        review:'112 Reviews',
-        rating:'midium',
-        ratingRate:'4.2',
+        review:'64 Reviews',
+        rating:'good',
+        ratingRate:'4.4',
         instantBooking:false
     },
     {
@@ -226,16 +226,16 @@ export const listData = [
         user:team6,
         status:'open',
         featured:false,
-        title:'Mahroom Garage & Workshop',
-        desc:'Cicero famously orated against his political.',
-        call:'+42 515 635 3251',
-        loction:'Moscow Russia',
-        tag:'Showroom',
-        tagIcon:BsBackpack,
+        title:'HandyMan Express',
+        desc:'Quick and reliable home repair services for all your maintenance needs.',
+        call:'+1 (555) 789-0123',
+        loction:'Portland, Oregon',
+        tag:'Home Repair',
+        tagIcon:FaScrewdriverWrench,
         tagIconStyle:'catIcon me-2 cats-6',
-        review:'52 Reviews',
+        review:'58 Reviews',
         rating:'excellent',
-        ratingRate:'4.8',
+        ratingRate:'4.7',
         instantBooking:true
     },
     {
@@ -244,14 +244,14 @@ export const listData = [
         user:team7,
         status:'open',
         featured:true,
-        title:'Creative Wedding Planner',
-        desc:'Cicero famously orated against his political.',
-        call:'+42 515 635 4758',
-        loction:'Rome Italy',
-        tag:'Wedding',
-        tagIcon:FaDumbbell,
+        title:'Summit Roofing Contractors',
+        desc:'Professional roofing installation, repair, and maintenance specialists.',
+        call:'+1 (555) 147-2580',
+        loction:'Atlanta, Georgia',
+        tag:'Roofing',
+        tagIcon:FaHouse,
         tagIconStyle:'catIcon me-2 cats-1',
-        review:'46 Reviews',
+        review:'41 Reviews',
         rating:'good',
         ratingRate:'4.5',
         instantBooking:false
@@ -260,18 +260,18 @@ export const listData = [
         id:8,
         image:list8,
         user:team8,
-        status:'close',
+        status:'open',
         featured:true,
-        title:'The Great Dream Palace',
-        desc:'Cicero famously orated against his political.',
-        call:'+42 515 635 5426',
-        loction:'Mumbai India',
-        tag:'Spa',
-        tagIcon:BsCupHot,
+        title:'Premium Flooring Installers',
+        desc:'Expert installation of hardwood, tile, carpet, and laminate flooring.',
+        call:'+1 (555) 369-2580',
+        loction:'Chicago, Illinois',
+        tag:'Flooring',
+        tagIcon:BsLayers,
         tagIconStyle:'catIcon me-2 cats-1',
-        review:'42 Reviews',
+        review:'67 Reviews',
         rating:'excellent',
-        ratingRate:'4.9',
+        ratingRate:'4.8',
         instantBooking:true
     },
     {
@@ -280,12 +280,12 @@ export const listData = [
         user:team9,
         status:'open',
         featured:true,
-        title:'Agroo Spa & Massage Center',
-        desc:'Cicero famously orated against his political.',
-        call:'+42 515 635 2136',
-        loction:'Athens Greece',
-        tag:'Eat & Drink ',
-        tagIcon:BsBasket2,
+        title:'Green Gardens Landscaping',
+        desc:'Professional landscaping and lawn care services to beautify your outdoor spaces.',
+        call:'+1 (555) 852-7410',
+        loction:'San Diego, California',
+        tag:'Landscaping',
+        tagIcon:FaLeaf,
         tagIconStyle:'catIcon me-2 cats-8',
         review:'76 Reviews',
         rating:'good',
@@ -297,51 +297,51 @@ export const listData = [
 export const reviewData = [
     {
         rate:[FaStar,FaStar,FaStar,FaStar,FaStar],
-        title:'"One of the Superb Platform"',
-        desc:`Absolutely love Advertize! whenever I'm in need of finding a job, Advertize is my #1 go to! wouldn't look anywhere else.`,
+        title:'"Found the Perfect Contractor"',
+        desc:`Amazing platform! Found a reliable electrician within hours. The contractor was professional, on-time, and did excellent work at a fair price.`,
         image:team1,
-        name:'Aman Diwakar',
-        position:'General Manager'
+        name:'Sarah Johnson',
+        position:'Homeowner'
     },
     {
         rate:[FaStar,FaStar,FaStar,FaStar,FaStar],
-        title:'"One of the Superb Platform"',
-        desc:`Overall, the Advertize application is a powerful tool for anyone in the job market. Its reliability, extensive job listings, and user-friendly..`,
+        title:'"Professional Service Every Time"',
+        desc:`As a contractor, this platform has helped me connect with quality clients. The review system builds trust and the booking process is seamless.`,
         image:team2,
-        name:'Ridhika K. Sweta',
-        position:'CEO of Agreeo'
+        name:'Mike Rodriguez',
+        position:'General Contractor'
     },
     {
         rate:[FaStar,FaStar,FaStar,FaStar,FaStar],
-        title:'"One of the Superb Platform"',
-        desc:`I love this Advertize app. it's more legit than the other ones with advertisement. Once I uploaded my resume, then employers...`,
+        title:'"Saved Me Time and Money"',
+        desc:`No more calling dozens of contractors! I can compare ratings, read reviews, and book appointments all in one place. Highly recommend!`,
         image:team3,
-        name:'Shushil Kumar Yadav',
-        position:'Brand Manager'
+        name:'Jennifer Liu',
+        position:'Property Manager'
     },
     {
         rate:[FaStar,FaStar,FaStar,FaStar,FaStar],
-        title:'"One of the Superb Platform"',
-        desc:`Advertize the best job finder app out there right now.. they also protect you from spammers so the only emails I get due to...`,
+        title:'"Excellent Quality Control"',
+        desc:`The verification process for contractors gives me confidence. All the contractors I've hired through this platform have been licensed and insured.`,
         image:team4,
-        name:'Ritika K. Mishra',
-        position:'HR Head at Google'
+        name:'David Chen',
+        position:'Real Estate Developer'
     },
     {
         rate:[FaStar,FaStar,FaStar,FaStar,FaStar],
-        title:'"One of the Superb Platform"',
-        desc:`Advertize the best job finder app out there right now.. they also protect you from spammers so the only emails I get due to...`,
+        title:'"Growing My Business"',
+        desc:`As a small contractor, this platform has been game-changing. I've doubled my client base and the project management tools are fantastic.`,
         image:team5,
-        name:'Shree K. Patel',
-        position:'Chief Executive'
+        name:'Maria Gonzalez',
+        position:'Painting Contractor'
     },
     {
         rate:[FaStar,FaStar,FaStar,FaStar,FaStar],
-        title:'"One of the Superb Platform"',
-        desc:`Advertize the best job finder app out there right now.. they also protect you from spammers so the only emails I get due to...`,
+        title:'"Transparent Pricing"',
+        desc:`Love that I can see upfront pricing and compare multiple contractors. No hidden fees or surprise charges. The booking system is user-friendly.`,
         image:team6,
-        name:'Sarwan Kumar Patel',
-        position:'Chief Executive'
+        name:'Robert Taylor',
+        position:'Homeowner'
     },
 ]
 
@@ -349,101 +349,101 @@ export const blogData = [
     {
         id:1,
         image:blog1,
-        title:'10 Must-Have Bootstrap Templates for Modern Web Design',
-        desc:"Think of a news blog that's filled with content political against opponent Lucius Sergius Catilina. Hourly on the day of going live.",
+        title:'10 Essential Home Maintenance Tips Every Homeowner Should Know',
+        desc:"Discover the key maintenance tasks that can prevent costly repairs and keep your home in excellent condition year-round.",
         date:'13th Sept 2025',
         views:'12k Views'
     },
     {
         id:2,
         image:blog2,
-        title:'Top 5 Bootstrap Themes for E-commerce Websites.',
-        desc:"Think of a news blog that's filled with content political against opponent Lucius Sergius Catilina. Hourly on the day of going live.",
+        title:'How to Choose the Right Contractor for Your Home Project',
+        desc:"A comprehensive guide to finding, vetting, and hiring reliable contractors for your renovation or repair projects.",
         date:'29th Nov 2025',
         views:'33k Views'
     },
     {
         id:3,
         image:blog3,
-        title:'The Ultimate Guide to Customizing Bootstrap Templates',
-        desc:"Think of a news blog that's filled with content political against opponent Lucius Sergius Catilina. Hourly on the day of going live.",
+        title:'Spring Home Improvement Projects That Add Value',
+        desc:"Learn about the best spring renovation projects that increase your home's value and improve your quality of life.",
         date:'13th March 2025',
         views:'15k Views'
     },
     {
         id:4,
         image:blog4,
-        title:'Top 10 Free Bootstrap Templates for Your Next Project',
-        desc:"Think of a news blog that's filled with content political against opponent Lucius Sergius Catilina. Hourly on the day of going live.",
+        title:'Understanding Contractor Licenses and Insurance Requirements',
+        desc:"Everything you need to know about contractor credentials, licensing requirements, and insurance protection.",
         date:'5th May 2025',
         views:'12k Views'
     },
     {
         id:5,
         image:blog5,
-        title:'Creating Stunning Landing Pages with Bootstrap: Best Practices',
-        desc:"Think of a news blog that's filled with content political against opponent Lucius Sergius Catilina. Hourly on the day of going live.",
+        title:'Budget-Friendly Home Upgrades That Make a Big Impact',
+        desc:"Explore cost-effective home improvement ideas that deliver maximum impact without breaking the bank.",
         date:'19th June 2025',
         views:'33k Views'
     },
     {
         id:6,
         image:blog6,
-        title:'The Benefits of Using Bootstrap for Your Web Development Projects',
-        desc:"Think of a news blog that's filled with content political against opponent Lucius Sergius Catilina. Hourly on the day of going live.",
+        title:'Seasonal Contractor Services: What to Schedule When',
+        desc:"A seasonal guide to planning home maintenance and improvement projects throughout the year.",
         date:'20th June 2025',
         views:'15k Views'
     },
 ]
 
-export const footerLink1  = ['About ListingHub','Submit Listing','ListingHub Report','Careers']
+export const footerLink1  = ['About ContractorHub','Find Contractors','Contractor Signup','Careers']
 
-export const footerLink2  = ['Trust & Safety','Investor Relations','Terms of Services','Paid Advertising','ListingHub Blog']
+export const footerLink2  = ['Trust & Safety','Contractor Verification','Terms of Services','Advertising','Home Improvement Blog']
 
-export const footerLink3  = ['Trust & Safety','Investor Relations','Terms of Services','Paid Advertising','ListingHub Blog']
+export const footerLink3  = ['Help Center','Contact Support','Pricing','Insurance Info','Safety Guidelines']
 
 export const cityData = [
     {
         image:loction1,
         gridClass:'col-xl-6 col-lg-6 col-md-4 col-sm-6',
-        listing:'16 Listing',
+        listing:'186 Contractors',
         name:'Jersey City',
-        tag:['San Diego','New York','Dallas','Denver']
+        tag:['Plumbing','Electrical','HVAC','General']
     },
     {
         image:loction2,
         gridClass:'col-xl-3 col-lg-3 col-md-4 col-sm-6',
-        listing:'24 Listing',
+        listing:'324 Contractors',
         name:'San Diego',
-        tag:['San Diego','New York','Dallas','Denver']
+        tag:['Landscaping','Roofing','Painting','Repair']
     },
     {
         image:loction3,
         gridClass:'col-xl-3 col-lg-3 col-md-4 col-sm-6',
-        listing:'30 Listing',
+        listing:'298 Contractors',
         name:'New Orleans',
-        tag:['San Diego','New York','Dallas','Denver']
+        tag:['Flooring','Kitchen','Bathroom','Clean']
     },
     {
         image:loction4,
         gridClass:'col-xl-3 col-lg-3 col-md-4 col-sm-6',
-        listing:'10 Listing',
+        listing:'142 Contractors',
         name:'San Antonio',
-        tag:['San Diego','New York','Dallas','Denver']
+        tag:['General','HVAC','Plumbing','Electrical']
     },
     {
         image:loction5,
         gridClass:'col-xl-3 col-lg-3 col-md-4 col-sm-6',
-        listing:'22 Listing',
+        listing:'456 Contractors',
         name:'Los Angeles',
-        tag:['San Diego','New York','Dallas','Denver']
+        tag:['Remodeling','Painting','Landscaping','Repair']
     },
     {
         image:loction6,
         gridClass:'col-xl-6 col-lg-6 col-md-4 col-sm-6',
-        listing:'12 Listing',
+        listing:'278 Contractors',
         name:'San Francisco',
-        tag:['San Diego','New York','Dallas','Denver']
+        tag:['Tech Install','HVAC','General','Electrical']
     },
 ]
 
@@ -452,49 +452,49 @@ export const eventData = [
         image:event1,
         date:'13',
         month:'March',
-        tag:'Cooking',
-        tagIcon:BsCupHot,
+        tag:'Home Show',
+        tagIcon:FaHammer,
         iconStyle:'badge badge-xs badge-danger',
-        title:'Learn Cooc with Shree Patel',
+        title:'Spring Home & Garden Expo',
         time:'10:30 AM To 14:40 PM'
     },
     {
         image:event2,
         date:'5',
         month:'May',
-        tag:'Nightlife',
-        tagIcon:BsCupHot,
+        tag:'Workshop',
+        tagIcon:FaScrewdriverWrench,
         iconStyle:'badge badge-xs badge-success',
-        title:'Enjoy with Adobe Ceremoney',
-        time:'20:0 AM To 22:30 PM'
+        title:'DIY Home Repair Workshop',
+        time:'8:00 AM To 12:30 PM'
     },
     {
         image:event3,
         date:'19',
         month:'June',
-        tag:'Workshop',
-        tagIcon:BsCupHot,
+        tag:'Networking',
+        tagIcon:FaHouse,
         iconStyle:'badge badge-xs badge-warning',
-        title:'Join AI Community Workshop',
-        time:'8:30 AM To 12:20 PM'
+        title:'Contractor Networking Event',
+        time:'6:30 PM To 9:20 PM'
     },
 ]
 
 export const workData = [
     {
         icon:BsPinMap,
-        title:'Find Your Dream Place',
-        desc:'Cicero famously orated against his political opponent Lucius wow abutere Sergius Catilina. Occasionally the first Oration.'
+        title:'Find Local Contractors',
+        desc:'Search and discover verified contractors in your area using our comprehensive directory and location-based search tools.'
     },
     {
         icon:BsEnvelopeAt,
-        title:'Contact Listing Owners',
-        desc:'Cicero famously orated against his political opponent Lucius wow abutere Sergius Catilina. Occasionally the first Oration.'
+        title:'Connect & Compare',
+        desc:'Contact multiple contractors, read reviews, compare quotes, and evaluate their portfolios to make informed decisions.'
     },
     {
         icon:BsPatchCheck,
-        title:'Make Your Reservation',
-        desc:'Cicero famously orated against his political opponent Lucius wow abutere Sergius Catilina. Occasionally the first Oration.'
+        title:'Book with Confidence',
+        desc:'Schedule appointments, track project progress, and manage payments through our secure platform with verified professionals.'
     },
 ]
 export const reviewData2 = [

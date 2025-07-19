@@ -126,7 +126,7 @@ export default function NavbarLight() {
                             <ul>
                                 <li>
                                     {user ? (
-                                        <Link to="/dashboard-user" className="d-flex align-items-center">
+                                        <Link to="/dashboard" className="d-flex align-items-center">
                                             <BsPersonCircle className="me-1"/>
                                         </Link>
                                     ) : (
@@ -152,7 +152,8 @@ export default function NavbarLight() {
                         <ul className="nav-menu">
                             <li className="active"><Link to="#">Home<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
                                 <ul className="nav-dropdown nav-submenu">
-                                    <li className={`${current === '/' ? 'active' : ''}`}><Link to="/">Home Layout 01</Link></li>
+                                    <li className={`${current === '/' ? 'active' : ''}`}><Link to="/">Contractor Directory</Link></li>
+                                    <li className={`${current === '/home-1' ? 'active' : ''}`}><Link to="/home-1">Home Layout 01</Link></li>
                                     <li className={`${current === '/home-2' ? 'active' : ''}`}><Link to="/home-2">Home Layout 02</Link></li>
                                     <li className={`${current === '/home-3' ? 'active' : ''}`}><Link to="/home-3">Home Layout 03</Link></li>
                                     <li className={`${current === '/home-4' ? 'active' : ''}`}><Link to="/home-4">Home Layout 04</Link></li>
@@ -167,9 +168,12 @@ export default function NavbarLight() {
                                 </ul>
                             </li>
 
-                            <li className={`${['/grid-layout-01','/grid-layout-02','/grid-layout-03','/grid-layout-04','/grid-layout-05','/grid-layout-06','/list-layout-01','/list-layout-02','/list-layout-03','/list-layout-04','/list-layout-05','/half-map-01','/half-map-02','/half-map-03','/half-map-04','/half-map-05','/single-listing-01','/single-listing-02','/single-listing-03','/single-listing-04','/single-listing-05'].includes(current)? 'active' : ''}`}><Link to="#">Listings<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
+                            <li className={`${['/contractors','/contractors/list','/contractors/map','/contractor','/grid-layout-01','/grid-layout-02','/grid-layout-03','/grid-layout-04','/grid-layout-05','/grid-layout-06','/list-layout-01','/list-layout-02','/list-layout-03','/list-layout-04','/list-layout-05','/half-map-01','/half-map-02','/half-map-03','/half-map-04','/half-map-05','/single-listing-01','/single-listing-02','/single-listing-03','/single-listing-04','/single-listing-05'].includes(current) || current.startsWith('/contractor/')? 'active' : ''}`}><Link to="#">Find Contractors<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
                                 <ul className="nav-dropdown nav-submenu">
-                                    <li className={`${['/grid-layout-01','/grid-layout-02','/grid-layout-03','/grid-layout-04','/grid-layout-05','/grid-layout-06'].includes(current)? 'active' : ''}`}><Link to="#">Grid Layouts<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
+                                    <li className={`${current === '/contractors' ? 'active' : ''}`}><Link to="/contractors">Grid View</Link></li>
+                                    <li className={`${current === '/contractors/list' ? 'active' : ''}`}><Link to="/contractors/list">List View</Link></li>
+                                    <li className={`${current === '/contractors/map' ? 'active' : ''}`}><Link to="/contractors/map">Map View</Link></li>
+                                    <li className={`${['/grid-layout-01','/grid-layout-02','/grid-layout-03','/grid-layout-04','/grid-layout-05','/grid-layout-06'].includes(current)? 'active' : ''}`}><Link to="#">All Grid Layouts<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
                                         <ul className="nav-dropdown nav-submenu">
                                             <li className={`${current === '/grid-layout-01' ? 'active' : ''}`}><Link to="/grid-layout-01">Grid Layout 01</Link></li>                                    
                                             <li className={`${current === '/grid-layout-02' ? 'active' : ''}`}><Link to="/grid-layout-02">Grid Layout 02</Link></li>                                    
@@ -209,21 +213,21 @@ export default function NavbarLight() {
                                 </ul>
                             </li>
 
-                            <li className={`${['/dashboard-user','/dashboard-my-profile','/dashboard-my-bookings','/dashboard-my-listings','/dashboard-bookmarks','/dashboard-messages','/dashboard-reviews','/dashboard-wallet','/dashboard-add-listing'].includes(current)? 'active' : ''}`}><Link to="#">User Dashboard<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
+                            <li className={`${['/dashboard','/dashboard/profile','/dashboard/bookings','/dashboard/listings','/dashboard/bookmarks','/dashboard/messages','/dashboard/reviews','/dashboard/wallet','/dashboard/add-listing','/dashboard-user','/dashboard-my-profile','/dashboard-my-bookings','/dashboard-my-listings','/dashboard-bookmarks','/dashboard-messages','/dashboard-reviews','/dashboard-wallet','/dashboard-add-listing'].includes(current)? 'active' : ''}`}><Link to="#">User Dashboard<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
                                 <ul className="nav-dropdown nav-submenu">
-                                    <li className={`${current === '/dashboard-user' ? 'active' : ''}`}><Link to="/dashboard-user" className='d-flex'><BsSpeedometer className="me-1 align-self-center"/>Dashboard Area</Link></li>
-                                    <li className={`${current === '/dashboard-my-profile' ? 'active' : ''}`}><Link to="/dashboard-my-profile" className='d-flex'><BsPersonLinesFill className="me-1 align-self-center"/>My Profile</Link></li>
-                                    <li className={`${current === '/dashboard-my-bookings' ? 'active' : ''}`}><Link to="/dashboard-my-bookings" className='d-flex'><BsJournalCheck className="me-1 align-self-center"/>My Bookings</Link></li>
-                                    <li className={`${current === '/dashboard-my-listings' ? 'active' : ''}`}><Link to="/dashboard-my-listings" className='d-flex'><BsUiRadiosGrid className="me-1 align-self-center"/>My Listings</Link></li>
-                                    <li className={`${current === '/dashboard-bookmarks' ? 'active' : ''}`}><Link to="/dashboard-bookmarks" className='d-flex'><BsBookmarkStar className="me-1 align-self-center"/>Bookmarkes</Link></li>
-                                    <li className={`${current === '/dashboard-messages' ? 'active' : ''}`}><Link to="/dashboard-messages" className='d-flex'><BsChatDots className="me-1 align-self-center"/>Messages</Link></li>
-                                    <li className={`${current === '/dashboard-reviews' ? 'active' : ''}`}><Link to="/dashboard-reviews" className='d-flex'><BsYelp className="me-1 align-self-center"/>Reviews</Link></li>
-                                    <li className={`${current === '/dashboard-wallet' ? 'active' : ''}`}><Link to="/dashboard-wallet" className='d-flex'><BsWallet className="me-1 align-self-center"/>Wallet</Link></li>
-                                    <li className={`${current === '/dashboard-add-listing' ? 'active' : ''}`}><Link to="/dashboard-add-listing" className='d-flex'><BsPatchPlus className="me-1 align-self-center"/>Add Listing</Link></li>
+                                    <li className={`${current === '/dashboard' || current === '/dashboard-user' ? 'active' : ''}`}><Link to="/dashboard" className='d-flex'><BsSpeedometer className="me-1 align-self-center"/>Dashboard Area</Link></li>
+                                    <li className={`${current === '/dashboard/profile' || current === '/dashboard-my-profile' ? 'active' : ''}`}><Link to="/dashboard/profile" className='d-flex'><BsPersonLinesFill className="me-1 align-self-center"/>My Profile</Link></li>
+                                    <li className={`${current === '/dashboard/bookings' || current === '/dashboard-my-bookings' ? 'active' : ''}`}><Link to="/dashboard/bookings" className='d-flex'><BsJournalCheck className="me-1 align-self-center"/>My Bookings</Link></li>
+                                    <li className={`${current === '/dashboard/listings' || current === '/dashboard-my-listings' ? 'active' : ''}`}><Link to="/dashboard/listings" className='d-flex'><BsUiRadiosGrid className="me-1 align-self-center"/>My Listings</Link></li>
+                                    <li className={`${current === '/dashboard/bookmarks' || current === '/dashboard-bookmarks' ? 'active' : ''}`}><Link to="/dashboard/bookmarks" className='d-flex'><BsBookmarkStar className="me-1 align-self-center"/>Bookmarkes</Link></li>
+                                    <li className={`${current === '/dashboard/messages' || current === '/dashboard-messages' ? 'active' : ''}`}><Link to="/dashboard/messages" className='d-flex'><BsChatDots className="me-1 align-self-center"/>Messages</Link></li>
+                                    <li className={`${current === '/dashboard/reviews' || current === '/dashboard-reviews' ? 'active' : ''}`}><Link to="/dashboard/reviews" className='d-flex'><BsYelp className="me-1 align-self-center"/>Reviews</Link></li>
+                                    <li className={`${current === '/dashboard/wallet' || current === '/dashboard-wallet' ? 'active' : ''}`}><Link to="/dashboard/wallet" className='d-flex'><BsWallet className="me-1 align-self-center"/>Wallet</Link></li>
+                                    <li className={`${current === '/dashboard/add-listing' || current === '/dashboard-add-listing' ? 'active' : ''}`}><Link to="/dashboard/add-listing" className='d-flex'><BsPatchPlus className="me-1 align-self-center"/>Add Listing</Link></li>
                                 </ul>
                             </li>
 
-                            <li className={`${['/author-profile','/booking-page','/about-us','/blog','/contact-us','/pricing','/help-center','/comingsoon','/faq','/error','/elements','/privacy-policy','/checkout-page','/success-payment','/invoice-page','/viewcart'].includes(current)? 'active' : ''}`}><Link to="#">Pages<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
+                            <li className={`${['/about','/contact','/pricing','/help','/faq','/blog','/privacy','/terms','/author-profile','/booking-page','/about-us','/contact-us','/help-center','/comingsoon','/error','/elements','/privacy-policy','/checkout-page','/success-payment','/invoice-page','/viewcart'].includes(current) || current.startsWith('/blog/')? 'active' : ''}`}><Link to="#">Pages<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
                                 <ul className="nav-dropdown nav-submenu">
                                     <li><Link to="#" className='d-flex'><BsPersonCircle className="me-1 align-self-center"/>My Account<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
                                         <ul className="nav-dropdown nav-submenu">
@@ -243,12 +247,12 @@ export default function NavbarLight() {
                                     </li>
                                     <li className={`${current === '/author-profile' ? 'active' : ''}`}><Link to="/author-profile" className='d-flex'><BsPersonVcard className="me-1 align-self-center"/>Author Profile</Link></li>
                                     <li className={`${current === '/booking-page' ? 'active' : ''}`}><Link to="/booking-page" className='d-flex'><BsCalendar2Check className="me-1 align-self-center"/>Booking Page</Link></li>
-                                    <li className={`${current === '/about-us' ? 'active' : ''}`}><Link to="/about-us" className='d-flex'><BsPersonCheck className="me-1 align-self-center"/>About Us</Link></li>                                
-                                    <li className={`${current === '/blog' ? 'active' : ''}`}><Link to="/blog" className='d-flex'><BsBlockquoteLeft className="me-1 align-self-center"/>Blog Page</Link></li>
-                                    <li className={`${current === '/contact-us' ? 'active' : ''}`}><Link to="/contact-us" className='d-flex'><BsEnvelopeCheck className="me-1 align-self-center"/>Contact Us</Link></li>
-                                    <li className={`${current === '/pricing' ? 'active' : ''}`}><Link to="/pricing" className='d-flex'><BsCoin className="me-1 align-self-center"/>Pricing</Link></li>					
-                                    <li className={`${current === '/privacy-policy' ? 'active' : ''}`}><Link to="/privacy-policy" className='d-flex'><BsCoin className="me-1 align-self-center"/>Privacy Policy</Link></li>					
-                                    <li className={`${current === '/help-center' ? 'active' : ''}`}><Link to="/help-center" className='d-flex'><BsPatchQuestion className="me-1 align-self-center"/>Help Center</Link></li>
+                                    <li className={`${current === '/about' || current === '/about-us' ? 'active' : ''}`}><Link to="/about" className='d-flex'><BsPersonCheck className="me-1 align-self-center"/>About Us</Link></li>                                
+                                    <li className={`${current === '/contact' || current === '/contact-us' ? 'active' : ''}`}><Link to="/contact" className='d-flex'><BsEnvelopeCheck className="me-1 align-self-center"/>Contact Us</Link></li>
+                                    <li className={`${current === '/pricing' ? 'active' : ''}`}><Link to="/pricing" className='d-flex'><BsCoin className="me-1 align-self-center"/>Pricing</Link></li>
+                                    <li className={`${current === '/blog' ? 'active' : ''}`}><Link to="/blog" className='d-flex'><BsBlockquoteLeft className="me-1 align-self-center"/>Blog</Link></li>					
+                                    <li className={`${current === '/help' || current === '/help-center' ? 'active' : ''}`}><Link to="/help" className='d-flex'><BsPatchQuestion className="me-1 align-self-center"/>Help Center</Link></li>
+                                    <li className={`${current === '/privacy' || current === '/privacy-policy' ? 'active' : ''}`}><Link to="/privacy" className='d-flex'><BsCoin className="me-1 align-self-center"/>Privacy Policy</Link></li>
                                     <li className={`${current === '/comingsoon' ? 'active' : ''}`}><Link to="/comingsoon" className='d-flex'><BsHourglassTop className="me-1 align-self-center"/>Coming Soon</Link></li>
                                     <li className={`${current === '/faq' ? 'active' : ''}`}><Link to="/faq" className='d-flex'><BsInfoCircle className="me-1 align-self-center"/>FAQ's</Link></li>
                                     <li className={`${current === '/error' ? 'active' : ''}`}><Link to="/error" className='d-flex'><BsXOctagon className="me-1 align-self-center"/>Error Page</Link></li>
@@ -256,14 +260,14 @@ export default function NavbarLight() {
                                 </ul>
                             </li>
                             
-                            <li><Link to="#" className="mob-addlisting light" ><BsGeoAltFill className="me-1"/>Add Listing</Link></li>
+                            <li><Link to="#" className="mob-addlisting light" ><BsGeoAltFill className="me-1"/>Join as Contractor</Link></li>
                         </ul>
                             
                         <ul className="nav-menu nav-menu-social align-to-right">
                             <li>
                                 {user ? (
                                     <div className="d-flex align-items-center gap-2">
-                                        <Link to="/dashboard-user" className="d-flex align-items-center">
+                                        <Link to="/dashboard" className="d-flex align-items-center">
                                             <BsPersonCircle className="fs-6 me-1"/>
                                             <span className="navCl">Welcome, {user.name}</span>
                                         </Link>
@@ -285,7 +289,7 @@ export default function NavbarLight() {
                                 <a href="#cartSlider" className="cart-content" data-bs-toggle="offcanvas" role="button" aria-controls="cartSlider"><BsBasket2  className=""/><span className="head-cart-counter">3</span></a>
                             </li>
                             <li className="list-buttons light">
-                                <Link to="/register"><BsGeoAlt className="fs-6 me-1"/>Add Listing</Link>
+                                <Link to="/dashboard/add-listing"><BsGeoAlt className="fs-6 me-1"/>Join as Contractor</Link>
                             </li>
                         </ul>
                     </div>
@@ -394,7 +398,7 @@ export default function NavbarLight() {
 
         <div className="offcanvas offcanvas-end" data-bs-scroll="true" tabIndex={-1} id="cartSlider" aria-labelledby="cartSliderLabel">
             <div className="offcanvas-header border-bottom d-flex justify-content-between">
-                <h6 className="offcanvas-title" id="cartSliderLabel">Your cart Items</h6>
+                <h6 className="offcanvas-title" id="cartSliderLabel">Your Service Cart</h6>
                 <Link to="#" className="square--35 circle text-muted-2 border" data-bs-dismiss="offcanvas" aria-label="Close"><FiX className=""/></Link>
             </div>
             <div className="offcanvas-body">
@@ -405,8 +409,8 @@ export default function NavbarLight() {
                             <div className="d-flex align-items-center justify-content-start gap-3">
                                 <div className="cartiteThumb"><figure className="d-block m-0"><img src={list1} className="img-fluid rounded-2" width="60" alt=""/></figure></div>
                                 <div className="cartCaption">
-                                    <h6 className="lh-base m-0">Spicy Burger</h6>
-                                    <p className="m-0">1x$25.50</p>
+                                    <h6 className="lh-base m-0">Bathroom Renovation</h6>
+                                    <p className="m-0">1x$2,850.00</p>
                                 </div>
                             </div>
                             
@@ -417,8 +421,8 @@ export default function NavbarLight() {
                             <div className="d-flex align-items-center justify-content-start gap-3">
                                 <div className="cartiteThumb"><figure className="d-block m-0"><img src={list2} className="img-fluid rounded-2" width="60" alt=""/></figure></div>
                                 <div className="cartCaption">
-                                    <h6 className="lh-base m-0">Premium Package</h6>
-                                    <p className="m-0">1x$22.10</p>
+                                    <h6 className="lh-base m-0">Kitchen Flooring</h6>
+                                    <p className="m-0">1x$1,450.00</p>
                                 </div>
                             </div>
                             
@@ -429,8 +433,8 @@ export default function NavbarLight() {
                             <div className="d-flex align-items-center justify-content-start gap-3">
                                 <div className="cartiteThumb"><figure className="d-block m-0"><img src={list3} className="img-fluid rounded-2" width="60" alt=""/></figure></div>
                                 <div className="cartCaption">
-                                    <h6 className="lh-base m-0">Platinum Plaster</h6>
-                                    <p className="m-0">1x$17.40</p>
+                                    <h6 className="lh-base m-0">Exterior Painting</h6>
+                                    <p className="m-0">1x$980.00</p>
                                 </div>
                             </div>
                             
@@ -440,7 +444,7 @@ export default function NavbarLight() {
                     </div>
                     
                     <div className="cartSubtotal w-100 py-3 border-top mt-3">
-                        <h6 className="m-0">Subtotal: $128.75</h6>
+                        <h6 className="m-0">Subtotal: $5,280.00</h6>
                     </div>
                     
                 </div>
@@ -463,11 +467,11 @@ export default function NavbarLight() {
                     </div>
                 </div>
                 <div className="popularSearches d-flex align-items-center justify-content-center gap-2 flex-wrap">
-                    <div className="singleItem"><Link to="#" className="badge badge-xs badge-primary rounded-pill">Real Estate</Link></div>	
-                    <div className="singleItem"><Link to="#" className="badge badge-xs badge-primary rounded-pill">Eat & Drink</Link></div>	
-                    <div className="singleItem"><Link to="#" className="badge badge-xs badge-primary rounded-pill">Shopping</Link></div>	
-                    <div className="singleItem"><Link to="#" className="badge badge-xs badge-primary rounded-pill">Nightlife</Link></div>	
-                    <div className="singleItem"><Link to="#" className="badge badge-xs badge-primary rounded-pill">Services</Link></div>	
+                    <div className="singleItem"><Link to="#" className="badge badge-xs badge-primary rounded-pill">Plumbing</Link></div>	
+                    <div className="singleItem"><Link to="#" className="badge badge-xs badge-primary rounded-pill">Electrical</Link></div>	
+                    <div className="singleItem"><Link to="#" className="badge badge-xs badge-primary rounded-pill">HVAC</Link></div>	
+                    <div className="singleItem"><Link to="#" className="badge badge-xs badge-primary rounded-pill">Painting</Link></div>	
+                    <div className="singleItem"><Link to="#" className="badge badge-xs badge-primary rounded-pill">Roofing</Link></div>	
                 </div>
             </div>
         </div>

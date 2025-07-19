@@ -45,8 +45,8 @@ export default function GridLayout1() {
                 <div className="row justify-content-center align-items-center">
                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div className="position-relative text-start mt-4">
-                            <h2>Get Your Dream Place in New York</h2>
-                            <p className="fs-5 fw-light">Discover the best place for your dream place & homes.</p>
+                            <h2>Find Trusted Contractors Near You</h2>
+                            <p className="fs-5 fw-light">Connect with verified professionals for all your home improvement and repair needs.</p>
                         </div>
                     </div>
                 </div>
@@ -65,7 +65,7 @@ export default function GridLayout1() {
                                             <div className="form-group">
                                                 <div className="mobSearch d-flex align-items-center justify-content-start">
                                                     <div className="flexStart ps-2"><span className="fw-semibold text-dark">Find</span></div>
-                                                    <input type="text" className="form-control fs-6 fw-medium border-0" placeholder="What are you looking for?"/>
+                                                    <input type="text" className="form-control fs-6 fw-medium border-0" placeholder="Plumbing, Electrical, HVAC..."/>
                                                 </div>
                                             </div>
                                         </div>
@@ -73,7 +73,7 @@ export default function GridLayout1() {
                                             <div className="form-group">
                                                 <div className="mobSearch d-flex align-items-center justify-content-start">
                                                     <div className="flexStart ps-2"><span className="fw-semibold text-dark">Where</span></div>
-                                                    <input type="text" className="form-control fs-6 fw-medium border-0" placeholder="Location"/>
+                                                    <input type="text" className="form-control fs-6 fw-medium border-0" placeholder="Enter your city or zip code"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -105,27 +105,27 @@ export default function GridLayout1() {
                                 <div className="d-flex align-items-center justify-content-start gap-3 flex-wrap">
                                     
                                     <div className="alert tag-alert alert-light alert-dismissible fade show" role="alert">
-                                        <span>Classified</span>
+                                        <span>Plumbing</span>
                                         <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     </div>
                                     
                                     <div className="alert tag-alert alert-light alert-dismissible fade show" role="alert">
-                                        <span>Services</span>
+                                        <span>Licensed</span>
                                         <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     </div>
                                     
                                     <div className="alert tag-alert alert-light alert-dismissible fade show" role="alert">
-                                        <span>75Km</span>
+                                        <span>25 Miles</span>
                                         <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     </div>
                                     
                                     <div className="alert tag-alert alert-light alert-dismissible fade show" role="alert">
-                                        <span>Dinner</span>
+                                        <span>Emergency Available</span>
                                         <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     </div>
                                     
                                     <div className="alert tag-alert alert-light alert-dismissible fade show" role="alert">
-                                        <span>$80-$100</span>
+                                        <span>$75-$125/hr</span>
                                         <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     </div>
                                     
@@ -139,25 +139,25 @@ export default function GridLayout1() {
                     
                         <div className="row align-items-center justify-content-between mb-4">
                             <div className="col-xl- 5 col-lg-5 col-md-5 col-sm-6 col-6">
-                                <h6 className="m-0">64 Listings Found</h6>
+                                <h6 className="m-0">64 Contractors Found</h6>
                             </div>
                             
                             <div className="col-xl- 5 col-lg-5 col-md-5 col-sm-6 col-6">
                                 <div className="text-end">
                                     <div className="dropdown d-inline-flex p-0">
                                         <Link to="#" className="py-2 px-3 dropdown-toggle toogleDrops" id="shortfilter" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Short Listings
+                                            Sort Contractors
                                         </Link>
                                         <div className="dropdown-menu border shadow-sm">
                                             <ul className="card rounded-0 p-0">
                                                 <li><Link to="#" className="dropdown-item">Default Order</Link></li>
                                                 <li><Link to="#" className="dropdown-item">Highest Rated</Link></li>
                                                 <li><Link to="#" className="active dropdown-item">Most Reviewed</Link></li>
-                                                <li><Link to="#" className="dropdown-item">Newest Listings</Link></li>
-                                                <li><Link to="#" className="dropdown-item">Oldest Listings</Link></li>
-                                                <li><Link to="#" className="dropdown-item">Featured Listings</Link></li>
-                                                <li><Link to="#" className="dropdown-item">Most Viewed</Link></li>
-                                                <li><Link to="#" className="dropdown-item">Short By A To Z</Link></li>
+                                                <li><Link to="#" className="dropdown-item">Newest Members</Link></li>
+                                                <li><Link to="#" className="dropdown-item">Most Experienced</Link></li>
+                                                <li><Link to="#" className="dropdown-item">Featured Contractors</Link></li>
+                                                <li><Link to="#" className="dropdown-item">Nearest First</Link></li>
+                                                <li><Link to="#" className="dropdown-item">Sort By A To Z</Link></li>
                                             </ul>
                                         </div>
                                     </div>

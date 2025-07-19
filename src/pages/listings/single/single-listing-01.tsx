@@ -69,8 +69,8 @@ export default function SingleListing1() {
                                 <div className="lastColumn">	
                                     <div className="d-flex align-items-center justify-content-md-end flex-wrap gap-3">
                                         <div className="flexStart Priceinfo d-flex flex-column">
-                                            <span className="fw-medium text-light">Price Range</span>
-                                            <span className="fw-bold fs-6 text-light">$25 - $50</span>
+                                            <span className="fw-medium text-light">Hourly Rate</span>
+                                            <span className="fw-bold fs-6 text-light">$75 - $125</span>
                                         </div>
                                         <div className="flexlastButton"><button type="button" className="btn px-4 btn-whites text-primary fw-medium" data-bs-toggle="modal" data-bs-target="#messageModal"><BsSendCheck className="me-2"/>Send Message</button></div>
                                     </div>	
