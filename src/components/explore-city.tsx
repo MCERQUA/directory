@@ -11,6 +11,21 @@ interface CityData{
 }
 
 export default function ExploreCity() {
+  if (!cityData || cityData.length === 0) {
+    return (
+      <div className="row align-items-center justify-content-center g-4">
+        <div className="col-12">
+          <div className="text-center py-5">
+            <div className="text-muted">
+              <h5>No Cities Available</h5>
+              <p>Featured cities will appear here as our contractor network expands to new locations.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="row align-items-center justify-content-center g-4">
         {cityData.map((item:CityData,index:number)=>{

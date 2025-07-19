@@ -1,11 +1,11 @@
-import { Link } from 'react-router-dom';
 
 import AdminNavbar from '../../components/navbar/admin-navbar'
 import AdminSidebar from '../../components/admin/admin-sidebar'
 import RecentActivity from '../../components/admin/recent-activity';
 import BackToTop from '../../components/back-to-top';
+import { useAuth } from '../../contexts/AuthContext';
 
-import { adminCounter, chatData, invoiceData } from '../../data/data'
+import { adminCounter } from '../../data/data'
 
 import CountUp from 'react-countup';
 import { IconType } from 'react-icons';
@@ -18,35 +18,25 @@ interface CounterData{
     title: string;
     bg: string;
 }
-interface ChatData{
-    image: string;
-    name: string;
-    time: string;
-    msg: string;
-    pandding: boolean;
-    message: number;
-}
-interface InvoiceData{
-    name: string;
-    id: string;
-    status: string;
-    date: string;
-}
 
 export default function DashboardUser() {
-  return (
-    <>
-        <AdminNavbar/>
+    const { user, profile } = useAuth();
+    
+    const displayName = profile?.full_name || user?.email?.split('@')[0] || 'User';
 
-        <section className="p-0">
-            <div className="container-fluid p-0">
-                <div className="row user-dashboard g-0">
-                    <AdminSidebar/>
-                    <div className="col-xl-10 col-lg-9 col-md-12 pt-lg-0 pt-5">
-                        <div className="user-dashboard-box bg-light pt-lg-0 pt-5">
-                            <div className="dashHeader p-xl-5 p-4 pb-xl-0 pb-0">
-                                <h2 className="fw-medium mb-0">Hello, Shreethemes</h2>
-                            </div>
+    return (
+        <>
+            <AdminNavbar/>
+
+            <section className="p-0">
+                <div className="container-fluid p-0">
+                    <div className="row user-dashboard g-0">
+                        <AdminSidebar/>
+                        <div className="col-xl-10 col-lg-9 col-md-12 pt-lg-0 pt-5">
+                            <div className="user-dashboard-box bg-light pt-lg-0 pt-5">
+                                <div className="dashHeader p-xl-5 p-4 pb-xl-0 pb-0">
+                                    <h2 className="fw-medium mb-0">Hello, {displayName}</h2>
+                                </div>
                             <div className="dashCaption p-xl-5 p-3 p-md-4">
                                 <div className="row align-items-start g-4 mb-4">
                                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -92,27 +82,9 @@ export default function DashboardUser() {
                                             <div className="card-body p-4">
                                                 <div className="messagesWrapers d-flex flex-column gap-4">
                                                     
-                                                    {chatData.map((item:ChatData,index:number)=>{
-                                                        return(
-                                                            <div className="singleMessagesline" key={index}>
-                                                                <Link to="#" className="d-flex align-items-center justify-content-start gap-2">
-                                                                    <div className="msgLinethumb"><div className="square--50 circle"><img src={item.image} className="img-fluid circle" alt=""/></div></div>
-                                                                    <div className="msgLinecaption flex-fill">
-                                                                        <div className="msglineTitle d-flex align-items-center justify-content-between gap-3">
-                                                                            <h6 className="fw-semibold m-0">{item.name}</h6>
-                                                                            <span className="text-sm fw-medium text-muted">{item.time}</span>
-                                                                        </div>
-                                                                        <div className="msglineParag d-flex align-items-center justify-content-between gap-3">
-                                                                            <p className="text-md m-0">{item.msg}</p>
-                                                                            {item.pandding && 
-                                                                                 <span className="square--20 circle bg-primary text-light text-sm">{item.message}</span>
-                                                                            }
-                                                                        </div>
-                                                                    </div>
-                                                                </Link>
-                                                            </div>
-                                                        )
-                                                    })}
+                                                    <div className="text-center py-4">
+                                                        <p className="text-muted">No messages yet. Start connecting with clients!</p>
+                                                    </div>
                                                 
                                                 </div>
                                             </div>
@@ -150,25 +122,11 @@ export default function DashboardUser() {
                                                     </thead>
                                                     
                                                     <tbody>
-                                                        {invoiceData.map((item:InvoiceData,index:number)=>{
-                                                            return(
-                                                                <tr key={index}>
-                                                                    <td data-label="Package Name">{item.name}</td>
-                                                                    <td data-label="Order ID">{item.id}</td>
-                                                                    {item.status === 'Paid' && 
-                                                                        <td data-label="Status"><span className="badge badge-xs badge-success rounded-pill">Paid</span></td>
-                                                                    }
-                                                                    {item.status === 'Unpaid' && 
-                                                                    <td data-label="Status"><span className="badge badge-xs badge-danger rounded-pill">Unpaid</span></td>
-                                                                    }
-                                                                    {item.status === 'On Hold' && 
-                                                                        <td data-label="Status"><span className="badge badge-xs badge-info rounded-pill">On Hold</span></td>
-                                                                    }
-                                                                    <td data-label="Due Date"><span className="text-normal">{item.date}</span></td>
-                                                                    <td data-label="View"><Link to="/invoice-page" className="btn btn-sm fw-medium btn-light-primary rounded-pill">View Invoice</Link></td>
-                                                                </tr>
-                                                            )
-                                                        })}
+                                                        <tr>
+                                                            <td colSpan={5} className="text-center py-4">
+                                                                <p className="text-muted">No invoices yet. Create your first listing to start earning!</p>
+                                                            </td>
+                                                        </tr>
 
                                                     </tbody>
                                                 </table>
@@ -179,7 +137,7 @@ export default function DashboardUser() {
                                 
                                 <div className="row align-items-start g-4">
                                     <div className="col-xl-12 col-lg-12 col-md-12">
-                                        <p className="text-muted m-0">©ListingHub {new Date().getFullYear()} Design By Shreethemes</p>
+                                        <p className="text-muted m-0">© {new Date().getFullYear()} ContractorHub. Your trusted directory for professional contractors.</p>
                                     </div>
                                 </div>
                                 

@@ -139,7 +139,7 @@ export default function GridLayout1() {
                     
                         <div className="row align-items-center justify-content-between mb-4">
                             <div className="col-xl- 5 col-lg-5 col-md-5 col-sm-6 col-6">
-                                <h6 className="m-0">64 Contractors Found</h6>
+                                <h6 className="m-0">{listData.length} Contractors Found</h6>
                             </div>
                             
                             <div className="col-xl- 5 col-lg-5 col-md-5 col-sm-6 col-6">
@@ -166,7 +166,20 @@ export default function GridLayout1() {
                         </div>
                         
                         <div className="row align-items-center justify-content-center g-xl-4 g-3">
-                            {listData.slice(0,8).map((item:ListData,index:number)=>{
+                            {listData.length === 0 ? (
+                                <div className="col-12">
+                                    <div className="text-center py-5">
+                                        <div className="text-muted">
+                                            <h4>No Contractors Found</h4>
+                                            <p>No contractors match your search criteria. Try adjusting your filters or search terms.</p>
+                                            <div className="mt-4">
+                                                <Link to="/" className="btn btn-primary">Browse All Categories</Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : (
+                                listData.slice(0,8).map((item:ListData,index:number)=>{
                                 const Icon = item.tagIcon
                                 return(
                                     <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" key={index}>
@@ -229,7 +242,7 @@ export default function GridLayout1() {
                                         </div>
                                     </div>
                                 )
-                            })}
+                            }))}
                         </div>
                         
                         <div className="row align-items-center justify-content-center mt-5">

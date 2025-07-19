@@ -322,7 +322,7 @@ export default function FilterTwo() {
                                         </div>
                                         
                                         <div className="form-checks flex-fill">
-                                            <input type="checkbox" className="btn-check" id="services1s" checked/>
+                                            <input type="checkbox" className="btn-check" id="services1s" defaultChecked/>
                                             <label className="btn btn-sm btn-secondary rounded-1 fw-medium full-width" htmlFor="services1s">Services</label>
                                         </div>
                                         

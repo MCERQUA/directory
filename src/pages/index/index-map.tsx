@@ -38,7 +38,7 @@ export default function IndexMap() {
         <section className="p-0 overflow-hidden">
 			<div className="position-relative">
 				<div className="ht-500" id="map-main">
-                    <LoadScript googleMapsApiKey="">
+                    <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ""}>
                         <GoogleMap
                             mapContainerStyle={{ height: '600px', width: '100%' }}
                             center={defaultProps.center}

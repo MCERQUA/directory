@@ -44,8 +44,19 @@ export default function DashboardMyListings() {
                                                 <h4 className="m-0">Manage Listings</h4>
                                             </div>
                                             <div className="card-body p-0">
-                                                <ul className="dashboardListgroup">
-                                                    {adminListing.map((item:AdminList,index:number)=>{
+                                                {adminListing.length === 0 ? (
+                                                    <div className="text-center py-5">
+                                                        <div className="text-muted">
+                                                            <h5>No Listings Yet</h5>
+                                                            <p>You haven't created any listings. Start by adding your first listing to get customers.</p>
+                                                            <div className="mt-4">
+                                                                <Link to="/dashboard-add-listing" className="btn btn-primary">Add Your First Listing</Link>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <ul className="dashboardListgroup">
+                                                        {adminListing.map((item:AdminList,index:number)=>{
                                                         return(
                                                             <li key={index}>
                                                                 <div className="mngListings">
@@ -87,9 +98,9 @@ export default function DashboardMyListings() {
                                                                 </div>
                                                             </li>
                                                         )
-                                                    })}
-                                                    
-                                                </ul>
+                                                        })}
+                                                    </ul>
+                                                )}
                                             </div>
                                         </div>
                                     </div>

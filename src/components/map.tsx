@@ -2,6 +2,9 @@
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
 export default function Map() {
+    const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+    console.log('Using Google Maps API Key:', apiKey ? `${apiKey.substring(0, 10)}...` : 'No key found');
+    
     const defaultProps = {
         center: {
             lat: 40.72956781, // Latitude for San Francisco
@@ -21,11 +24,16 @@ export default function Map() {
   return (
     <div className="home-map-container fw-map">
         <div id="map-main">
-            <LoadScript googleMapsApiKey="">
+            <LoadScript 
+                googleMapsApiKey={apiKey || ""}
+                onError={() => console.error('Google Maps failed to load')}
+            >
                 <GoogleMap
                     mapContainerStyle={{ height: '100vh', width: '100%' }}
                     center={defaultProps.center}
                     zoom={defaultProps.zoom}
+                    onLoad={() => console.log('Google Maps loaded successfully')}
+                    onError={() => console.error('Google Maps error occurred')}
                 >
                     {markerPositions.map((position, index) => (
                     <Marker key={index} position={position} />

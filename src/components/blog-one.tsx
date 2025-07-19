@@ -13,6 +13,21 @@ interface BlogData{
 }
 
 export default function BlogOne() {
+  if (!blogData || blogData.length === 0) {
+    return (
+      <div className="row align-items-center justify-content-center g-4">
+        <div className="col-12">
+          <div className="text-center py-5">
+            <div className="text-muted">
+              <h5>No Blog Posts Available</h5>
+              <p>Blog posts will appear here soon. Check back later for helpful tips and updates.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="row align-items-center justify-content-center g-4">
         {blogData.slice(0,3).map((item:BlogData,index:number)=>{

@@ -26,8 +26,8 @@ export default function IndexOne() {
                 <div className="row justify-content-center align-items-center mb-5 pt-lg-0 pt-5">
                     <div className="col-xl-10 col-lg-11 col-md-12 col-sm-12">
                         <div className="position-relative text-center">
-                            <h1>Explore Your Perfect Places</h1>
-                            <p className="subtitle">Browse high-rated hotels, restaurants, attractions, activities and more!</p>
+                            <h1>Find Trusted Local Contractors</h1>
+                            <p className="subtitle">Connect with verified contractors for all your home improvement and repair needs!</p>
                         </div>
                     </div>
                 </div>
@@ -40,11 +40,11 @@ export default function IndexOne() {
                     </div>
                     <div className="col-xl-12 col-lg-12 col-md-12 col-md-12 col-12">
                         <div className="popularSearches d-flex align-items-center justify-content-center column-gap-3 row-gap-1 flex-wrap">
-                            <div className="singleItem"><Link to="#" className="badge badge-transparent rounded-pill">Real Estate</Link></div>	
-                            <div className="singleItem"><Link to="#" className="badge badge-transparent rounded-pill">Eat & Drink</Link></div>	
-                            <div className="singleItem"><Link to="#" className="badge badge-transparent rounded-pill">Shopping</Link></div>	
-                            <div className="singleItem"><Link to="#" className="badge badge-transparent rounded-pill">Nightlife</Link></div>	
-                            <div className="singleItem"><Link to="#" className="badge badge-transparent rounded-pill">Services</Link></div>	
+                            <div className="singleItem"><Link to="#" className="badge badge-transparent rounded-pill">Plumbing</Link></div>	
+                            <div className="singleItem"><Link to="#" className="badge badge-transparent rounded-pill">Electrical</Link></div>	
+                            <div className="singleItem"><Link to="#" className="badge badge-transparent rounded-pill">HVAC</Link></div>	
+                            <div className="singleItem"><Link to="#" className="badge badge-transparent rounded-pill">Roofing</Link></div>	
+                            <div className="singleItem"><Link to="#" className="badge badge-transparent rounded-pill">Painting</Link></div>	
                         </div>
                     </div>
                 </div>

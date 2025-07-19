@@ -28,6 +28,21 @@ interface ListData{
 }
 
 export default function PopularListingOne() {
+  if (!listData || listData.length === 0) {
+    return (
+      <div className="row align-items-center justify-content-center">
+        <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <div className="text-center py-5">
+            <div className="text-muted">
+              <h5>No Listings Available</h5>
+              <p>Listings will appear here once contractors join the platform.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="row align-items-center justify-content-center">
         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">

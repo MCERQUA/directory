@@ -1,72 +1,140 @@
-import { Link } from 'react-router-dom';
-import Select from 'react-select';
+import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 import AdminNavbar from '../../components/navbar/admin-navbar'
 import AdminSidebar from '../../components/admin/admin-sidebar'
-import ImageUplod from '../../components/admin/image-uplod';
 import BackToTop from '../../components/back-to-top';
+import { useAuth } from '../../contexts/AuthContext';
+import { supabase } from '../../lib/supabase';
 
 import { FaFile } from 'react-icons/fa6';
-import { BsArrowRightCircle, BsFeather, BsGeoAlt, BsImages, BsPatchQuestionFill, BsPlusCircle, BsStopwatch, BsTags, BsX } from 'react-icons/bs';
-import { FaHeart } from 'react-icons/fa';
+import { BsGeoAlt, BsPatchQuestionFill, BsPlusCircle, BsStopwatch } from 'react-icons/bs';
 
+
+interface Category {
+    id: string;
+    name: string;
+    slug: string;
+}
+
+interface FormData {
+    title: string;
+    business_name: string;
+    description: string;
+    category_id: string;
+    phone: string;
+    email: string;
+    website_url: string;
+    address: string;
+    city: string;
+    state: string;
+    zip_code: string;
+    pricing_model: string;
+    hourly_rate: string;
+    min_project_budget: string;
+    max_project_budget: string;
+}
 
 export default function DashboardAddListing() {
-    const options = [
-        { value: '1', label: 'Eat & Drinking' },
-        { value: '2', label: 'Rental Property' },
-        { value: '3', label: 'Classifieds' },
-        { value: '4', label: 'Bank Services' },
-        { value: '5', label: 'Shopping' },
-        { value: '6', label: 'Fintess & Gym' },
-        { value: '7', label: 'Coaching' },
-        { value: '8', label: 'Other Services' },
-      ];
-      const city = [
-        { value: '1', label: 'Philadelphia' },
-        { value: '2', label: 'Nashville' },
-        { value: '3', label: 'San Francisco' },
-        { value: '4', label: 'San Antonio' },
-        { value: '5', label: 'Las Vegas' },
-        { value: '6', label: 'Los Angeles' },
-        { value: '7', label: 'Kansas City' },
-        { value: '8', label: 'Jacksonville' },
-      ]
-      const time = [
-        { value: '1', label: 'Closed' },
-        { value: '1', label: '1 :00 AM' },
-        { value: '2', label: '2 :00 AM' },
-        { value: '3', label: '3 :00 AM' },
-        { value: '4', label: '4 :00 AM' },
-        { value: '5', label: '5 :00 AM' },
-        { value: '6', label: '6 :00 AM' },
-        { value: '7', label: '7 :00 AM' },
-        { value: '8', label: '8 :00 AM' },
-        { value: '9', label: '9 :00 AM' },
-        { value: '10', label: '10 :00 AM' },
-        { value: '11', label: '11 :00 AM' },
-        { value: '12', label: '12 :00 AM' },
-        { value: '1', label: '1 :00 PM' },
-        { value: '2', label: '2 :00 PM' },
-        { value: '3', label: '3 :00 PM' },
-        { value: '4', label: '4 :00 PM' },
-        { value: '5', label: '5 :00 PM' },
-        { value: '6', label: '6 :00 PM' },
-        { value: '7', label: '7 :00 PM' },
-        { value: '8', label: '8 :00 PM' },
-        { value: '9', label: '9 :00 PM' },
-        { value: '10', label: '10 :00 PM' },
-        { value: '11', label: '11 :00 PM' },
-        { value: '12', label: '12 :00 PM' },
-      ]
-      const menu = [ 
-        { value: '1', label: 'Chinees Food' },
-        { value: '2', label: 'Indian Food' },
-        { value: '3', label: 'Breakfast' },
-        { value: '4', label: 'South Indian Food' },
-        { value: '5', label: 'Fast Food' },
-        { value: '6', label: 'Noodles' },
-      ]
+    const { user, profile } = useAuth();
+    const navigate = useNavigate();
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [formData, setFormData] = useState<FormData>({
+        title: '',
+        business_name: profile?.business_name || '',
+        description: '',
+        category_id: '',
+        phone: profile?.phone || '',
+        email: user?.email || '',
+        website_url: profile?.website_url || '',
+        address: profile?.address || '',
+        city: profile?.city || '',
+        state: profile?.state || '',
+        zip_code: profile?.zip_code || '',
+        pricing_model: 'hourly',
+        hourly_rate: '',
+        min_project_budget: '',
+        max_project_budget: ''
+    });
+
+    useEffect(() => {
+        fetchCategories();
+    }, []);
+
+    const fetchCategories = async () => {
+        try {
+            const { data, error } = await supabase
+                .from('categories')
+                .select('id, name, slug')
+                .eq('is_active', true)
+                .order('display_order');
+            
+            if (error) throw error;
+            setCategories(data || []);
+        } catch (error) {
+            console.error('Error fetching categories:', error);
+        }
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        
+        if (!user) {
+            alert('You must be logged in to create a listing');
+            return;
+        }
+
+        if (profile?.user_type !== 'contractor') {
+            alert('Only contractor accounts can create listings');
+            return;
+        }
+
+        setLoading(true);
+        
+        try {
+            const { error } = await supabase
+                .from('business_listings')
+                .insert({
+                    owner_id: user.id,
+                    title: formData.title,
+                    slug: formData.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+                    business_name: formData.business_name,
+                    description: formData.description,
+                    category_id: formData.category_id,
+                    phone: formData.phone,
+                    email: formData.email,
+                    website_url: formData.website_url,
+                    address: formData.address,
+                    city: formData.city,
+                    state: formData.state,
+                    zip_code: formData.zip_code,
+                    pricing_model: formData.pricing_model,
+                    hourly_rate: formData.hourly_rate ? parseFloat(formData.hourly_rate) : null,
+                    min_project_budget: formData.min_project_budget ? parseFloat(formData.min_project_budget) : null,
+                    max_project_budget: formData.max_project_budget ? parseFloat(formData.max_project_budget) : null,
+                    status: 'pending'
+                })
+                .select()
+                .single();
+
+            if (error) throw error;
+
+            alert('Listing created successfully! It will be reviewed before going live.');
+            navigate('/dashboard/listings');
+        } catch (error: any) {
+            console.error('Error creating listing:', error);
+            alert('Error creating listing: ' + error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     
   return (
     <>
@@ -84,393 +152,271 @@ export default function DashboardAddListing() {
                             </div>
                             
                             <div className="dashCaption p-xl-5 p-3 p-md-4">
-                                <div className="row align-items-start g-4 mb-lg-5 mb-4">
-                                    <div className="col-xl-12 col-lg-12 col-md-12">
-                                        <div className="card rounded-3 shadow-sm">
-                                            <div className="card-header py-4 px-4">
-                                                <h4 className="fs-5 fw-medium"><FaFile className="text-primary me-2"/>Basic Informations</h4>
-                                            </div>
-                                            <div className="card-body">
+                                <form onSubmit={handleSubmit}>
+                                    <div className="row align-items-start g-4 mb-lg-5 mb-4">
+                                        <div className="col-xl-12 col-lg-12 col-md-12">
+                                            <div className="card rounded-3 shadow-sm">
+                                                <div className="card-header py-4 px-4">
+                                                    <h4 className="fs-5 fw-medium"><FaFile className="text-primary me-2"/>Basic Information</h4>
+                                                </div>
+                                                <div className="card-body">
                                                     <div className="row">
-                                                    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                                        <div className="form-group form-border">
-                                                            <label className="lableTitle">Listing Tile<BsPatchQuestionFill className="lableTip" data-bs-toggle="tooltip" data-bs-title="Name of your business"/></label>
-                                                            <input type="text" className="form-control rounded" placeholder="Decathlon Sport House"/>
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                                        <div className="form-group form-border">
-                                                            <label className="lableTitle">Category</label>
-                                                            <div className="selects">
-                                                                <Select placeholder="Eat & Drinking" options={options} className="categories form-control"/>
+                                                        <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                                            <div className="form-group form-border">
+                                                                <label className="lableTitle">Listing Title<BsPatchQuestionFill className="lableTip" data-bs-toggle="tooltip" data-bs-title="Name your contractor service"/></label>
+                                                                <input 
+                                                                    type="text" 
+                                                                    name="title"
+                                                                    className="form-control rounded" 
+                                                                    placeholder="e.g. Professional Plumbing Services"
+                                                                    value={formData.title}
+                                                                    onChange={handleInputChange}
+                                                                    required
+                                                                />
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                                        <div className="form-group form-border">
-                                                            <label className="lableTitle">Keywords<BsPatchQuestionFill className="lableTip" data-bs-toggle="tooltip" data-bs-title="Maximum 10 keywords related with business"/></label>
-                                                            <input type="text" className="form-control rounded" placeholder="Type keywords by comma's"/>
+                                                        <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                            <div className="form-group form-border">
+                                                                <label className="lableTitle">Business Name</label>
+                                                                <input 
+                                                                    type="text" 
+                                                                    name="business_name"
+                                                                    className="form-control rounded" 
+                                                                    placeholder="Your Business Name"
+                                                                    value={formData.business_name}
+                                                                    onChange={handleInputChange}
+                                                                />
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                                        <div className="form-group form-border">
-                                                            <label className="lableTitle">About Liting</label>
-                                                            <textarea className="form-control rounded ht-150" placeholder="Describe your self"></textarea>
+                                                        <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                            <div className="form-group form-border">
+                                                                <label className="lableTitle">Service Category</label>
+                                                                <select 
+                                                                    name="category_id"
+                                                                    className="form-control rounded"
+                                                                    value={formData.category_id}
+                                                                    onChange={handleInputChange}
+                                                                    required
+                                                                >
+                                                                    <option value="">Select Category</option>
+                                                                    {categories.map(cat => (
+                                                                        <option key={cat.id} value={cat.id}>{cat.name}</option>
+                                                                    ))}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                                            <div className="form-group form-border">
+                                                                <label className="lableTitle">Service Description</label>
+                                                                <textarea 
+                                                                    name="description"
+                                                                    className="form-control rounded ht-150" 
+                                                                    placeholder="Describe your services, experience, and what makes you stand out..."
+                                                                    value={formData.description}
+                                                                    onChange={handleInputChange}
+                                                                    required
+                                                                ></textarea>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                                 
                                 <div className="row align-items-start g-4 mb-lg-5 mb-4">
-                                    <div className="col-xl-12 col-lg-12 col-md-12">
-                                        <div className="card rounded-3 shadow-sm">
-                                            <div className="card-header py-4 px-4">
-                                                <h4 className="fs-5 fw-medium"><BsGeoAlt className="text-primary me-2"/>Add Location</h4>
-                                            </div>
-                                            <div className="card-body">
+                                        <div className="col-xl-12 col-lg-12 col-md-12">
+                                            <div className="card rounded-3 shadow-sm">
+                                                <div className="card-header py-4 px-4">
+                                                    <h4 className="fs-5 fw-medium"><BsGeoAlt className="text-primary me-2"/>Contact & Location</h4>
+                                                </div>
+                                                <div className="card-body">
                                                     <div className="row">
-                                                    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                                        <div className="form-group form-border">
-                                                            <label className="lableTitle">Address</label>
-                                                            <input type="text" className="form-control rounded" placeholder="202 Near houset market"/>
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                                        <div className="form-group form-border">
-                                                            <label className="lableTitle">City</label>
-                                                            <div className="selects">
-                                                                <Select options={city} placeholder="City, Country or zip" className="location form-control"/>
+                                                        <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                            <div className="form-group form-border">
+                                                                <label className="lableTitle">Phone Number</label>
+                                                                <input 
+                                                                    type="tel" 
+                                                                    name="phone"
+                                                                    className="form-control rounded" 
+                                                                    placeholder="(555) 123-4567"
+                                                                    value={formData.phone}
+                                                                    onChange={handleInputChange}
+                                                                    required
+                                                                />
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                                        <div className="form-group form-border">
-                                                            <label className="lableTitle">State</label>
-                                                            <input type="text" className="form-control rounded" placeholder=""/>
+                                                        <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                            <div className="form-group form-border">
+                                                                <label className="lableTitle">Email Address</label>
+                                                                <input 
+                                                                    type="email" 
+                                                                    name="email"
+                                                                    className="form-control rounded" 
+                                                                    placeholder="contact@yourbuiness.com"
+                                                                    value={formData.email}
+                                                                    onChange={handleInputChange}
+                                                                    required
+                                                                />
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    
-                                                    <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                                        <div className="form-group form-border">
-                                                            <label className="lableTitle">Postal Code</label>
-                                                            <input type="text" className="form-control rounded" placeholder=""/>
+                                                        <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                                            <div className="form-group form-border">
+                                                                <label className="lableTitle">Website URL (Optional)</label>
+                                                                <input 
+                                                                    type="url" 
+                                                                    name="website_url"
+                                                                    className="form-control rounded" 
+                                                                    placeholder="https://www.yourbusiness.com"
+                                                                    value={formData.website_url}
+                                                                    onChange={handleInputChange}
+                                                                />
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    
-                                                    <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                                        <div className="form-group form-border">
-                                                            <label className="lableTitle">Zip-Code</label>
-                                                            <input type="text" className="form-control rounded" placeholder=""/>
+                                                        <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                                            <div className="form-group form-border">
+                                                                <label className="lableTitle">Service Address</label>
+                                                                <input 
+                                                                    type="text" 
+                                                                    name="address"
+                                                                    className="form-control rounded" 
+                                                                    placeholder="123 Main Street"
+                                                                    value={formData.address}
+                                                                    onChange={handleInputChange}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                                            <div className="form-group form-border">
+                                                                <label className="lableTitle">City</label>
+                                                                <input 
+                                                                    type="text" 
+                                                                    name="city"
+                                                                    className="form-control rounded" 
+                                                                    placeholder="City"
+                                                                    value={formData.city}
+                                                                    onChange={handleInputChange}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                                                            <div className="form-group form-border">
+                                                                <label className="lableTitle">State</label>
+                                                                <input 
+                                                                    type="text" 
+                                                                    name="state"
+                                                                    className="form-control rounded" 
+                                                                    placeholder="State"
+                                                                    value={formData.state}
+                                                                    onChange={handleInputChange}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                                                            <div className="form-group form-border">
+                                                                <label className="lableTitle">ZIP Code</label>
+                                                                <input 
+                                                                    type="text" 
+                                                                    name="zip_code"
+                                                                    className="form-control rounded" 
+                                                                    placeholder="12345"
+                                                                    value={formData.zip_code}
+                                                                    onChange={handleInputChange}
+                                                                />
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                </div>
-                                
-                                <div className="row align-items-start g-4 mb-lg-5 mb-4">
-                                    <div className="col-xl-12 col-lg-12 col-md-12">
-                                        <div className="card rounded-3 shadow-sm">
-                                            <div className="card-header py-4 px-4">
-                                                <h4 className="fs-5 fw-medium"><BsImages className="text-primary me-2"/>Logo & Gallery</h4>
-                                            </div>
-                                           <ImageUplod/>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                                
-                                
-                                <div className="row align-items-start g-4 mb-lg-5 mb-4">
-                                    <div className="col-xl-12 col-lg-12 col-md-12">
-                                        <div className="card rounded-3 shadow-sm">
-                                            <div className="card-header py-4 px-4">
-                                                <h4 className="fs-5 fw-medium"><BsStopwatch className="text-primary me-2"/>Working Hours</h4>
-                                            </div>
-                                            <div className="card-body">
+
+                                    <div className="row align-items-start g-4 mb-lg-5 mb-4">
+                                        <div className="col-xl-12 col-lg-12 col-md-12">
+                                            <div className="card rounded-3 shadow-sm">
+                                                <div className="card-header py-4 px-4">
+                                                    <h4 className="fs-5 fw-medium"><BsStopwatch className="text-primary me-2"/>Pricing Information</h4>
+                                                </div>
+                                                <div className="card-body">
                                                     <div className="row">
-                                                    <div className="form-group form-border">
-                                                        <div className="row align-items-center g-3">
-                                                            <label className="lableTitle col-lg-2 col-md-2">Monday</label>
-                                                            <div className="col-lg-5 col-md-5">
-                                                                <Select className='openingtime chosen-select border' options={time} placeholder="Opening Time"/>
-                                                            </div>
-                                                            <div className="col-lg-5 col-md-5">
-                                                                <Select className='closingtime chosen-select border' options={time} placeholder="Closing Time"/>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <div className="form-group form-border">
-                                                        <div className="row align-items-center g-3">
-                                                            <label className="lableTitle col-lg-2 col-md-2">Tuesday</label>
-                                                            <div className="col-lg-5 col-md-5">
-                                                                <Select className='openingtime chosen-select border' options={time} placeholder="Opening Time"/>
-                                                            </div>
-                                                            <div className="col-lg-5 col-md-5">
-                                                                <Select className='closingtime chosen-select border' options={time} placeholder="Closing Time"/>
+                                                        <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                                            <div className="form-group form-border">
+                                                                <label className="lableTitle">Pricing Model</label>
+                                                                <select 
+                                                                    name="pricing_model"
+                                                                    className="form-control rounded"
+                                                                    value={formData.pricing_model}
+                                                                    onChange={handleInputChange}
+                                                                >
+                                                                    <option value="hourly">Hourly Rate</option>
+                                                                    <option value="project">Per Project</option>
+                                                                    <option value="square_foot">Per Square Foot</option>
+                                                                    <option value="custom">Custom Quote</option>
+                                                                </select>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    
-                                                    <div className="form-group form-border">
-                                                        <div className="row align-items-center g-3">
-                                                            <label className="lableTitle col-lg-2 col-md-2">Wednesday</label>
-                                                            <div className="col-lg-5 col-md-5">
-                                                                <Select className='openingtime chosen-select border' options={time} placeholder="Opening Time"/>
+                                                        {formData.pricing_model === 'hourly' && (
+                                                            <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                                <div className="form-group form-border">
+                                                                    <label className="lableTitle">Hourly Rate ($)</label>
+                                                                    <input 
+                                                                        type="number" 
+                                                                        name="hourly_rate"
+                                                                        className="form-control rounded" 
+                                                                        placeholder="75"
+                                                                        value={formData.hourly_rate}
+                                                                        onChange={handleInputChange}
+                                                                    />
+                                                                </div>
                                                             </div>
-                                                            <div className="col-lg-5 col-md-5">
-                                                                <Select className='closingtime chosen-select border' options={time} placeholder="Closing Time"/>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <div className="form-group form-border">
-                                                        <div className="row align-items-center g-3">
-                                                            <label className="lableTitle col-lg-2 col-md-2">Thursday</label>
-                                                            <div className="col-lg-5 col-md-5">
-                                                                <Select className='openingtime chosen-select border' options={time} placeholder="Opening Time"/>
-                                                            </div>
-                                                            <div className="col-lg-5 col-md-5">
-                                                                <Select className='closingtime chosen-select border' options={time} placeholder="Closing Time"/>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <div className="form-group form-border">
-                                                        <div className="row align-items-center g-3">
-                                                            <label className="lableTitle col-lg-2 col-md-2">Friday</label>
-                                                            <div className="col-lg-5 col-md-5">
-                                                                <Select className='openingtime chosen-select border' options={time} placeholder="Opening Time"/>
-                                                            </div>
-                                                            <div className="col-lg-5 col-md-5">
-                                                                <Select className='closingtime chosen-select border' options={time} placeholder="Closing Time"/>
+                                                        )}
+                                                        <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                            <div className="form-group form-border">
+                                                                <label className="lableTitle">Minimum Project Budget ($)</label>
+                                                                <input 
+                                                                    type="number" 
+                                                                    name="min_project_budget"
+                                                                    className="form-control rounded" 
+                                                                    placeholder="500"
+                                                                    value={formData.min_project_budget}
+                                                                    onChange={handleInputChange}
+                                                                />
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    
-                                                    <div className="form-group form-border">
-                                                        <div className="row align-items-center g-3">
-                                                            <label className="lableTitle col-lg-2 col-md-2">Saturday</label>
-                                                            <div className="col-lg-5 col-md-5">
-                                                                <Select className='openingtime chosen-select border' options={time} placeholder="Opening Time"/>
-                                                            </div>
-                                                            <div className="col-lg-5 col-md-5">
-                                                                <Select className='closingtime chosen-select border' options={time} placeholder="Closing Time"/>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <div className="form-group form-border">
-                                                        <div className="row align-items-center g-3">
-                                                            <label className="lableTitle col-lg-2 col-md-2">Sunday</label>
-                                                            <div className="col-lg-5 col-md-5">
-                                                                <Select className='openingtime chosen-select border' options={time} placeholder="Opening Time"/>
-                                                            </div>
-                                                            <div className="col-lg-5 col-md-5">
-                                                                <Select className='closingtime chosen-select border' options={time} placeholder="Closing Time"/>
+                                                        <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                            <div className="form-group form-border">
+                                                                <label className="lableTitle">Maximum Project Budget ($) (Optional)</label>
+                                                                <input 
+                                                                    type="number" 
+                                                                    name="max_project_budget"
+                                                                    className="form-control rounded" 
+                                                                    placeholder="10000"
+                                                                    value={formData.max_project_budget}
+                                                                    onChange={handleInputChange}
+                                                                />
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    
-                                                    <div className="form-check mt-4 ps-5">
-                                                        <input id="t24" className="form-check-input" name="24-1" type="checkbox"/>
-                                                        <label htmlFor="t24" className="form-check-label text-dark">This Business open 7x24</label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                </div>
-                                
-                                
-                                <div className="row align-items-start g-4 mb-lg-5 mb-4">
-                                    <div className="col-xl-12 col-lg-12 col-md-12">
-                                        <div className="card rounded-3 shadow-sm">
-                                            <div className="card-header py-4 px-4">
-                                                <h4 className="fs-5 fw-medium"><BsFeather className="text-primary me-2"/>Features</h4>
-                                            </div>
-                                            <div className="card-body">
-                                                    <div className="amenitiesFeatures">
-                                                    <ul className="p-0 row align-items-start justify-content-start g-4">
-                                                        <li className="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-                                                            <div className="form-check">
-                                                                <input id="am2" className="form-check-input" name="am2" type="checkbox"/>
-                                                                <label htmlFor="am2" className="form-check-label">Reservations</label>
-                                                            </div>																
-                                                        </li>
-                                                        <li className="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-                                                            <div className="form-check">
-                                                                <input id="am3" className="form-check-input" name="am3" type="checkbox"/>
-                                                                <label htmlFor="am3" className="form-check-label">Vegetarian Options</label>
-                                                            </div>																
-                                                        </li>
-                                                        <li className="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-                                                            <div className="form-check">
-                                                                <input id="am4" className="form-check-input" name="am4" type="checkbox"/>
-                                                                <label htmlFor="am4" className="form-check-label">Moderate Noise</label>
-                                                            </div>
-                                                        </li>
-                                                        <li className="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-                                                            <div className="form-check">
-                                                                <input id="am5" className="form-check-input" name="am5" type="checkbox"/>
-                                                                <label htmlFor="am5" className="form-check-label">Good For Kids</label>
-                                                            </div>
-                                                        </li>
-                                                        <li className="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-                                                            <div className="form-check">
-                                                                <input id="am6" className="form-check-input" name="am6" type="checkbox"/>
-                                                                <label htmlFor="am6" className="form-check-label">Private Lot Parking</label>	
-                                                            </div>
-                                                        </li>
-                                                        <li className="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-                                                            <div className="form-check">
-                                                                <input id="am7" className="form-check-input" name="am7" type="checkbox"/>
-                                                                <label htmlFor="am7" className="form-check-label">Beer & Wine</label>	
-                                                            </div>
-                                                        </li>
-                                                        <li className="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-                                                            <div className="form-check">
-                                                                <input id="am8" className="form-check-input" name="am8" type="checkbox"/>
-                                                                <label htmlFor="am8" className="form-check-label">TV Services</label>	
-                                                            </div>
-                                                        </li>
-                                                        <li className="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-                                                            <div className="form-check">
-                                                                <input id="am9" className="form-check-input" name="am9" type="checkbox"/>
-                                                                <label htmlFor="am9" className="form-check-label">Pets Allow</label>
-                                                            </div>
-                                                        </li>
-                                                        <li className="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-                                                            <div className="form-check">
-                                                                <input id="am10" className="form-check-input" name="am10" type="checkbox"/>
-                                                                <label htmlFor="am10" className="form-check-label">Offers Delivery</label>
-                                                            </div>	
-                                                        </li>
-                                                        <li className="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-                                                            <div className="form-check">
-                                                                <input id="am11" className="form-check-input" name="am11" type="checkbox"/>
-                                                                <label htmlFor="am11" className="form-check-label">Staff wears masks</label>	
-                                                            </div>	
-                                                        </li>
-                                                        <li className="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-                                                            <div className="form-check">
-                                                                <input id="am12" className="form-check-input" name="am12" type="checkbox"/>
-                                                                <label htmlFor="am12" className="form-check-label">Accepts Credit Cards</label>
-                                                            </div>
-                                                        </li>
-                                                        <li className="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-                                                            <div className="form-check">
-                                                                <input id="am13" className="form-check-input" name="am13" type="checkbox"/>
-                                                                <label htmlFor="am13" className="form-check-label">Offers Catering</label>	
-                                                            </div>
-                                                        </li>
-                                                        <li className="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-                                                            <div className="form-check">
-                                                                <input id="am14" className="form-check-input" name="am14" type="checkbox"/>
-                                                                <label htmlFor="am14" className="form-check-label">Good for Breakfast</label>
-                                                            </div>	
-                                                        </li>
-                                                        <li className="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-                                                            <div className="form-check">
-                                                                <input id="am15" className="form-check-input" name="am15" type="checkbox"/>
-                                                                <label htmlFor="am15" className="form-check-label">Waiter Service</label>
-                                                            </div>	
-                                                        </li>
-                                                        <li className="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-                                                            <div className="form-check">
-                                                                <input id="am16" className="form-check-input" name="am16" type="checkbox"/>
-                                                                <label htmlFor="am16" className="form-check-label">Drive-Thru</label>
-                                                            </div>	
-                                                        </li>
-                                                        <li className="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-                                                            <div className="form-check">
-                                                                <input id="am17" className="form-check-input" name="am17" type="checkbox"/>
-                                                                <label htmlFor="am17" className="form-check-label">Outdoor Seating</label>
-                                                            </div>	
-                                                        </li>
-                                                        <li className="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-                                                            <div className="form-check">
-                                                                <input id="am18" className="form-check-input" name="am18" type="checkbox"/>
-                                                                <label htmlFor="am18" className="form-check-label">Offers Takeout</label>	
-                                                            </div>
-                                                        </li>
-                                                        <li className="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-                                                            <div className="form-check">
-                                                                <input id="am19" className="form-check-input" name="am19" type="checkbox"/>
-                                                                <label htmlFor="am19" className="form-check-label">Vegan Options</label>
-                                                            </div>	
-                                                        </li>
-                                                    </ul>
-                                                </div>
+
+                                    <div className="row align-items-start g-4 mb-lg-5 mb-4">
+                                        <div className="col-xl-12 col-lg-12 col-md-12">
+                                            <div className="text-end">
+                                                <button type="submit" className="btn btn-primary rounded px-4" disabled={loading}>
+                                                    {loading ? 'Creating Listing...' : (
+                                                        <>
+                                                            <BsPlusCircle className="me-2"/>
+                                                            Create Listing
+                                                        </>
+                                                    )}
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                </div>
-                                
-                                <div className="row align-items-start g-4 mb-lg-5 mb-4">
-                                    <div className="col-xl-12 col-lg-12 col-md-12">
-                                        <div className="card rounded-3 shadow-sm">
-                                            <div className="card-header py-4 px-4">
-                                                <h4 className="fs-5 fw-medium"><BsTags className="text-primary me-2"/>Add Menues</h4>
-                                            </div>
-                                            <div className="card-body">
-                                                    <div className="row">
-                                                    
-                                                    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                                        <div className="form-group form-border">
-                                                            <label className="lableTitle">Choose Category<BsPatchQuestionFill className="lableTip " data-bs-toggle="tooltip" data-bs-title="Choose your Item Category"/></label>
-                                                            <div className="selects">
-                                                                <Select className="categories form-control" options={menu} placeholder="All Categories"/>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                                        <div className="form-group form-border">
-                                                            <label className="lableTitle">Item Name</label>
-                                                            <input type="text" className="form-control rounded" placeholder="Item Name"/>
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                                        <div className="form-group form-border">
-                                                            <label className="lableTitle">Item Price in USD</label>
-                                                            <input type="text" className="form-control rounded" placeholder="Price"/>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                                        <div className="d-flex align-items-center justify-content-between gap-3">
-                                                            <div className="addItem"><button type="button" className="btn btn-sm btn-light-primary fw-medium rounded-pill"><BsPlusCircle className="me-1"/>Add Item</button></div>
-                                                            <div className="removeItem"><button type="button" className="btn btn-sm btn-light fw-medium rounded-pill"><BsX className="me-1"/>Remove Item</button></div>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                                
-                                <div className="row align-items-start g-4 mb-lg-5 mb-4">
-                                    <div className="col-xl-12 col-lg-12 col-md-12">
-                                        <button type="button" className="btn btn-primary rounded-pill fw-medium">Publish & Preview<BsArrowRightCircle className="ms-2"/></button>
-                                    </div>
-                                    
-                                </div>
-                                
-                                <div className="row align-items-start g-4">
-                                    <div className="col-xl-12 col-lg-12 col-md-12">
-                                        <p className="text-muted m-0">© {new Date().getFullYear()} ListingHub. Develop with <FaHeart className="ms-1 text-danger"></FaHeart>  By <Link to="https://shreethemes.in/" target="_blank">Shreethemes</Link></p>
-                                    </div>
-                                </div>
+                                </form>
                                 
                             </div>
                             

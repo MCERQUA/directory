@@ -17,6 +17,21 @@ interface ReviewData{
 }
 
 export default function ClientOne() {
+  if (!reviewData || reviewData.length === 0) {
+    return (
+      <div className="row align-items-center justify-content-center">
+        <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <div className="text-center py-5">
+            <div className="text-muted">
+              <h5>No Reviews Available</h5>
+              <p>Customer testimonials will appear here as our contractor network grows.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
         <div className="row align-items-center justify-content-center">
             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">

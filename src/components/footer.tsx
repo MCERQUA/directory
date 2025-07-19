@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-import { FaFacebookF, FaHeart, FaInstagram, FaTwitter } from 'react-icons/fa'
+import { FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa'
 import { FaLinkedin } from 'react-icons/fa6'
 import { footerLink1, footerLink2, footerLink3 } from '../data/data'
 import logo from '../assets/img/logo-light.svg'
@@ -14,7 +14,7 @@ export default function Footer() {
                     <div className="col-12 col-md-5 col-lg-12 col-xl-4">
                         <div className="footer-widget pe-xl-4 mb-5">
                             <div className="footerLogo"><img src={logo} className="img-fluid" width="160" alt="Footer Logo"/></div>
-                            <div className="footerText"><p>© {new Date().getFullYear()} ListingHub. Develop with <FaHeart className="ms-1 text-danger"></FaHeart>  By Shreethemes</p></div>
+                            <div className="footerText"><p>© {new Date().getFullYear()} ContractorHub. Your trusted directory for professional contractors.</p></div>
                             <div className="footerSocialwrap">
                                 <ul className="footersocial">
                                     <li><Link to="#" className="social-link"><FaFacebookF className=""/></Link></li>
@@ -73,7 +73,7 @@ export default function Footer() {
                                 <div className="singleinfo">
                                     <div className="icons"><BsGeoAltFill className=""/></div>
                                     <div className="caps">
-                                        <h5 className="title">Angraster 7, Greenhorst<br/>Los Angeles QTC564</h5>
+                                        <h5 className="title">{import.meta.env.VITE_CONTACT_ADDRESS || 'Contact address not configured'}</h5>
                                         <p className="subs">Reach Us</p>											
                                     </div>
                                 </div>
@@ -81,8 +81,8 @@ export default function Footer() {
                                 <div className="singleinfo">
                                     <div className="icons"><BsTelephoneOutbound className=""/></div>
                                     <div className="caps">
-                                        <h5 className="title">042 - 526 - 5263</h5>
-                                        <p className="subs">Mon - Sat 10am - 6PM</p>											
+                                        <h5 className="title">{import.meta.env.VITE_CONTACT_PHONE || 'Contact phone not configured'}</h5>
+                                        <p className="subs">{import.meta.env.VITE_CONTACT_HOURS || 'Business hours not configured'}</p>											
                                     </div>
                                 </div>
                             </div>

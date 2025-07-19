@@ -76,7 +76,17 @@ export default function Blog() {
                         </div>
                     </div>
                 </div>
-                {blogData.map((item:BlogData,index:number)=>{
+                {blogData.length === 0 ? (
+                    <div className="col-12">
+                        <div className="text-center py-5">
+                            <div className="text-muted">
+                                <h4>No Blog Posts Available</h4>
+                                <p>We're working on creating valuable content for you. Check back soon for helpful tips and industry insights.</p>
+                            </div>
+                        </div>
+                    </div>
+                ) : (
+                    blogData.map((item:BlogData,index:number)=>{
                     return(
                         <div className="col-xl-4 col-lg-4 col-md-6" key={index}>
                             <div className="card rounded-4 shadow-sm h-100">
@@ -97,7 +107,7 @@ export default function Blog() {
                             </div>
                         </div>
                     )
-                })}
+                }))}
             </div>
 
             <div className="row align-items-center justify-content-center mt-5">
