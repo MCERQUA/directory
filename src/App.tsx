@@ -90,7 +90,18 @@ function App() {
       document.head.appendChild(script);
     };
 
-    // Load Facebook SDK
+    // Load Google script only if environment variable is set
+    if (import.meta.env.VITE_GOOGLE_CLIENT_ID) {
+      loadGoogleScript();
+    }
+    
+    // Facebook script loading removed - keeping backend functionality intact
+    // To re-enable Facebook login in the future:
+    // 1. Uncomment the Facebook script loading below
+    // 2. Add Facebook buttons back to login/register pages
+    // 3. Set VITE_FACEBOOK_APP_ID in environment variables
+    
+    /*
     const loadFacebookScript = () => {
       window.fbAsyncInit = function() {
         window.FB.init({
@@ -108,14 +119,10 @@ function App() {
       document.head.appendChild(script);
     };
 
-    // Load scripts only if environment variables are set
-    if (import.meta.env.VITE_GOOGLE_CLIENT_ID) {
-      loadGoogleScript();
-    }
-    
     if (import.meta.env.VITE_FACEBOOK_APP_ID) {
       loadFacebookScript();
     }
+    */
   }, []);
 
   return (
