@@ -2,8 +2,8 @@ import { useState,useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 
-import logo from '../../assets/img/logo-light.svg'
-import logoDark from '../../assets/img/logo.svg'
+
+
 import googleLogo from '../../assets/img/google.png'
 import brand1 from '../../assets/img/brand/logo-1.png'
 import brand2 from '../../assets/img/brand/logo-2.png'
@@ -12,9 +12,8 @@ import list1 from '../../assets/img/list-3.jpg'
 import list2 from '../../assets/img/list-4.jpg'
 import list3 from '../../assets/img/list-5.jpg'
 
-import { BsPersonCircle,BsBasket2,BsSearch, BsGeoAlt, BsSpeedometer, BsPersonLinesFill, BsJournalCheck, BsUiRadiosGrid, BsBookmarkStar, BsChatDots, BsYelp, BsWallet, BsPatchPlus, BsBoxArrowInRight, BsPersonPlus, BsQuestionCircle, BsShieldCheck, BsPersonVcard, BsCalendar2Check, BsPersonCheck, BsBlockquoteLeft, BsEnvelopeCheck, BsCoin, BsPatchQuestion, BsHourglassTop, BsInfoCircle, BsXOctagon, BsGear, BsGeoAltFill, BsX } from "react-icons/bs";
+import { BsPersonCircle, BsBasket2, BsSearch, BsGeoAlt, BsGeoAltFill, BsX } from "react-icons/bs";
 import { FiX } from 'react-icons/fi';
-import { BiSolidShoppingBagAlt } from 'react-icons/bi'
 
 
 export default function NavbarLight() {

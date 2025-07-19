@@ -1,8 +1,8 @@
 import { useState,useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
-import logo from '../../assets/img/logo-light.svg'
-import logoDark from '../../assets/img/logo.svg'
+
+
 import list1 from '../../assets/img/list-3.jpg'
 import list2 from '../../assets/img/list-4.jpg'
 import list3 from '../../assets/img/list-5.jpg'

@@ -1,8 +1,8 @@
 import { useState,useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-import logo from '../../assets/img/logo-light.svg'
-import logoDark from '../../assets/img/logo.svg'
+
+
 import googleLogo from '../../assets/img/google.png'
 import facebookLogo from '../../assets/img/facebook.png'
 import brand1 from '../../assets/img/brand/logo-1.png'
