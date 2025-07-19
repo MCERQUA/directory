@@ -120,7 +120,9 @@ export default function NavbarLight() {
             <div className="container-fluid">
                 <nav id="navigation" className={windowWidth > 991 ? "navigation navigation-landscape" : "navigation navigation-portrait"}>
                     <div className="nav-header">
-                        <Link className="nav-brand" to="/"><img src={logo} className="logo" alt=""/></Link>
+                        <Link className="nav-brand" to="/">
+                            <span className="fw-bold fs-4 text-light">ContractorHUB</span>
+                        </Link>
                         <div className="nav-toggle" onClick={()=>setIsToggle(!toggle)}></div>
                         <div className="mobile_nav">
                             <ul>
@@ -146,121 +148,34 @@ export default function NavbarLight() {
                     </div>
                     <div className={`nav-menus-wrapper  ${toggle ? 'nav-menus-wrapper-open' : ''}`} style={{transitionProperty:toggle ? 'none' : 'left'}}>
                         <div className='mobLogos'>
-                            <img src={logoDark} className='img-fluid lightLogo' alt='Logo'/>
+                            <span className="fw-bold fs-4 text-dark">ContractorHUB</span>
                         </div>
                         <span className='nav-menus-wrapper-close-button'  onClick={()=>setIsToggle(!toggle)}>✕</span>
                         <ul className="nav-menu">
-                            <li className="active"><Link to="#">Home<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
-                                <ul className="nav-dropdown nav-submenu">
-                                    <li className={`${current === '/' ? 'active' : ''}`}><Link to="/">Contractor Directory</Link></li>
-                                    <li className={`${current === '/home-1' ? 'active' : ''}`}><Link to="/home-1">Home Layout 01</Link></li>
-                                    <li className={`${current === '/home-2' ? 'active' : ''}`}><Link to="/home-2">Home Layout 02</Link></li>
-                                    <li className={`${current === '/home-3' ? 'active' : ''}`}><Link to="/home-3">Home Layout 03</Link></li>
-                                    <li className={`${current === '/home-4' ? 'active' : ''}`}><Link to="/home-4">Home Layout 04</Link></li>
-                                    <li className={`${current === '/home-5' ? 'active' : ''}`}><Link to="/home-5">Home Layout 05</Link></li>
-                                    <li className={`${current === '/home-6' ? 'active' : ''}`}><Link to="/home-6">Home Layout 06</Link></li>
-                                    <li className={`${current === '/home-7' ? 'active' : ''}`}><Link to="/home-7">Home Layout 07</Link></li>
-                                    <li className={`${current === '/home-8' ? 'active' : ''}`}><Link to="/home-8">Home Layout 08</Link></li>
-                                    <li className={`${current === '/home-9' ? 'active' : ''}`}><Link to="/home-9">Home Layout 09</Link></li>
-                                    <li className={`${current === '/home-10' ? 'active' : ''}`}><Link to="/home-10">Home Layout 10</Link></li>
-                                    <li className={`${current === '/home-splash' ? 'active' : ''}`}><Link to="/home-splash">Home Splash</Link></li>
-                                    <li className={`${current === '/home-map' ? 'active' : ''}`}><Link to="/home-map">Home Map Layout</Link></li>
-                                </ul>
-                            </li>
+                            <li className={`${current === '/' ? 'active' : ''}`}><Link to="/">Home</Link></li>
 
-                            <li className={`${['/contractors','/contractors/list','/contractors/map','/contractor','/grid-layout-01','/grid-layout-02','/grid-layout-03','/grid-layout-04','/grid-layout-05','/grid-layout-06','/list-layout-01','/list-layout-02','/list-layout-03','/list-layout-04','/list-layout-05','/half-map-01','/half-map-02','/half-map-03','/half-map-04','/half-map-05','/single-listing-01','/single-listing-02','/single-listing-03','/single-listing-04','/single-listing-05'].includes(current) || current.startsWith('/contractor/')? 'active' : ''}`}><Link to="#">Find Contractors<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
+                            <li className={`${['/contractors','/contractors/list','/contractors/map','/contractor'].includes(current) || current.startsWith('/contractor/')? 'active' : ''}`}><Link to="#">Find Contractors<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
                                 <ul className="nav-dropdown nav-submenu">
                                     <li className={`${current === '/contractors' ? 'active' : ''}`}><Link to="/contractors">Grid View</Link></li>
                                     <li className={`${current === '/contractors/list' ? 'active' : ''}`}><Link to="/contractors/list">List View</Link></li>
                                     <li className={`${current === '/contractors/map' ? 'active' : ''}`}><Link to="/contractors/map">Map View</Link></li>
-                                    <li className={`${['/grid-layout-01','/grid-layout-02','/grid-layout-03','/grid-layout-04','/grid-layout-05','/grid-layout-06'].includes(current)? 'active' : ''}`}><Link to="#">All Grid Layouts<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
-                                        <ul className="nav-dropdown nav-submenu">
-                                            <li className={`${current === '/grid-layout-01' ? 'active' : ''}`}><Link to="/grid-layout-01">Grid Layout 01</Link></li>                                    
-                                            <li className={`${current === '/grid-layout-02' ? 'active' : ''}`}><Link to="/grid-layout-02">Grid Layout 02</Link></li>                                    
-                                            <li className={`${current === '/grid-layout-03' ? 'active' : ''}`}><Link to="/grid-layout-03">Grid Layout 03</Link></li>                                    
-                                            <li className={`${current === '/grid-layout-04' ? 'active' : ''}`}><Link to="/grid-layout-04">Grid Layout 04</Link></li>                                    
-                                            <li className={`${current === '/grid-layout-05' ? 'active' : ''}`}><Link to="/grid-layout-05">Grid Layout 05</Link></li>                                    
-                                            <li className={`${current === '/grid-layout-06' ? 'active' : ''}`}><Link to="/grid-layout-06">Grid Layout 06</Link></li>                                    
-                                        </ul>
-                                    </li>
-                                    <li className={`${['/list-layout-01','/list-layout-02','/list-layout-03','/list-layout-04','/list-layout-05'].includes(current)? 'active' : ''}`}><Link to="#">List Layouts<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
-                                        <ul className="nav-dropdown nav-submenu">
-                                            <li className={`${current === '/list-layout-01' ? 'active' : ''}`}><Link to="/list-layout-01">List Layout 01</Link></li>                                     
-                                            <li className={`${current === '/list-layout-02' ? 'active' : ''}`}><Link to="/list-layout-02">List Layout 02</Link></li>                                     
-                                            <li className={`${current === '/list-layout-03' ? 'active' : ''}`}><Link to="/list-layout-03">List Layout 03</Link></li>                                     
-                                            <li className={`${current === '/list-layout-04' ? 'active' : ''}`}><Link to="/list-layout-04">List Layout 04</Link></li>                                     
-                                            <li className={`${current === '/list-layout-05' ? 'active' : ''}`}><Link to="/list-layout-05">List Layout 05</Link></li>                                     
-                                        </ul>
-                                    </li>
-                                    <li className={`${['/half-map-01','/half-map-02','/half-map-03','/half-map-04','/half-map-05'].includes(current)? 'active' : ''}`}><Link to="#">Half Map Screen<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
-                                        <ul className="nav-dropdown nav-submenu">
-                                            <li className={`${current === '/half-map-01' ? 'active' : ''}`}><Link to="/half-map-01">Half Map Screen 01</Link></li>
-                                            <li className={`${current === '/half-map-02' ? 'active' : ''}`}><Link to="/half-map-02">Half Map Screen 02</Link></li>
-                                            <li className={`${current === '/half-map-03' ? 'active' : ''}`}><Link to="/half-map-03">Half Map Screen 03</Link></li>
-                                            <li className={`${current === '/half-map-04' ? 'active' : ''}`}><Link to="/half-map-04">Half Map Screen 04</Link></li>
-                                            <li className={`${current === '/half-map-05' ? 'active' : ''}`}><Link to="/half-map-05">Half Map Screen 05</Link></li>
-                                        </ul>
-                                    </li>
-                                    <li className={`${['/single-listing-01','/single-listing-02','/single-listing-03','/single-listing-04','/single-listing-05'].includes(current)? 'active' : ''}`}><Link to="#">Single Listings<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
-                                        <ul className="nav-dropdown nav-submenu">
-                                            <li className={`${current === '/single-listing-01' ? 'active' : ''}`}><Link to="/single-listing-01">Single Listing 01</Link></li>
-                                            <li className={`${current === '/single-listing-02' ? 'active' : ''}`}><Link to="/single-listing-02">Single Listing 02</Link></li>
-                                            <li className={`${current === '/single-listing-03' ? 'active' : ''}`}><Link to="/single-listing-03">Single Listing 03</Link></li>
-                                            <li className={`${current === '/single-listing-04' ? 'active' : ''}`}><Link to="/single-listing-04">Single Listing 04</Link></li>
-                                            <li className={`${current === '/single-listing-05' ? 'active' : ''}`}><Link to="/single-listing-05">Single Listing 05</Link></li>
-                                        </ul>
-                                    </li>
                                 </ul>
                             </li>
 
-                            <li className={`${['/dashboard','/dashboard/profile','/dashboard/bookings','/dashboard/listings','/dashboard/bookmarks','/dashboard/messages','/dashboard/reviews','/dashboard/wallet','/dashboard/add-listing','/dashboard-user','/dashboard-my-profile','/dashboard-my-bookings','/dashboard-my-listings','/dashboard-bookmarks','/dashboard-messages','/dashboard-reviews','/dashboard-wallet','/dashboard-add-listing'].includes(current)? 'active' : ''}`}><Link to="#">User Dashboard<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
+                            <li className={`${['/about','/contact','/pricing','/help','/faq','/blog','/privacy','/terms'].includes(current) || current.startsWith('/blog/')? 'active' : ''}`}><Link to="#">About<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
                                 <ul className="nav-dropdown nav-submenu">
-                                    <li className={`${current === '/dashboard' || current === '/dashboard-user' ? 'active' : ''}`}><Link to="/dashboard" className='d-flex'><BsSpeedometer className="me-1 align-self-center"/>Dashboard Area</Link></li>
-                                    <li className={`${current === '/dashboard/profile' || current === '/dashboard-my-profile' ? 'active' : ''}`}><Link to="/dashboard/profile" className='d-flex'><BsPersonLinesFill className="me-1 align-self-center"/>My Profile</Link></li>
-                                    <li className={`${current === '/dashboard/bookings' || current === '/dashboard-my-bookings' ? 'active' : ''}`}><Link to="/dashboard/bookings" className='d-flex'><BsJournalCheck className="me-1 align-self-center"/>My Bookings</Link></li>
-                                    <li className={`${current === '/dashboard/listings' || current === '/dashboard-my-listings' ? 'active' : ''}`}><Link to="/dashboard/listings" className='d-flex'><BsUiRadiosGrid className="me-1 align-self-center"/>My Listings</Link></li>
-                                    <li className={`${current === '/dashboard/bookmarks' || current === '/dashboard-bookmarks' ? 'active' : ''}`}><Link to="/dashboard/bookmarks" className='d-flex'><BsBookmarkStar className="me-1 align-self-center"/>Bookmarkes</Link></li>
-                                    <li className={`${current === '/dashboard/messages' || current === '/dashboard-messages' ? 'active' : ''}`}><Link to="/dashboard/messages" className='d-flex'><BsChatDots className="me-1 align-self-center"/>Messages</Link></li>
-                                    <li className={`${current === '/dashboard/reviews' || current === '/dashboard-reviews' ? 'active' : ''}`}><Link to="/dashboard/reviews" className='d-flex'><BsYelp className="me-1 align-self-center"/>Reviews</Link></li>
-                                    <li className={`${current === '/dashboard/wallet' || current === '/dashboard-wallet' ? 'active' : ''}`}><Link to="/dashboard/wallet" className='d-flex'><BsWallet className="me-1 align-self-center"/>Wallet</Link></li>
-                                    <li className={`${current === '/dashboard/add-listing' || current === '/dashboard-add-listing' ? 'active' : ''}`}><Link to="/dashboard/add-listing" className='d-flex'><BsPatchPlus className="me-1 align-self-center"/>Add Listing</Link></li>
-                                </ul>
-                            </li>
-
-                            <li className={`${['/about','/contact','/pricing','/help','/faq','/blog','/privacy','/terms','/author-profile','/booking-page','/about-us','/contact-us','/help-center','/comingsoon','/error','/elements','/privacy-policy','/checkout-page','/success-payment','/invoice-page','/viewcart'].includes(current) || current.startsWith('/blog/')? 'active' : ''}`}><Link to="#">Pages<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
-                                <ul className="nav-dropdown nav-submenu">
-                                    <li><Link to="#" className='d-flex'><BsPersonCircle className="me-1 align-self-center"/>My Account<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
-                                        <ul className="nav-dropdown nav-submenu">
-                                            <li><Link to="/login" className='d-flex'><BsBoxArrowInRight className="me-1 align-self-center"/>User Login</Link></li>
-                                            <li><Link to="/register" className='d-flex'><BsPersonPlus className="me-1 align-self-center"/>Signup Page</Link></li>
-                                            <li><Link to="/forgot-password" className='d-flex'><BsQuestionCircle className="me-1 align-self-center"/>Forget Password</Link></li>
-                                            <li><Link to="/two-factor-auth" className='d-flex'><BsShieldCheck className="me-1 align-self-center"/>Two Step verification</Link></li>
-                                        </ul>
-                                    </li>
-                                    <li><Link to="#" className='d-flex'><BiSolidShoppingBagAlt className="me-1 align-self-center"/>Shop<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
-                                        <ul className="nav-dropdown nav-submenu">
-                                            <li><Link to="/checkout-page" className='d-flex'><BsBoxArrowInRight className="me-1 align-self-center"/>Checkout</Link></li>
-                                            <li><Link to="/success-payment" className='d-flex'><BsPersonPlus className="me-1 align-self-center"/>Success Payment</Link></li>
-                                            <li><Link to="/invoice-page" className='d-flex'><BsQuestionCircle className="me-1 align-self-center"/>Invoice</Link></li>
-                                            <li><Link to="/viewcart" className='d-flex'><BsShieldCheck className="me-1 align-self-center"/>Viewcart</Link></li>
-                                        </ul>
-                                    </li>
-                                    <li className={`${current === '/author-profile' ? 'active' : ''}`}><Link to="/author-profile" className='d-flex'><BsPersonVcard className="me-1 align-self-center"/>Author Profile</Link></li>
-                                    <li className={`${current === '/booking-page' ? 'active' : ''}`}><Link to="/booking-page" className='d-flex'><BsCalendar2Check className="me-1 align-self-center"/>Booking Page</Link></li>
-                                    <li className={`${current === '/about' || current === '/about-us' ? 'active' : ''}`}><Link to="/about" className='d-flex'><BsPersonCheck className="me-1 align-self-center"/>About Us</Link></li>                                
-                                    <li className={`${current === '/contact' || current === '/contact-us' ? 'active' : ''}`}><Link to="/contact" className='d-flex'><BsEnvelopeCheck className="me-1 align-self-center"/>Contact Us</Link></li>
-                                    <li className={`${current === '/pricing' ? 'active' : ''}`}><Link to="/pricing" className='d-flex'><BsCoin className="me-1 align-self-center"/>Pricing</Link></li>
-                                    <li className={`${current === '/blog' ? 'active' : ''}`}><Link to="/blog" className='d-flex'><BsBlockquoteLeft className="me-1 align-self-center"/>Blog</Link></li>					
-                                    <li className={`${current === '/help' || current === '/help-center' ? 'active' : ''}`}><Link to="/help" className='d-flex'><BsPatchQuestion className="me-1 align-self-center"/>Help Center</Link></li>
-                                    <li className={`${current === '/privacy' || current === '/privacy-policy' ? 'active' : ''}`}><Link to="/privacy" className='d-flex'><BsCoin className="me-1 align-self-center"/>Privacy Policy</Link></li>
-                                    <li className={`${current === '/comingsoon' ? 'active' : ''}`}><Link to="/comingsoon" className='d-flex'><BsHourglassTop className="me-1 align-self-center"/>Coming Soon</Link></li>
-                                    <li className={`${current === '/faq' ? 'active' : ''}`}><Link to="/faq" className='d-flex'><BsInfoCircle className="me-1 align-self-center"/>FAQ's</Link></li>
-                                    <li className={`${current === '/error' ? 'active' : ''}`}><Link to="/error" className='d-flex'><BsXOctagon className="me-1 align-self-center"/>Error Page</Link></li>
-                                    <li className={`${current === '/elements' ? 'active' : ''}`}><Link to="/elements" className='d-flex'><BsGear className="me-1 align-self-center"/>Elements</Link></li>
+                                    <li className={`${current === '/about' ? 'active' : ''}`}><Link to="/about">About Us</Link></li>                                
+                                    <li className={`${current === '/contact' ? 'active' : ''}`}><Link to="/contact">Contact Us</Link></li>
+                                    <li className={`${current === '/pricing' ? 'active' : ''}`}><Link to="/pricing">Pricing</Link></li>
+                                    <li className={`${current === '/blog' ? 'active' : ''}`}><Link to="/blog">Blog</Link></li>					
+                                    <li className={`${current === '/help' ? 'active' : ''}`}><Link to="/help">Help Center</Link></li>
+                                    <li className={`${current === '/faq' ? 'active' : ''}`}><Link to="/faq">FAQ's</Link></li>
+                                    <li className={`${current === '/privacy' ? 'active' : ''}`}><Link to="/privacy">Privacy Policy</Link></li>
+                                    <li className={`${current === '/terms' ? 'active' : ''}`}><Link to="/terms">Terms of Service</Link></li>
                                 </ul>
                             </li>
                             
-                            <li><Link to="#" className="mob-addlisting light" ><BsGeoAltFill className="me-1"/>Join as Contractor</Link></li>
+                            <li><Link to="#" className="mob-addlisting light" ><BsGeoAltFill className="me-1"/>Add Your Company</Link></li>
                         </ul>
                             
                         <ul className="nav-menu nav-menu-social align-to-right">
@@ -289,7 +204,7 @@ export default function NavbarLight() {
                                 <a href="#cartSlider" className="cart-content" data-bs-toggle="offcanvas" role="button" aria-controls="cartSlider"><BsBasket2  className=""/><span className="head-cart-counter">3</span></a>
                             </li>
                             <li className="list-buttons light">
-                                <Link to="/dashboard/add-listing"><BsGeoAlt className="fs-6 me-1"/>Join as Contractor</Link>
+                                <Link to="/dashboard/add-listing"><BsGeoAlt className="fs-6 me-1"/>Add Your Company</Link>
                             </li>
                         </ul>
                     </div>

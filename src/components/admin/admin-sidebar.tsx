@@ -23,15 +23,15 @@ export default function AdminSidebar() {
             </div>
             <div className="dashboard_Menu">
                 <ul>
-                    <li><Link to="/dashboard-user" className={`${current === '/dashboard-user' ? 'active' : ''}`}><BsSpeedometer className="me-2"/>Dashboard Area</Link></li>
-                    <li><Link to="/dashboard-my-profile" className={`${current === '/dashboard-my-profile' ? 'active' : ''}`}><BsPersonLinesFill className="me-2"/>My Profile</Link></li>
-                    <li><Link to="/dashboard-my-bookings" className={`${current === '/dashboard-my-bookings' ? 'active' : ''}`}><BsJournalCheck className="me-2"/>My Bookings</Link></li>
-                    <li><Link to="/dashboard-my-listings" className={`${current === '/dashboard-my-listings' ? 'active' : ''}`}><BsUiRadiosGrid className="me-2"/>My Listings</Link></li>
-                    <li><Link to="/dashboard-bookmarks" className={`${current === '/dashboard-bookmarks' ? 'active' : ''}`}><BsBookmarkStar className="me-2"/>Bookmarkes</Link></li>
-                    <li><Link to="/dashboard-messages" className={`${current === '/dashboard-messages' ? 'active' : ''}`}><BsChatDots className="me-2"/>Messages<span className="notti_coun style-1">3</span></Link></li>
-                    <li><Link to="/dashboard-reviews" className={`${current === '/dashboard-reviews' ? 'active' : ''}`}><BsYelp className="me-2"/>Reviews</Link></li>
-                    <li><Link to="/dashboard-wallet" className={`${current === '/dashboard-wallet' ? 'active' : ''}`}><BsWallet className="me-2"/>Wallet</Link></li>
-                    <li><Link to="/dashboard-add-listing" className={`${current === '/dashboard-add-listing' ? 'active' : ''}`}><BsPatchPlus className="me-2"/>Add Listing</Link></li>
+                    <li><Link to="/dashboard" className={`${['/dashboard', '/dashboard-user'].includes(current) ? 'active' : ''}`}><BsSpeedometer className="me-2"/>Dashboard Area</Link></li>
+                    <li><Link to="/dashboard/profile" className={`${['/dashboard/profile', '/dashboard-my-profile'].includes(current) ? 'active' : ''}`}><BsPersonLinesFill className="me-2"/>My Profile</Link></li>
+                    <li><Link to="/dashboard/bookings" className={`${['/dashboard/bookings', '/dashboard-my-bookings'].includes(current) ? 'active' : ''}`}><BsJournalCheck className="me-2"/>My Bookings</Link></li>
+                    <li><Link to="/dashboard/listings" className={`${['/dashboard/listings', '/dashboard-my-listings'].includes(current) ? 'active' : ''}`}><BsUiRadiosGrid className="me-2"/>My Listings</Link></li>
+                    <li><Link to="/dashboard/bookmarks" className={`${['/dashboard/bookmarks', '/dashboard-bookmarks'].includes(current) ? 'active' : ''}`}><BsBookmarkStar className="me-2"/>Bookmarkes</Link></li>
+                    <li><Link to="/dashboard/messages" className={`${['/dashboard/messages', '/dashboard-messages'].includes(current) ? 'active' : ''}`}><BsChatDots className="me-2"/>Messages<span className="notti_coun style-1">3</span></Link></li>
+                    <li><Link to="/dashboard/reviews" className={`${['/dashboard/reviews', '/dashboard-reviews'].includes(current) ? 'active' : ''}`}><BsYelp className="me-2"/>Reviews</Link></li>
+                    <li><Link to="/dashboard/wallet" className={`${['/dashboard/wallet', '/dashboard-wallet'].includes(current) ? 'active' : ''}`}><BsWallet className="me-2"/>Wallet</Link></li>
+                    <li><Link to="/dashboard/add-listing" className={`${['/dashboard/add-listing', '/dashboard-add-listing'].includes(current) ? 'active' : ''}`}><BsPatchPlus className="me-2"/>Add Listing</Link></li>
                 </ul>
             </div>
         </div>

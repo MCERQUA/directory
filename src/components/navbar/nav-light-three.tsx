@@ -56,7 +56,7 @@ export default function NavLightThree() {
             <div className="container-fluid">
                 <nav id="navigation" className={windowWidth > 991 ? "navigation navigation-landscape" : "navigation navigation-portrait"}>
                     <div className="nav-header">
-                        <Link className="nav-brand" to="/"><img src={logo} className="logo" alt=""/></Link>
+                        <Link className="nav-brand" to="/"><span className="fw-bold fs-4 text-primary">ContractorHUB</span></Link>
                         <div className="nav-toggle" onClick={()=>setIsToggle(!toggle)}></div>
                         <div className="mobile_nav">
                             <ul>
@@ -74,7 +74,7 @@ export default function NavLightThree() {
                     </div>
                     <div className={`nav-menus-wrapper  ${toggle ? 'nav-menus-wrapper-open' : ''}`} style={{transitionProperty:toggle ? 'none' : 'left'}}>
                         <div className='mobLogos'>
-                            <img src={logoDark} className='img-fluid lightLogo' alt='Logo'/>
+                            <span className="fw-bold fs-4 text-primary">ContractorHUB</span>
                         </div>
                         <span className='nav-menus-wrapper-close-button'  onClick={()=>setIsToggle(!toggle)}>✕</span>
                         <ul className="nav-menu">
@@ -147,7 +147,7 @@ export default function NavLightThree() {
                                     <li className={`${current === '/dashboard-messages' ? 'active' : ''}`}><Link to="/dashboard-messages" className='d-flex'><BsChatDots className="me-1 align-self-center"/>Messages</Link></li>
                                     <li className={`${current === '/dashboard-reviews' ? 'active' : ''}`}><Link to="/dashboard-reviews" className='d-flex'><BsYelp className="me-1 align-self-center"/>Reviews</Link></li>
                                     <li className={`${current === '/dashboard-wallet' ? 'active' : ''}`}><Link to="/dashboard-wallet" className='d-flex'><BsWallet className="me-1 align-self-center"/>Wallet</Link></li>
-                                    <li className={`${current === '/dashboard-add-listing' ? 'active' : ''}`}><Link to="/dashboard-add-listing" className='d-flex'><BsPatchPlus className="me-1 align-self-center"/>Add Listing</Link></li>
+                                    <li className={`${current === '/dashboard-add-listing' ? 'active' : ''}`}><Link to="/dashboard-add-listing" className='d-flex'><BsPatchPlus className="me-1 align-self-center"/>Add Your Company</Link></li>
                                 </ul>
                             </li>
 
@@ -184,7 +184,7 @@ export default function NavLightThree() {
                                 </ul>
                             </li>
                             
-                            <li><Link to="#" className="mob-addlisting light" ><BsGeoAltFill className="me-1"/>Add Listing</Link></li>
+                            <li><Link to="#" className="mob-addlisting light" ><BsGeoAltFill className="me-1"/>Add Your Company</Link></li>
                         </ul>
 
                         <ul className="nav-menu nav-menu-social align-to-right">
@@ -195,7 +195,7 @@ export default function NavLightThree() {
                                 <a href="#cartSlider" className="cart-content" data-bs-toggle="offcanvas" role="button" aria-controls="cartSlider"><BsBasket2  className=""/><span className="head-cart-counter">3</span></a>
                             </li>
                             <li className="list-buttons">
-                                <Link to="/register"><BsGeoAlt className="fs-6 me-1"/>Add Listing</Link>
+                                <Link to="/register"><BsGeoAlt className="fs-6 me-1"/>Add Your Company</Link>
                             </li>
                         </ul>
                     </div>
