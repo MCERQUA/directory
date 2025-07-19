@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 import bg from '../../assets/img/title-banner.jpg'
 
-import NavbarLight from '../../components/navbar/navbar-light'
+import NavbarDark from '../../components/navbar/navbar-dark'
 import FooterTop from '../../components/footer-top'
 import Footer from '../../components/footer'
 import BackToTop from '../../components/back-to-top'
@@ -12,7 +12,7 @@ import { FaBriefcase, FaDribbble, FaFacebookF, FaGlobe, FaHeadset, FaInstagram, 
 export default function ContactUs() {
   return (
     <>
-        <NavbarLight/>
+        <NavbarDark/>
 
         <section className="bg-cover position-relative" style={{backgroundImage:`url(${bg})`}} data-overlay="6">
             <div className="container">

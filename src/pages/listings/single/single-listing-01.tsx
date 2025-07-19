@@ -9,7 +9,7 @@ import { BiBriefcase } from 'react-icons/bi'
 import { FiArrowRight } from 'react-icons/fi'
 import { BsSendCheck, BsStarFill, BsStarHalf, BsX } from 'react-icons/bs'
 
-import NavbarLight from '../../../components/navbar/navbar-light'
+import NavbarDark from '../../../components/navbar/navbar-dark'
 import FeatureNav from '../../../components/navbar/feature-nav'
 import SingleSidebarOne from '../../../components/single-sidebar-one'
 import Descriptions from '../../../components/list-detail/descriptions'
@@ -33,7 +33,7 @@ export default function SingleListing1() {
     const data = listData.find((item)=>item.id === parseInt(id))
   return (
     <>
-        <NavbarLight/>
+        <NavbarDark/>
 
         <section className="bg-cover position-relative ht-500 py-0" style={{backgroundImage:`url(${data?.image ? data?.image : bg})`}} data-overlay="4">
             <div className="container h-100">

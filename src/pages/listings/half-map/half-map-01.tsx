@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 
 import FilterTwo from '../../../components/filter-two'
-import NavbarLight from '../../../components/navbar/navbar-light'
+import NavbarDark from '../../../components/navbar/navbar-dark'
 import Map from '../../../components/map'
 
 import { listData } from '../../../data/data'
@@ -33,7 +33,7 @@ interface ListData{
 export default function HalfMap1() {
   return (
     <>
-        <NavbarLight/>
+        <NavbarDark/>
 
             <div className="map-banner-wrap half-map">
 				<div className="map-left-box">

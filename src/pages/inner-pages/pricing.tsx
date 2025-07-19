@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-import NavbarLight from '../../components/navbar/navbar-light'
+import NavbarDark from '../../components/navbar/navbar-dark'
 import PricingOne from '../../components/pricing-one'
 import FooterTop from '../../components/footer-top'
 import Footer from '../../components/footer'
@@ -11,7 +11,7 @@ import { MdArrowForwardIos } from 'react-icons/md'
 export default function Pricing() {
   return (
     <>
-        <NavbarLight/>
+        <NavbarDark/>
 
         <section className="bg-light">
             <div className="container">

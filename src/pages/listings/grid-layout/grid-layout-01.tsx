@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 import bg from '../../../assets/img/banner-6.jpg'
 
-import NavbarLight from '../../../components/navbar/navbar-light'
+import NavbarDark from '../../../components/navbar/navbar-dark'
 import ListSidebarOne from '../../../components/list-sidebar-one'
 import FooterTop from '../../../components/footer-top'
 import Footer from '../../../components/footer'
@@ -38,7 +38,7 @@ interface ListData{
 export default function GridLayout1() {
   return (
     <>
-        <NavbarLight/>
+        <NavbarDark/>
 
         <div className="image-cover hero-banner bg-primary" style={{backgroundImage:`url(${bg})`}} data-overlay="5">
             <div className="container">
