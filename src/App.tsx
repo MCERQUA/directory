@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import { ProtectedRoute, PublicRoute } from './components/ProtectedRoute';
 
-import { Route, Routes } from 'react-router-dom'
-import IndexOne from './pages/index/index-one'
+import IndexOne from './pages/index/index-one';
 import IndexTwo from './pages/index/index-two';
 import IndexThree from './pages/index/index-three';
 import IndexFour from './pages/index/index-four';
@@ -74,14 +76,52 @@ import Viewcart from './pages/inner-pages/viewcart';
 
 function App() {
   useEffect(() => {
-      const tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-      tooltipTriggerList.forEach((tooltipTriggerEl) => {
-        new window.bootstrap.Tooltip(tooltipTriggerEl);
-      });
-    }, []);
+    const tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.forEach((tooltipTriggerEl) => {
+      new window.bootstrap.Tooltip(tooltipTriggerEl);
+    });
+
+    // Load Google Identity Services
+    const loadGoogleScript = () => {
+      const script = document.createElement('script');
+      script.src = 'https://accounts.google.com/gsi/client';
+      script.async = true;
+      script.defer = true;
+      document.head.appendChild(script);
+    };
+
+    // Load Facebook SDK
+    const loadFacebookScript = () => {
+      window.fbAsyncInit = function() {
+        window.FB.init({
+          appId: import.meta.env.VITE_FACEBOOK_APP_ID,
+          cookie: true,
+          xfbml: true,
+          version: 'v18.0'
+        });
+      };
+
+      const script = document.createElement('script');
+      script.src = 'https://connect.facebook.net/en_US/sdk.js';
+      script.async = true;
+      script.defer = true;
+      document.head.appendChild(script);
+    };
+
+    // Load scripts only if environment variables are set
+    if (import.meta.env.VITE_GOOGLE_CLIENT_ID) {
+      loadGoogleScript();
+    }
+    
+    if (import.meta.env.VITE_FACEBOOK_APP_ID) {
+      loadFacebookScript();
+    }
+  }, []);
+
   return (
-    <>
+    <AuthProvider>
       <Routes>
+        {/* Public Routes */}
         <Route path='/' element={<IndexOne/>}/>
         <Route path='/home-2' element={<IndexTwo/>}/>
         <Route path='/home-3' element={<IndexThree/>}/>
@@ -125,21 +165,24 @@ function App() {
         <Route path='/single-listing-05' element={<SingleListing5/>}/>
         <Route path='/single-listing-05/:id' element={<SingleListing5/>}/>
 
-        <Route path='/dashboard-user' element={<DashboardUser/>}/>
-        <Route path='/dashboard-my-profile' element={<DashboardMyProfile/>}/>
-        <Route path='/dashboard-my-bookings' element={<DashboardMyBookings/>}/>
-        <Route path='/dashboard-my-listings' element={<DashboardMyListings/>}/>
-        <Route path='/dashboard-bookmarks' element={<DashboardBookmarks/>}/>
-        <Route path='/dashboard-messages' element={<DashboardMessages/>}/>
-        <Route path='/dashboard-reviews' element={<DashboardReviews/>}/>
-        <Route path='/dashboard-wallet' element={<DashboardWallet/>}/>
-        <Route path='/dashboard-add-listing' element={<DashboardAddListing/>}/>
+        {/* Protected Dashboard Routes */}
+        <Route path='/dashboard-user' element={<ProtectedRoute><DashboardUser/></ProtectedRoute>}/>
+        <Route path='/dashboard-my-profile' element={<ProtectedRoute><DashboardMyProfile/></ProtectedRoute>}/>
+        <Route path='/dashboard-my-bookings' element={<ProtectedRoute><DashboardMyBookings/></ProtectedRoute>}/>
+        <Route path='/dashboard-my-listings' element={<ProtectedRoute><DashboardMyListings/></ProtectedRoute>}/>
+        <Route path='/dashboard-bookmarks' element={<ProtectedRoute><DashboardBookmarks/></ProtectedRoute>}/>
+        <Route path='/dashboard-messages' element={<ProtectedRoute><DashboardMessages/></ProtectedRoute>}/>
+        <Route path='/dashboard-reviews' element={<ProtectedRoute><DashboardReviews/></ProtectedRoute>}/>
+        <Route path='/dashboard-wallet' element={<ProtectedRoute><DashboardWallet/></ProtectedRoute>}/>
+        <Route path='/dashboard-add-listing' element={<ProtectedRoute><DashboardAddListing/></ProtectedRoute>}/>
 
-        <Route path='/login' element={<Login/>}/>
-        <Route path='/register' element={<Register/>}/>
-        <Route path='/forgot-password' element={<ForgotPassword/>}/>
-        <Route path='/two-factor-auth' element={<TwoFactorAuth/>}/>
+        {/* Auth Routes - Redirect to dashboard if already logged in */}
+        <Route path='/login' element={<PublicRoute><Login/></PublicRoute>}/>
+        <Route path='/register' element={<PublicRoute><Register/></PublicRoute>}/>
+        <Route path='/forgot-password' element={<PublicRoute><ForgotPassword/></PublicRoute>}/>
+        <Route path='/two-factor-auth' element={<PublicRoute><TwoFactorAuth/></PublicRoute>}/>
 
+        {/* Other Public Routes */}
         <Route path='/author-profile' element={<AuthorProfile/>}/>
         <Route path='/booking-page' element={<BookingPage/>}/>
         <Route path='/about-us' element={<AboutUs/>}/>
@@ -161,8 +204,8 @@ function App() {
         <Route path='/privacy-policy' element={<PrivacyPolicy/>}/>
         <Route path='/viewcart' element={<Viewcart/>}/>
       </Routes>
-    </>
-  )
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;
