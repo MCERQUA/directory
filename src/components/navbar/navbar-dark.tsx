@@ -150,21 +150,16 @@ export default function NavbarDark() {
                         <ul className="nav-menu">
                             <li className={`${current === '/' ? 'active' : ''}`}><Link to="/">Home</Link></li>
 
-                            <li className={`${['/contractors/list','/contractors/map','/contractor'].includes(current) || current.startsWith('/contractor/')? 'active' : ''}`}><Link to="#">Find Contractors<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
-                                <ul className="nav-dropdown nav-submenu">
-                                    <li className={`${current === '/contractors/list' ? 'active' : ''}`}><Link to="/contractors/list">Company List</Link></li>
-                                    <li className={`${current === '/contractors/map' ? 'active' : ''}`}><Link to="/contractors/map">Search Map</Link></li>
-                                </ul>
-                            </li>
+                            <li className={`${['/contractors/list','/contractors','/contractor'].includes(current) || current.startsWith('/contractor/')? 'active' : ''}`}><Link to="/contractors/list">Find Contractors</Link></li>
+                            <li className={`${current === '/contractors/map' ? 'active' : ''}`}><Link to="/contractors/map">Map</Link></li>
+                            <li className={`${current === '/faq' ? 'active' : ''}`}><Link to="/faq">FAQ</Link></li>
+                            <li className={`${current === '/blog' || current.startsWith('/blog/')? 'active' : ''}`}><Link to="/blog">Blog</Link></li>
 
-                            <li className={`${['/about','/contact','/pricing','/help','/faq','/blog','/privacy','/terms'].includes(current) || current.startsWith('/blog/')? 'active' : ''}`}><Link to="#">About<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
+                            <li className={`${['/about','/pricing','/help','/privacy','/terms'].includes(current)? 'active' : ''}`}><Link to="#">About Us<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
                                 <ul className="nav-dropdown nav-submenu">
-                                    <li className={`${current === '/about' ? 'active' : ''}`}><Link to="/about">About Us</Link></li>                                
-                                    <li className={`${current === '/contact' ? 'active' : ''}`}><Link to="/contact">Contact Us</Link></li>
+                                    <li className={`${current === '/about' ? 'active' : ''}`}><Link to="/about">About Us</Link></li>
                                     <li className={`${current === '/pricing' ? 'active' : ''}`}><Link to="/pricing">Pricing</Link></li>
-                                    <li className={`${current === '/blog' ? 'active' : ''}`}><Link to="/blog">Blog</Link></li>					
                                     <li className={`${current === '/help' ? 'active' : ''}`}><Link to="/help">Help Center</Link></li>
-                                    <li className={`${current === '/faq' ? 'active' : ''}`}><Link to="/faq">FAQ's</Link></li>
                                     <li className={`${current === '/privacy' ? 'active' : ''}`}><Link to="/privacy">Privacy Policy</Link></li>
                                     <li className={`${current === '/terms' ? 'active' : ''}`}><Link to="/terms">Terms of Service</Link></li>
                                 </ul>
