@@ -33,7 +33,6 @@ export default function Map() {
                     center={defaultProps.center}
                     zoom={defaultProps.zoom}
                     onLoad={() => console.log('Google Maps loaded successfully')}
-                    onError={() => console.error('Google Maps error occurred')}
                 >
                     {markerPositions.map((position, index) => (
                     <Marker key={index} position={position} />
