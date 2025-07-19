@@ -150,11 +150,10 @@ export default function NavbarDark() {
                         <ul className="nav-menu">
                             <li className={`${current === '/' ? 'active' : ''}`}><Link to="/">Home</Link></li>
 
-                            <li className={`${['/contractors','/contractors/list','/contractors/map','/contractor'].includes(current) || current.startsWith('/contractor/')? 'active' : ''}`}><Link to="#">Find Contractors<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
+                            <li className={`${['/contractors/list','/contractors/map','/contractor'].includes(current) || current.startsWith('/contractor/')? 'active' : ''}`}><Link to="#">Find Contractors<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
                                 <ul className="nav-dropdown nav-submenu">
-                                    <li className={`${current === '/contractors' ? 'active' : ''}`}><Link to="/contractors">Grid View</Link></li>
-                                    <li className={`${current === '/contractors/list' ? 'active' : ''}`}><Link to="/contractors/list">List View</Link></li>
-                                    <li className={`${current === '/contractors/map' ? 'active' : ''}`}><Link to="/contractors/map">Map View</Link></li>
+                                    <li className={`${current === '/contractors/list' ? 'active' : ''}`}><Link to="/contractors/list">Company List</Link></li>
+                                    <li className={`${current === '/contractors/map' ? 'active' : ''}`}><Link to="/contractors/map">Search Map</Link></li>
                                 </ul>
                             </li>
 

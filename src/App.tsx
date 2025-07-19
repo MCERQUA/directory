@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { ProtectedRoute, PublicRoute } from './components/ProtectedRoute';
 
@@ -144,7 +144,7 @@ function App() {
         <Route path='/home-map' element={<IndexMap/>}/>
 
         {/* Contractor Listings Routes */}
-        <Route path='/contractors' element={<GridLayout1/>}/>
+        <Route path='/contractors' element={<Navigate to="/contractors/list" replace />}/>
         <Route path='/contractors/list' element={<ListLayout1/>}/>
         <Route path='/contractors/map' element={<HalfMap1/>}/>
         <Route path='/contractor/:id' element={<SingleListing1/>}/>

@@ -43,3 +43,40 @@
 
 // Import Font Family
 @import url('https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;600;700;800&display=swap');
+
+// Custom Navigation Dropdown Styles
+.nav-dropdown.nav-submenu {
+  background-color: #f8f9fa !important; // Light grey background
+  border: 1px solid #e9ecef !important;
+  border-radius: 0.375rem !important;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+  padding: 0.5rem 0 !important;
+}
+
+.nav-dropdown.nav-submenu li {
+  margin: 0 !important;
+}
+
+.nav-dropdown.nav-submenu li a {
+  padding: 0.5rem 1rem !important;
+  color: var(--bs-nav-color) !important;
+  background-color: transparent !important;
+  border-radius: 0 !important;
+  transition: background-color 0.15s ease-in-out !important;
+}
+
+.nav-dropdown.nav-submenu li a:hover,
+.nav-dropdown.nav-submenu li.active a {
+  background-color: #e9ecef !important;
+  color: var(--bs-primary) !important;
+}
+
+// Mobile navigation dropdown styles
+@media (max-width: 991px) {
+  .nav-menus-wrapper .nav-dropdown.nav-submenu {
+    background-color: #f8f9fa !important;
+    margin-left: 1rem !important;
+    margin-top: 0.5rem !important;
+    border-radius: 0.375rem !important;
+  }
+}
