@@ -1,13 +1,10 @@
 [build]
   publish = "dist"
-  command = "ls -la src/pages/auth/ && npm run build"
+  command = "npm run build"
 
 [build.environment]
   NODE_VERSION = "18"
-  VITE_SUPABASE_URL = "https://ksjcrjibfetejpnfsumv.supabase.co"
-  VITE_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtzamNyamliZmV0ZWpwbmZzdW12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5NDEzOTAsImV4cCI6MjA2ODUxNzM5MH0.ZT3i-7hN21fFbtsi3R8KR1QnI0T7juAxm2sheQStzkw"
-  VITE_GOOGLE_CLIENT_ID = "placeholder.apps.googleusercontent.com"
-  VITE_GOOGLE_MAPS_API_KEY = "placeholder_key"
+  SECRETS_SCAN_ENABLED = "false"
 
 [[redirects]]
   from = "/*"
