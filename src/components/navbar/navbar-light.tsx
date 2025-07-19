@@ -1,10 +1,10 @@
 import { useState,useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { useAuth } from '../../contexts/AuthContext'
 
 import logo from '../../assets/img/logo-light.svg'
 import logoDark from '../../assets/img/logo.svg'
 import googleLogo from '../../assets/img/google.png'
-import facebookLogo from '../../assets/img/facebook.png'
 import brand1 from '../../assets/img/brand/logo-1.png'
 import brand2 from '../../assets/img/brand/logo-2.png'
 import brand3 from '../../assets/img/brand/logo-3.png'
@@ -22,6 +22,12 @@ export default function NavbarLight() {
         const [current , setCurrent] = useState<string>('');
         const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
         const [toggle, setIsToggle] = useState<boolean>(false);
+        const [email, setEmail] = useState('');
+        const [password, setPassword] = useState('');
+        const [isLoading, setIsLoading] = useState(false);
+        const [error, setError] = useState('');
+
+        const { login, loginWithGoogle, user, logout } = useAuth();
 
         let params = useLocation()
     
@@ -51,6 +57,63 @@ export default function NavbarLight() {
                 window.removeEventListener('resize', handleResize);
               };
         },[windowWidth])
+
+        const handleModalLogin = async (e: React.FormEvent) => {
+            e.preventDefault();
+            setError('');
+            setIsLoading(true);
+
+            try {
+                await login(email, password);
+                // Close modal
+                const modal = document.getElementById('login');
+                if (modal) {
+                    const bootstrapModal = window.bootstrap.Modal.getInstance(modal);
+                    if (bootstrapModal) {
+                        bootstrapModal.hide();
+                    }
+                }
+                // Reset form
+                setEmail('');
+                setPassword('');
+            } catch (error) {
+                setError('Invalid email or password. Please try again.');
+                console.error('Login error:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        const handleGoogleLogin = async () => {
+            setError('');
+            setIsLoading(true);
+            
+            try {
+                await loginWithGoogle();
+                // Close modal
+                const modal = document.getElementById('login');
+                if (modal) {
+                    const bootstrapModal = window.bootstrap.Modal.getInstance(modal);
+                    if (bootstrapModal) {
+                        bootstrapModal.hide();
+                    }
+                }
+            } catch (error) {
+                setError('Google login failed. Please try again.');
+                console.error('Google login error:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        const handleLogout = async () => {
+            try {
+                await logout();
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+        };
+
   return (
     <>
         <div className={`header header-transparent dark navdark ${scroll ? 'header-fixed' : ''}`} data-sticky-element="">
@@ -62,7 +125,15 @@ export default function NavbarLight() {
                         <div className="mobile_nav">
                             <ul>
                                 <li>
-                                    <Link to="#login" className="d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#login"><BsPersonCircle className="me-1"/></Link>
+                                    {user ? (
+                                        <Link to="/dashboard-user" className="d-flex align-items-center">
+                                            <BsPersonCircle className="me-1"/>
+                                        </Link>
+                                    ) : (
+                                        <Link to="#login" className="d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#login">
+                                            <BsPersonCircle className="me-1"/>
+                                        </Link>
+                                    )}
                                 </li>
                                 <li>
                                     <a href="#cartSlider" className="cart-content" data-bs-toggle="offcanvas" role="button" aria-controls="cartSlider"><BsBasket2  className=""/><span className="head-cart-counter">3</span></a>
@@ -175,8 +246,8 @@ export default function NavbarLight() {
                                     <li className={`${current === '/about-us' ? 'active' : ''}`}><Link to="/about-us" className='d-flex'><BsPersonCheck className="me-1 align-self-center"/>About Us</Link></li>                                
                                     <li className={`${current === '/blog' ? 'active' : ''}`}><Link to="/blog" className='d-flex'><BsBlockquoteLeft className="me-1 align-self-center"/>Blog Page</Link></li>
                                     <li className={`${current === '/contact-us' ? 'active' : ''}`}><Link to="/contact-us" className='d-flex'><BsEnvelopeCheck className="me-1 align-self-center"/>Contact Us</Link></li>
-                                    <li className={`${current === '/pricing' ? 'active' : ''}`}><Link to="/pricing" className='d-flex'><BsCoin className="me-1 align-self-center"/>Pricing</Link></li>										
-                                    <li className={`${current === '/privacy-policy' ? 'active' : ''}`}><Link to="/privacy-policy" className='d-flex'><BsCoin className="me-1 align-self-center"/>Privacy Policy</Link></li>										
+                                    <li className={`${current === '/pricing' ? 'active' : ''}`}><Link to="/pricing" className='d-flex'><BsCoin className="me-1 align-self-center"/>Pricing</Link></li>					
+                                    <li className={`${current === '/privacy-policy' ? 'active' : ''}`}><Link to="/privacy-policy" className='d-flex'><BsCoin className="me-1 align-self-center"/>Privacy Policy</Link></li>					
                                     <li className={`${current === '/help-center' ? 'active' : ''}`}><Link to="/help-center" className='d-flex'><BsPatchQuestion className="me-1 align-self-center"/>Help Center</Link></li>
                                     <li className={`${current === '/comingsoon' ? 'active' : ''}`}><Link to="/comingsoon" className='d-flex'><BsHourglassTop className="me-1 align-self-center"/>Coming Soon</Link></li>
                                     <li className={`${current === '/faq' ? 'active' : ''}`}><Link to="/faq" className='d-flex'><BsInfoCircle className="me-1 align-self-center"/>FAQ's</Link></li>
@@ -190,7 +261,25 @@ export default function NavbarLight() {
                             
                         <ul className="nav-menu nav-menu-social align-to-right">
                             <li>
-                                <Link to="#login" className="d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#login"><BsPersonCircle className="fs-6 me-1"/><span className="navCl">SignUp or SignIn</span></Link>
+                                {user ? (
+                                    <div className="d-flex align-items-center gap-2">
+                                        <Link to="/dashboard-user" className="d-flex align-items-center">
+                                            <BsPersonCircle className="fs-6 me-1"/>
+                                            <span className="navCl">Welcome, {user.name}</span>
+                                        </Link>
+                                        <button 
+                                            onClick={handleLogout}
+                                            className="btn btn-sm btn-outline-light"
+                                        >
+                                            Logout
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <Link to="#login" className="d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#login">
+                                        <BsPersonCircle className="fs-6 me-1"/>
+                                        <span className="navCl">SignUp or SignIn</span>
+                                    </Link>
+                                )}
                             </li>
                             <li>
                                 <a href="#cartSlider" className="cart-content" data-bs-toggle="offcanvas" role="button" aria-controls="cartSlider"><BsBasket2  className=""/><span className="head-cart-counter">3</span></a>
@@ -218,15 +307,39 @@ export default function NavbarLight() {
                             <p className="fs-6">Login to manage your account.</p>
                         </div>
 
-                        <form className="needs-validation px-lg-2" noValidate>
-                            <div className="row align-items-center justify-content-between g-3 mb-4">
-                                <div className="col-xl-6 col-lg-6 col-md-6"><Link to="#" className="btn btn-outline-secondary border rounded-3 text-md px-lg-2 full-width"><img src={googleLogo} className="img-fluid me-2" width="16" alt=""/>Login with Google</Link></div>
-                                <div className="col-xl-6 col-lg-6 col-md-6"><Link to="#" className="btn btn-outline-secondary border rounded-3 text-md px-lg-2 full-width"><img src={facebookLogo} className="img-fluid me-2" width="16" alt=""/>Login with Facebook</Link></div>
+                        {error && (
+                            <div className="alert alert-danger" role="alert">
+                                {error}
+                            </div>
+                        )}
+
+                        <form className="needs-validation px-lg-2" noValidate onSubmit={handleModalLogin}>
+                            <div className="row align-items-center justify-content-center g-3 mb-4">
+                                <div className="col-12">
+                                    <button 
+                                        type="button" 
+                                        onClick={handleGoogleLogin}
+                                        disabled={isLoading}
+                                        className="btn btn-outline-secondary border rounded-3 text-md px-lg-2 full-width"
+                                    >
+                                        <img src={googleLogo} className="img-fluid me-2" width="16" alt=""/>
+                                        {isLoading ? 'Loading...' : 'Login with Google'}
+                                    </button>
+                                </div>
                             </div>
                             
                             <div className="form-group form-border mb-4">
                                 <label className="form-label" htmlFor="email01">Your email</label>
-                                <input type="email" className="form-control" id="email01" placeholder="email@site.com" required/>
+                                <input 
+                                    type="email" 
+                                    className="form-control" 
+                                    id="email01" 
+                                    placeholder="email@site.com" 
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                    disabled={isLoading}
+                                />
                                 <span className="invalid-feedback">Please enter a valid email address.</span>
                             </div>
 
@@ -237,18 +350,33 @@ export default function NavbarLight() {
                                 </div>
 
                                 <div className="form-group form-border input-group-merge">
-                                    <input type="password" className="form-control" id="pass01" placeholder="8+ characters required" required/>
+                                    <input 
+                                        type="password" 
+                                        className="form-control" 
+                                        id="pass01" 
+                                        placeholder="8+ characters required" 
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required
+                                        disabled={isLoading}
+                                    />
                                 </div>
 
                                 <span className="invalid-feedback">Please enter a valid password.</span>
                             </div>
 
                             <div className="d-grid mb-3">
-                                <button type="submit" className="btn btn-primary fw-medium">Log in</button>
+                                <button 
+                                    type="submit" 
+                                    className="btn btn-primary fw-medium"
+                                    disabled={isLoading || !email || !password}
+                                >
+                                    {isLoading ? 'Logging in...' : 'Log in'}
+                                </button>
                             </div>
 
                             <div className="text-center">
-                                <p>Don't have an account yet? <Link className="link fw-medium text-primary" to="/signup">Sign up here</Link></p>
+                                <p>Don't have an account yet? <Link className="link fw-medium text-primary" to="/register">Sign up here</Link></p>
                             </div>
                         </form>
                     </div>
