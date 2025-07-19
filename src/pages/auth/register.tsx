@@ -11,6 +11,7 @@ export default function Register() {
     email: '',
     password: '',
     confirmPassword: '',
+    userType: 'customer' as 'contractor' | 'customer',
     agreeToTerms: false,
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -21,11 +22,11 @@ export default function Register() {
   const { register, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
     }));
   };
 
@@ -64,8 +65,8 @@ export default function Register() {
     setIsLoading(true);
 
     try {
-      await register(formData.email, formData.password, formData.name);
-      navigate('/dashboard-user'); // Redirect to dashboard after successful registration
+      await register(formData.email, formData.password, formData.name, formData.userType);
+      navigate('/dashboard'); // Redirect to dashboard after successful registration
     } catch (error) {
       setError('Registration failed. Please try again.');
       console.error('Registration error:', error);
@@ -80,7 +81,7 @@ export default function Register() {
     
     try {
       await loginWithGoogle();
-      navigate('/dashboard-user');
+      navigate('/dashboard');
     } catch (error) {
       setError('Google signup failed. Please try again.');
       console.error('Google signup error:', error);
@@ -123,6 +124,20 @@ export default function Register() {
 
                     <form className="mt-5 text-start" onSubmit={handleSubmit}>
                       <div className="form mb-5">
+                        <div className="form-group form-border">
+                          <label className="form-label">I am a</label>
+                          <select
+                            name="userType"
+                            className="form-select"
+                            value={formData.userType}
+                            onChange={handleChange}
+                            disabled={isLoading}
+                          >
+                            <option value="customer">Customer (looking for services)</option>
+                            <option value="contractor">Contractor (providing services)</option>
+                          </select>
+                        </div>
+                        
                         <div className="form-group form-border">
                           <label className="form-label">Full Name</label>
                           <input

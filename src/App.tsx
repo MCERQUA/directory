@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
-import { ProtectedRoute, PublicRoute } from './components/ProtectedRoute';
+import ProtectedRoute from './components/auth/ProtectedRoute';
+import PublicRoute from './components/auth/PublicRoute';
 
 import IndexOne from './pages/index/index-one';
 import IndexTwo from './pages/index/index-two';
@@ -51,8 +52,9 @@ import DashboardReviews from './pages/dashboard/dashboard-reviews';
 import DashboardWallet from './pages/dashboard/dashboard-wallet';
 import DashboardAddListing from './pages/dashboard/dashboard-add-listing';
 
-import Login from './pages/auth/login';
-import Register from './pages/auth/register';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
+import AuthCallback from './pages/auth/Callback';
 import ForgotPassword from './pages/auth/forgot-password';
 import TwoFactorAuth from './pages/auth/two-factor-auth';
 import AuthorProfile from './pages/inner-pages/author-profile';
@@ -205,6 +207,7 @@ function App() {
         {/* Auth Routes - Redirect to dashboard if already logged in */}
         <Route path='/login' element={<PublicRoute><Login/></PublicRoute>}/>
         <Route path='/register' element={<PublicRoute><Register/></PublicRoute>}/>
+        <Route path='/auth/callback' element={<AuthCallback/>}/>
         <Route path='/forgot-password' element={<PublicRoute><ForgotPassword/></PublicRoute>}/>
         <Route path='/two-factor-auth' element={<PublicRoute><TwoFactorAuth/></PublicRoute>}/>
 

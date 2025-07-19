@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@react-google-maps/api": "^2.20.6",
+    "@supabase/supabase-js": "^2.52.0",
     "animate.css": "^4.1.1",
     "bootstrap": "^5.3.5",
     "multi-range-slider-react": "^2.0.7",

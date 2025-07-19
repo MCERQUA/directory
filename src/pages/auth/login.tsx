@@ -22,7 +22,7 @@ export default function Login() {
 
     try {
       await login(email, password);
-      navigate('/dashboard-user'); // Redirect to dashboard after successful login
+      navigate('/dashboard'); // Redirect to dashboard after successful login
     } catch (error) {
       setError('Invalid email or password. Please try again.');
       console.error('Login error:', error);
@@ -37,7 +37,7 @@ export default function Login() {
     
     try {
       await loginWithGoogle();
-      navigate('/dashboard-user');
+      navigate('/dashboard');
     } catch (error) {
       setError('Google login failed. Please try again.');
       console.error('Google login error:', error);

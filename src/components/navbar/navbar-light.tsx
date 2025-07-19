@@ -177,7 +177,7 @@ export default function NavbarLight() {
                                     <div className="d-flex align-items-center gap-2">
                                         <Link to="/dashboard" className="d-flex align-items-center">
                                             <BsPersonCircle className="fs-6 me-1"/>
-                                            <span className="navCl">Welcome, {user.name}</span>
+                                            <span className="navCl">Welcome, {user.profile?.full_name || user.email}</span>
                                         </Link>
                                         <button 
                                             onClick={handleLogout}

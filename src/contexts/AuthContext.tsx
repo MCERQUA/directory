@@ -1,23 +1,23 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { User, Session } from '@supabase/supabase-js';
+import { supabase, Profile, getCurrentProfile, signInWithEmail, signInWithGoogle, signUpWithEmail, signOut, resetPassword } from '../lib/supabase';
 
-// Types for user data
-export interface User {
-  id: string;
-  email: string;
-  name: string;
-  picture?: string;
-  provider: 'google' | 'facebook' | 'email';
+export interface AuthUser extends User {
+  profile?: Profile | null;
 }
 
 interface AuthContextType {
-  user: User | null;
+  user: AuthUser | null;
+  profile: Profile | null;
+  session: Session | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, name: string) => Promise<void>;
+  register: (email: string, password: string, name: string, userType?: 'contractor' | 'customer') => Promise<void>;
   loginWithGoogle: () => Promise<void>;
-  loginWithFacebook: () => Promise<void>;
   logout: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
+  updateProfile: (updates: Partial<Profile>) => Promise<void>;
+  refreshProfile: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -27,83 +27,92 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Check for existing user session on app load
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+  // Load profile data for authenticated user
+  const loadProfile = async (user: User) => {
+    try {
+      const profileData = await getCurrentProfile();
+      setProfile(profileData);
+      setUser({ ...user, profile: profileData });
+    } catch (error) {
+      console.error('Error loading profile:', error);
+      setProfile(null);
+      setUser({ ...user, profile: null });
     }
-    setLoading(false);
+  };
+
+  useEffect(() => {
+    // Get initial session
+    const getInitialSession = async () => {
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        if (error) {
+          console.error('Error getting session:', error);
+        } else if (session?.user) {
+          setSession(session);
+          await loadProfile(session.user);
+        }
+      } catch (error) {
+        console.error('Error in getInitialSession:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getInitialSession();
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        console.log('Auth state changed:', event, session);
+        
+        setSession(session);
+        
+        if (session?.user) {
+          await loadProfile(session.user);
+        } else {
+          setUser(null);
+          setProfile(null);
+        }
+        
+        setLoading(false);
+      }
+    );
+
+    return () => subscription.unsubscribe();
   }, []);
 
   const login = async (email: string, password: string): Promise<void> => {
     try {
       setLoading(true);
-      
-      // Replace this with your actual API call
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Login failed');
-      }
-
-      const userData = await response.json();
-      const user: User = {
-        id: userData.id,
-        email: userData.email,
-        name: userData.name,
-        provider: 'email',
-      };
-
-      setUser(user);
-      localStorage.setItem('user', JSON.stringify(user));
-    } catch (error) {
+      await signInWithEmail(email, password);
+      // User state will be updated by the auth state change listener
+    } catch (error: any) {
       console.error('Login error:', error);
-      throw error;
+      throw new Error(error.message || 'Login failed');
     } finally {
       setLoading(false);
     }
   };
 
-  const register = async (email: string, password: string, name: string): Promise<void> => {
+  const register = async (
+    email: string, 
+    password: string, 
+    name: string, 
+    userType: 'contractor' | 'customer' = 'customer'
+  ): Promise<void> => {
     try {
       setLoading(true);
-      
-      // Replace this with your actual API call
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password, name }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Registration failed');
-      }
-
-      const userData = await response.json();
-      const user: User = {
-        id: userData.id,
-        email: userData.email,
-        name: userData.name,
-        provider: 'email',
-      };
-
-      setUser(user);
-      localStorage.setItem('user', JSON.stringify(user));
-    } catch (error) {
+      await signUpWithEmail(email, password, name, userType);
+      // User state will be updated by the auth state change listener
+    } catch (error: any) {
       console.error('Registration error:', error);
-      throw error;
+      throw new Error(error.message || 'Registration failed');
     } finally {
       setLoading(false);
     }
@@ -112,174 +121,91 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const loginWithGoogle = async (): Promise<void> => {
     try {
       setLoading(true);
-      
-      // Initialize Google Auth if not already done
-      if (!window.google) {
-        throw new Error('Google SDK not loaded');
-      }
-
-      const auth = window.google.accounts.oauth2.initTokenClient({
-        client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
-        scope: 'email profile',
-        callback: async (response: any) => {
-          try {
-            // Get user info from Google
-            const userInfoResponse = await fetch(
-              `https://www.googleapis.com/oauth2/v2/userinfo?access_token=${response.access_token}`
-            );
-            const userInfo = await userInfoResponse.json();
-
-            const user: User = {
-              id: userInfo.id,
-              email: userInfo.email,
-              name: userInfo.name,
-              picture: userInfo.picture,
-              provider: 'google',
-            };
-
-            setUser(user);
-            localStorage.setItem('user', JSON.stringify(user));
-            
-            // Optional: Send user data to your backend
-            await fetch('/api/auth/social-login', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ user, provider: 'google' }),
-            });
-          } catch (error) {
-            console.error('Google auth callback error:', error);
-            throw error;
-          } finally {
-            setLoading(false);
-          }
-        },
-      });
-
-      auth.requestAccessToken();
-    } catch (error) {
+      await signInWithGoogle();
+      // User state will be updated by the auth state change listener
+    } catch (error: any) {
       console.error('Google login error:', error);
+      throw new Error(error.message || 'Google login failed');
+    } finally {
       setLoading(false);
-      throw error;
-    }
-  };
-
-  const loginWithFacebook = async (): Promise<void> => {
-    try {
-      setLoading(true);
-      
-      if (!window.FB) {
-        throw new Error('Facebook SDK not loaded');
-      }
-
-      return new Promise((resolve, reject) => {
-        window.FB.login((response: any) => {
-          if (response.authResponse) {
-            // Get user info from Facebook
-            window.FB.api('/me', { fields: 'name,email,picture' }, async (userInfo: any) => {
-              try {
-                const user: User = {
-                  id: userInfo.id,
-                  email: userInfo.email,
-                  name: userInfo.name,
-                  picture: userInfo.picture?.data?.url,
-                  provider: 'facebook',
-                };
-
-                setUser(user);
-                localStorage.setItem('user', JSON.stringify(user));
-                
-                // Optional: Send user data to your backend
-                await fetch('/api/auth/social-login', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify({ user, provider: 'facebook' }),
-                });
-
-                setLoading(false);
-                resolve();
-              } catch (error) {
-                console.error('Facebook auth error:', error);
-                setLoading(false);
-                reject(error);
-              }
-            });
-          } else {
-            setLoading(false);
-            reject(new Error('Facebook login failed'));
-          }
-        }, { scope: 'email' });
-      });
-    } catch (error) {
-      console.error('Facebook login error:', error);
-      setLoading(false);
-      throw error;
     }
   };
 
   const logout = async (): Promise<void> => {
     try {
       setLoading(true);
-      
-      // Logout from social providers if needed
-      if (user?.provider === 'google' && window.google) {
-        // Google logout is handled automatically
-      }
-      
-      if (user?.provider === 'facebook' && window.FB) {
-        window.FB.logout();
-      }
-
-      // Clear local storage and user state
-      localStorage.removeItem('user');
-      setUser(null);
-      
-      // Optional: Call your backend logout endpoint
-      await fetch('/api/auth/logout', {
-        method: 'POST',
-      });
-    } catch (error) {
+      await signOut();
+      // User state will be updated by the auth state change listener
+    } catch (error: any) {
       console.error('Logout error:', error);
+      throw new Error(error.message || 'Logout failed');
     } finally {
       setLoading(false);
     }
   };
 
-  const resetPassword = async (email: string): Promise<void> => {
+  const handleResetPassword = async (email: string): Promise<void> => {
+    try {
+      setLoading(true);
+      await resetPassword(email);
+    } catch (error: any) {
+      console.error('Password reset error:', error);
+      throw new Error(error.message || 'Password reset failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateProfile = async (updates: Partial<Profile>): Promise<void> => {
+    if (!user) throw new Error('No authenticated user');
+
     try {
       setLoading(true);
       
-      const response = await fetch('/api/auth/reset-password', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
-      });
+      const { data, error } = await supabase
+        .from('profiles')
+        .update({
+          ...updates,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', user.id)
+        .select()
+        .single();
 
-      if (!response.ok) {
-        throw new Error('Password reset failed');
-      }
-    } catch (error) {
-      console.error('Password reset error:', error);
-      throw error;
+      if (error) throw error;
+
+      setProfile(data);
+      setUser({ ...user, profile: data });
+    } catch (error: any) {
+      console.error('Profile update error:', error);
+      throw new Error(error.message || 'Profile update failed');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const refreshProfile = async (): Promise<void> => {
+    if (!user) return;
+
+    try {
+      await loadProfile(user);
+    } catch (error) {
+      console.error('Error refreshing profile:', error);
     }
   };
 
   const value: AuthContextType = {
     user,
+    profile,
+    session,
     loading,
     login,
     register,
     loginWithGoogle,
-    loginWithFacebook,
     logout,
-    resetPassword,
+    resetPassword: handleResetPassword,
+    updateProfile,
+    refreshProfile,
   };
 
   return (
@@ -295,4 +221,16 @@ export const useAuth = (): AuthContextType => {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
+};
+
+// Custom hook for checking if user is a contractor
+export const useIsContractor = (): boolean => {
+  const { profile } = useAuth();
+  return profile?.user_type === 'contractor';
+};
+
+// Custom hook for checking if user is verified
+export const useIsVerified = (): boolean => {
+  const { profile } = useAuth();
+  return profile?.is_verified === true;
 };
