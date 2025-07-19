@@ -155,9 +155,10 @@ export default function NavbarDark() {
                             <li className={`${current === '/faq' ? 'active' : ''}`}><Link to="/faq">FAQ</Link></li>
                             <li className={`${current === '/blog' || current.startsWith('/blog/')? 'active' : ''}`}><Link to="/blog">Blog</Link></li>
 
-                            <li className={`${['/about','/pricing','/help','/privacy','/terms'].includes(current)? 'active' : ''}`}><Link to="#">About Us<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
+                            <li className={`${['/about','/contact','/pricing','/help','/privacy','/terms'].includes(current)? 'active' : ''}`}><Link to="#">About Us<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
                                 <ul className="nav-dropdown nav-submenu">
                                     <li className={`${current === '/about' ? 'active' : ''}`}><Link to="/about">About Us</Link></li>
+                                    <li className={`${current === '/contact' ? 'active' : ''}`}><Link to="/contact">Contact Us</Link></li>
                                     <li className={`${current === '/pricing' ? 'active' : ''}`}><Link to="/pricing">Pricing</Link></li>
                                     <li className={`${current === '/help' ? 'active' : ''}`}><Link to="/help">Help Center</Link></li>
                                     <li className={`${current === '/privacy' ? 'active' : ''}`}><Link to="/privacy">Privacy Policy</Link></li>
