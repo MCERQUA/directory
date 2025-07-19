@@ -31,7 +31,7 @@ export default function CategoriesFour() {
                     }}
                 >
                 {categoryData.map((item:CategoryData,index:number)=>{
-                    let Icon = item.icon
+                    const Icon = item.icon
                     return(
                         <SwiperSlide className="singleCategory" key={index}>
                             <div className="moder-category">

@@ -27,7 +27,7 @@ export default function PricingTwo() {
                 <div className="card-body p-4 pt-2">
                     <ul className="deatil_features row align-items-start g-3 p-0">
                         {data.map((item:Data,index:number)=>{
-                            let Icon = item.icon
+                            const Icon = item.icon
                             return(
                                 <li className="col-xl-4 col-lg-6 col-md-6" key={index}>
                                     <div className="pricingMenu d-block">

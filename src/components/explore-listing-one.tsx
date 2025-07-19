@@ -35,7 +35,7 @@ export default function ExploreListingOne() {
   return (
         <div className="row align-items-center justify-content-center g-4">
             {listData.slice(0,6).map((item:ListData,index:number)=>{
-                let Icon = item.tagIcon
+                const Icon = item.tagIcon
                 return(
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12" key={index}>
                         <div className="listingitem-container">

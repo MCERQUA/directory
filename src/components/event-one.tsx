@@ -19,7 +19,7 @@ export default function EventOne() {
   return (
         <div className="row align-items-center justify-content-center g-4">
             {eventData.map((item:eventData,index:number)=>{
-                let Icon = item.tagIcon
+                const Icon = item.tagIcon
                 return(
                     <div className="col-xl-4 col-lg-4 col-md-6" key={index}>
                         <div className="eventCard">

@@ -14,10 +14,10 @@ import "yet-another-react-lightbox/styles.css";
 const images = [img1,img2,img3,img4,img5,img6]
 
 export default function Galleries() {
-    let [isOpen, setisOpen] = useState<boolean>(false);
-    let [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
+    const [isOpen, setisOpen] = useState<boolean>(false);
+    const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
   
-    let handleImageClick = (index:number) => {
+    const handleImageClick = (index:number) => {
         setCurrentImageIndex(index);
         setisOpen(true);
     };

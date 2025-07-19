@@ -77,7 +77,7 @@ export default function HalfMap3() {
                         <div className="row align-items-center justify-content-center g-xl-4 g-3">
                             
                         {listData.slice(0,8).map((item:ListData,index:number)=>{
-                            let Icon = item.tagIcon
+                            const Icon = item.tagIcon
                             return(
                                 <div className="col-xl-6 col-lg-12 col-md-6 col-sm-12 col-12" key={index}>
                                     <div className="listingitem-container">

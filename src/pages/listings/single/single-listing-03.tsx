@@ -27,9 +27,9 @@ import SingleSidebarThree from '../../../components/list-detail/single-sidebar-t
 import { listData } from '../../../data/data'
 
 export default function SingleListing3() {
-    let params = useParams()
-    let id:any = params.id
-    let data = listData.find((item)=>item.id === parseInt(id))
+    const params = useParams()
+    const id:any = params.id
+    const data = listData.find((item)=>item.id === parseInt(id))
   return (
     <>
         <NavbarDark/>

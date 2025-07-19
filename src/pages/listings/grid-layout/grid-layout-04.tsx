@@ -74,7 +74,7 @@ export default function GridLayout4() {
                 
                 <div className="row align-items-center justify-content-center g-xl-4 g-3">
                      {listData.map((item:ListData,index:number)=>{
-                        let Icon = item.tagIcon
+                        const Icon = item.tagIcon
                         return(
                             <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12" key={index}>
                                 <div className="listingitem-container">

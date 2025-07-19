@@ -21,7 +21,7 @@ export default function AdminNavbar() {
         const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
         const [toggle, setIsToggle] = useState<boolean>(false);
         
-        let params = useParams();
+        const params = useParams();
 
         useEffect(()=>{
             window.scrollTo(0,0)

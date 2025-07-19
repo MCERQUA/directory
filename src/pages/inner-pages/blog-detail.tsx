@@ -19,9 +19,9 @@ import { BsReply } from 'react-icons/bs'
 
 export default function BlogDetail() {
 
-    let params = useParams()
-    let id:any = params.id
-    let data = blogData.find((item)=>item.id === parseInt(id))
+    const params = useParams()
+    const id:any = params.id
+    const data = blogData.find((item)=>item.id === parseInt(id))
 
   return (
     <div className='bg-light'>

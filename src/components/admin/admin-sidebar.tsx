@@ -5,11 +5,11 @@ import { BsBookmarkStar, BsChatDots, BsJournalCheck, BsPatchPlus, BsPersonLinesF
 
 export default function AdminSidebar() {
     const [current , setCurrent] = useState<string>('');
-    let params = useLocation()
+    const params = useLocation()
 
     useEffect(()=>{
         setCurrent(params.pathname)
-    })
+    }, [params.pathname])
     
   return (
     <div className="col-xl-2 col-lg-3 col-md-12">

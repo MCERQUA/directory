@@ -58,7 +58,7 @@ export default function DashboardUser() {
                                 </div>
                                 <div className="row align-items-start g-4 mb-lg-5 mb-4">
                                     {adminCounter.map((item:CounterData,index:number)=>{
-                                        let Icon = item.icon
+                                        const Icon = item.icon
                                         return(
                                             <div className="col-xl-3 col-lg-6 col-md-6 col-sm-6" key={index}>
                                                 <div className="card rounded-3 position-relative p-4">

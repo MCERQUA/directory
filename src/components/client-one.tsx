@@ -42,7 +42,7 @@ export default function ClientOne() {
                                             <div className="reviews-topHeader d-flex flex-column mb-3">
                                                 <div className="d-flex align-items-center justify-content-center mb-2">
                                                     {item.rate.map((el,index)=>{
-                                                        let Icon = el
+                                                        const Icon = el
                                                         return(
                                                             <span className="me-1 text-sm text-warning" key={index}><Icon className=""/></span>
                                                         )

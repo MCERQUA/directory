@@ -62,7 +62,7 @@ export default function Features() {
                     <div className="interioramenities-body">
                         <div className="row align-items-start justify-content-start g-3">
                             {data.map((item,index)=>{
-                                let Icon = item.icon
+                                const Icon = item.icon
                                 return(
                                     <div className="col-xl-4 col-lg-4 col-md-4 col-sm-6" key={index}>
                                         <div className="d-flex align-items-center"><Icon className="text-primary me-2"/>{item.title}</div>

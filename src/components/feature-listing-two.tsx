@@ -45,7 +45,7 @@ export default function FeaturedListingTwo() {
                         }}
                     >
                     {listData.map((item:ListData,index:number)=>{
-                        let Icon = item.tagIcon
+                        const Icon = item.tagIcon
                         return(
                             <SwiperSlide className="singleItem" key={index}>
                                 <div className="listingitem-container">

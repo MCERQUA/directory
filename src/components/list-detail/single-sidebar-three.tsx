@@ -108,7 +108,7 @@ export default function SingleSidebarThree() {
                 </div>
                 <div className="avatarInfo mb-2">
                     {personal.map((item,index)=>{
-                        let Icon = item.icon
+                        const Icon = item.icon
                         return(
                             <div className="py-3 px-3 border-top" key={index}>
                                 <div className="infoFlexio d-flex align-items-center justify-content-start gap-2">
@@ -125,7 +125,7 @@ export default function SingleSidebarThree() {
                 <div className="card-footer bg-white border-top">
                     <div className="d-flex align-items-center justify-content-center gap-3">
                         {social.map((item,index)=>{
-                            let Icon = item.icon
+                            const Icon = item.icon
                             return(
                                 <div className="flexSocial" key={index}><Link to="#" className="square--40 circle border"><Icon className={item.style}/></Link></div>
                             )

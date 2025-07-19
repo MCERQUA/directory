@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 
 import FilterTwo from '../../../components/filter-two'
-import NavbarFull from '../../../components/navbar/navbar-full'
+import NavbarLight from '../../../components/navbar/navbar-light'
 import Map from '../../../components/map'
 
 import { listData } from '../../../data/data'
@@ -33,7 +33,7 @@ interface ListData{
 export default function HalfMap1() {
   return (
     <>
-        <NavbarFull/>
+        <NavbarLight/>
 
             <div className="map-banner-wrap half-map">
 				<div className="map-left-box">
@@ -77,7 +77,7 @@ export default function HalfMap1() {
 						<div className="row align-items-center justify-content-center g-xl-4 g-3">
 							
                         {listData.slice(0,8).map((item:ListData,index:number)=>{
-                            let Icon = item.tagIcon
+                            const Icon = item.tagIcon
                             return(
                                 <div className="col-xl-6 col-lg-12 col-md-6 col-sm-12 col-12" key={index}>
                                     <div className="listingitem-container">

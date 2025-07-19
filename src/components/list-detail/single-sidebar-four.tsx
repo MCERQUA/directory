@@ -23,7 +23,7 @@ interface Social{
 }
 
 export default function SingleSidebarFour() {
-    const [selectedOptions, setSelectedOptions] = useState<Object>([]);
+    const [selectedOptions, setSelectedOptions] = useState<object>([]);
     const [guests, setGuests] = useState<boolean>(false);
     const [adults, setAdults] = useState<number>(1);
     const [children, setChildren] = useState<number>(0);
@@ -108,7 +108,7 @@ export default function SingleSidebarFour() {
                     </div>
                     <div className="avatarInfo mb-2">
                         {personal.map((item:Personal,index:number)=>{
-                            let Icon = item.icon
+                            const Icon = item.icon
                             return(
                                 <div className="py-3 px-3 border-top" key={index}>
                                     <div className="infoFlexio d-flex align-items-center justify-content-start gap-2">
@@ -126,7 +126,7 @@ export default function SingleSidebarFour() {
                 <div className="card-footer bg-white border-top">
                     <div className="d-flex align-items-center justify-content-center gap-3">
                         {social.map((item:Social,index:number)=>{
-                            let Icon = item.icon
+                            const Icon = item.icon
                             return(
                                 <div className="flexSocial" key={index}><Link to="#" className="square--40 circle border"><Icon className={item.style}/></Link></div>
                             )

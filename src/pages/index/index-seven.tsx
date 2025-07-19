@@ -99,7 +99,7 @@ export default function IndexSeven() {
                                         <div className="fw-bold text-dark">{item.rate}</div>
                                         <div className="d-flex align-items-center justify-content-start gap-1 mb-2">
                                             {item.star.map((el,index)=>{
-                                                let Icon = el
+                                                const Icon = el
                                                 return(
                                                     <Icon className="text-warning" key={index}></Icon>
                                                 )

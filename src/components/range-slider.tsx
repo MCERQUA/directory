@@ -7,7 +7,12 @@ export default function RangeSlider() {
         const [minValue, set_minValue] = useState(25);
         const [maxValue, set_maxValue] = useState(75);
     
-        const handleInput = (e:any) => {
+        interface SliderEvent {
+            minValue: number;
+            maxValue: number;
+        }
+
+        const handleInput = (e: SliderEvent) => {
             set_minValue(e.minValue);
             set_maxValue(e.maxValue);
         };

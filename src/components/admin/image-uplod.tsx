@@ -1,26 +1,26 @@
-// @ts-nocheck 
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { BsPatchPlus } from 'react-icons/bs';
 
+
 export default function ImageUplod() {
-    const [logoImage, setLogoImage] = useState(null);
-    const [featuredImage, setFeaturedImage] = useState(null);
-    const [galleryImage, setGalleryImage] = useState(null);
+    const [logoImage, setLogoImage] = useState<string | null>(null);
+    const [featuredImage, setFeaturedImage] = useState<string | null>(null);
+    const [galleryImage, setGalleryImage] = useState<string | null>(null);
   
-    const createOnDropHandler = (setter) =>
-      useCallback((acceptedFiles) => {
+    const createOnDropHandler = (setter: React.Dispatch<React.SetStateAction<string | null>>) =>
+      (acceptedFiles: File[]) => {
         acceptedFiles.forEach((file) => {
           const reader = new FileReader();
   
           reader.onload = () => {
-            const dataUrl = reader.result;
+            const dataUrl = reader.result as string;
             setter(dataUrl); 
           };
   
           reader.readAsDataURL(file);
         });
-      }, [setter]);
+      };
   
     const { getRootProps: getLogoRootProps, getInputProps: getLogoInputProps } = useDropzone({
       onDrop: createOnDropHandler(setLogoImage),
@@ -34,7 +34,7 @@ export default function ImageUplod() {
       onDrop: createOnDropHandler(setGalleryImage),
     });
   
-    const renderDropzone = (imageSrc, getRootProps, getInputProps) => (
+    const renderDropzone = (imageSrc: string | null, getRootProps: () => object, getInputProps: () => object) => (
       <div {...getRootProps()} className="dropzone dz-clickable p-4 my-3">
         <input {...getInputProps()} />
         {!imageSrc ? (

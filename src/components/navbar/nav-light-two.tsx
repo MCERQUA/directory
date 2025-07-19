@@ -23,7 +23,7 @@ export default function NavLightTwo() {
         const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
         const [toggle, setIsToggle] = useState<boolean>(false);
 
-        let params = useLocation()
+        const params = useLocation()
     
         useEffect(()=>{
             window.scrollTo(0,0)

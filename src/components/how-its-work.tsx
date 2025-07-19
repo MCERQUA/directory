@@ -11,7 +11,7 @@ export default function HowItsWork() {
   return (
         <div className="row align-items-center justify-content-center g-4">
             {workData.map((item:WorkData,index:number)=>{
-                let Icon  = item.icon
+                const Icon  = item.icon
                 return(
                     <div className="col-xl-4 col-lg-4 col-md-6" key={index}>
                         <div className="card rounded-3 shadow-sm h-100">

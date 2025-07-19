@@ -31,14 +31,14 @@ import AboutTwo from '../../../components/list-detail/about-two'
 import { listData } from '../../../data/data'
 
 export default function SingleListing5() {
-     let [isOpen, setisOpen] = useState<boolean>(false);
-    let [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
+     const [isOpen, setisOpen] = useState<boolean>(false);
+    const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
 
-    let params = useParams()
-    let id:any = params.id
-    let data = listData.find((item)=>item.id === parseInt(id))
+    const params = useParams()
+    const id:any = params.id
+    const data = listData.find((item)=>item.id === parseInt(id))
     
-    let handleImageClick = (index:number) => {
+    const handleImageClick = (index:number) => {
         setCurrentImageIndex(index);
         setisOpen(true);
     };

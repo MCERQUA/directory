@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-import NavbarDark from '../../../components/navbar/navbar-dark'
+import NavbarLight from '../../../components/navbar/navbar-light'
 import ListSidebarOne from '../../../components/list-sidebar-one'
 import FooterTop from '../../../components/footer-top'
 import Footer from '../../../components/footer'
@@ -36,7 +36,7 @@ interface ListData{
 export default function ListLayout1() {
   return (
     <>
-        <NavbarDark/>
+        <NavbarLight/>
 
         <div className="image-cover hero-banner bg-primary" style={{backgroundImage:`url(${bg})`}} data-overlay="5">
             <div className="container">
@@ -159,7 +159,7 @@ export default function ListLayout1() {
                         
                         <div className="row align-items-center justify-content-center g-xl-4 g-3">
                             {listData.map((item:ListData,index:number)=>{
-                                let Icon = item.tagIcon
+                                const Icon = item.tagIcon
                                 return(
                                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12" key={index}>
                                         <div className="listingCard listLayouts light card rounded-3 border-0">

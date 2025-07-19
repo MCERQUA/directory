@@ -75,7 +75,7 @@ export default function HelpCenter() {
 
                 <div className="row align-items-start justify-content-center g-4">
                     {helpData.map((item:HelpData,index:number)=>{
-                        let Icon = item.icon
+                        const Icon = item.icon
                         return(
                             <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6" key={index}>
                                 <div className="helpCategories">

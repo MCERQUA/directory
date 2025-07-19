@@ -2,34 +2,81 @@
 
 declare global {
   interface Window {
-    google: any;
-    FB: any;
-    bootstrap: any;
+    google: GoogleAPI;
+    FB: FacebookAPI;
+    bootstrap: BootstrapAPI;
   }
 }
 
-// Google OAuth types
-interface GoogleAuthResponse {
-  access_token: string;
-  authuser: string;
-  expires_in: number;
-  prompt: string;
+// Bootstrap types
+interface BootstrapAPI {
+  Tooltip: {
+    getOrCreateInstance: (element: Element) => void;
+  };
+}
+
+// Google API types
+interface GoogleAPI {
+  accounts: {
+    id: {
+      initialize: (config: GoogleInitConfig) => void;
+      renderButton: (element: Element, config: GoogleButtonConfig) => void;
+      prompt: () => void;
+    };
+    oauth2: {
+      initTokenClient: (config: GoogleOAuth2Config) => GoogleTokenClient;
+    };
+  };
+}
+
+interface GoogleInitConfig {
+  client_id: string;
+  callback: (response: GoogleCredentialResponse) => void;
+}
+
+interface GoogleButtonConfig {
+  theme: string;
+  size: string;
+}
+
+interface GoogleCredentialResponse {
+  credential: string;
+}
+
+interface GoogleOAuth2Config {
+  client_id: string;
   scope: string;
-  token_type: string;
+  callback: (response: GoogleTokenResponse) => void;
 }
 
-interface GoogleUserInfo {
-  id: string;
-  email: string;
-  verified_email: boolean;
-  name: string;
-  given_name: string;
-  family_name: string;
-  picture: string;
-  locale: string;
+interface GoogleTokenResponse {
+  access_token: string;
 }
 
-// Facebook types
+interface GoogleTokenClient {
+  requestAccessToken: () => void;
+}
+
+// Facebook API types
+interface FacebookAPI {
+  init: (config: FacebookInitConfig) => void;
+  login: (callback: (response: FacebookLoginResponse) => void, options?: FacebookLoginOptions) => void;
+  getLoginStatus: (callback: (response: FacebookLoginResponse) => void) => void;
+  api: (path: string, fields: { fields: string }, callback: (response: FacebookUserResponse) => void) => void;
+  logout: () => void;
+}
+
+interface FacebookInitConfig {
+  appId: string;
+  cookie: boolean;
+  xfbml: boolean;
+  version: string;
+}
+
+interface FacebookLoginOptions {
+  scope: string;
+}
+
 interface FacebookAuthResponse {
   accessToken: string;
   data_access_expiration_time: number;
@@ -42,6 +89,17 @@ interface FacebookAuthResponse {
 interface FacebookLoginResponse {
   authResponse: FacebookAuthResponse | null;
   status: 'connected' | 'not_authorized' | 'unknown';
+}
+
+interface FacebookUserResponse {
+  id: string;
+  name: string;
+  email: string;
+  picture?: {
+    data: {
+      url: string;
+    };
+  };
 }
 
 export {};

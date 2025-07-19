@@ -9,7 +9,7 @@ import { BiBriefcase } from 'react-icons/bi'
 import { FiArrowRight } from 'react-icons/fi'
 import { BsSendCheck, BsStarFill, BsStarHalf, BsX } from 'react-icons/bs'
 
-import NavLightTwo from '../../../components/navbar/nav-light-two'
+import NavbarLight from '../../../components/navbar/navbar-light'
 import FeatureNav from '../../../components/navbar/feature-nav'
 import SingleSidebarOne from '../../../components/single-sidebar-one'
 import Descriptions from '../../../components/list-detail/descriptions'
@@ -28,12 +28,12 @@ import BackToTop from '../../../components/back-to-top'
 import { listData } from '../../../data/data'
 
 export default function SingleListing1() {
-    let params = useParams()
-    let id:any = params.id
-    let data = listData.find((item)=>item.id === parseInt(id))
+    const params = useParams()
+    const id:any = params.id
+    const data = listData.find((item)=>item.id === parseInt(id))
   return (
     <>
-        <NavLightTwo/>
+        <NavbarLight/>
 
         <section className="bg-cover position-relative ht-500 py-0" style={{backgroundImage:`url(${data?.image ? data?.image : bg})`}} data-overlay="4">
             <div className="container h-100">

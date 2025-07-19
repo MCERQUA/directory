@@ -2,7 +2,11 @@ import { Link } from 'react-router-dom'
 import { BsFunnel, BsList, BsStarFill, BsUiRadiosGrid } from 'react-icons/bs'
 import RangeSlider from "./range-slider";
 
-export default function FilterOne({list}:{list:any}) {
+interface FilterOneProps {
+  list: boolean;
+}
+
+export default function FilterOne({list}: FilterOneProps) {
  
   return (
     <>

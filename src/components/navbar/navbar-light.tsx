@@ -28,7 +28,7 @@ export default function NavbarLight() {
 
         const { login, loginWithGoogle, user, logout } = useAuth();
 
-        let params = useLocation()
+        const params = useLocation()
     
         useEffect(()=>{
             window.scrollTo(0,0)

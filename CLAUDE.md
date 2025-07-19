@@ -117,7 +117,7 @@ The app uses a comprehensive routing system with 60+ routes covering all page va
 
 ### /directory-setup
 **Purpose**: Complete contractor directory setup procedure with progress tracking
-**Location**: `docs/slash-commands/directory-setup.md`
+**Location**: `.claude/directory-setup.md`
 **Features**:
 - Reviews all planning documents (CHOSEN-PAGE-VARIANTS.md, SITE-STRUCTURE-PLAN.md, IMPLEMENTATION-TASKS.md)
 - Assesses current production state vs planned implementation

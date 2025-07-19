@@ -11,7 +11,7 @@ import { counterData, workData } from '../../data/data'
 
 import CountUp from 'react-countup'
 
-import NavbarDark from '../../components/navbar/navbar-dark'
+import NavbarLight from '../../components/navbar/navbar-light'
 import ClientOne from '../../components/client-one'
 import TeamOne from '../../components/team-one'
 import FooterTop from '../../components/footer-top'
@@ -34,7 +34,7 @@ interface WorkData{
 export default function AboutUs() {
   return (
     <>
-     <NavbarDark/>
+     <NavbarLight/>
 
     <section className="bg-cover position-relative" style={{backgroundImage:`url(${bg})`}} data-overlay="6">
         <div className="container">
@@ -142,7 +142,7 @@ export default function AboutUs() {
             </div>
             <div className="row justify-content-center g-md-5 g-4">
                 {workData.map((item:WorkData,index:number)=>{
-                    let Icon = item.icon
+                    const Icon = item.icon
                     return(
                         <div className="col-xl-4 col-lg-4 col-md-6" key={index}>
                             <div className="processWrap px-xl-4">

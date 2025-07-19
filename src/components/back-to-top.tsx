@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { FiArrowUp } from 'react-icons/fi'
 
 export default function BackToTop() {
-    let[scroll,setScroll] = useState<boolean>(false)
+    const[scroll,setScroll] = useState<boolean>(false)
 
     const scrollToTop = () =>{
         window.scrollTo({top: 0, behavior: 'smooth'});

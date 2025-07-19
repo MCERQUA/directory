@@ -1,9 +1,9 @@
 import { useState,useEffect } from 'react'
 import { Link,useLocation  } from 'react-router-dom'
+import { useAuth } from '../../contexts/AuthContext'
 
 
 import googleLogo from '../../assets/img/google.png'
-import facebookLogo from '../../assets/img/facebook.png'
 import brand1 from '../../assets/img/brand/logo-1.png'
 import brand2 from '../../assets/img/brand/logo-2.png'
 import brand3 from '../../assets/img/brand/logo-3.png'
@@ -11,16 +11,20 @@ import list1 from '../../assets/img/list-3.jpg'
 import list2 from '../../assets/img/list-4.jpg'
 import list3 from '../../assets/img/list-5.jpg'
 
-import { BsPersonCircle,BsBasket2,BsSearch, BsGeoAlt, BsSpeedometer, BsPersonLinesFill, BsJournalCheck, BsUiRadiosGrid, BsBookmarkStar, BsChatDots, BsYelp, BsWallet, BsPatchPlus, BsBoxArrowInRight, BsPersonPlus, BsQuestionCircle, BsShieldCheck, BsPersonVcard, BsCalendar2Check, BsPersonCheck, BsBlockquoteLeft, BsEnvelopeCheck, BsCoin, BsPatchQuestion, BsHourglassTop, BsInfoCircle, BsXOctagon, BsGear, BsGeoAltFill, BsX, } from "react-icons/bs";
+import { BsPersonCircle, BsBasket2, BsSearch, BsGeoAlt, BsGeoAltFill, BsX } from "react-icons/bs";
 import { FiX } from 'react-icons/fi';
-import { BiSolidShoppingBagAlt } from 'react-icons/bi'
 
 export default function NavbarDark() {
     const [scroll,setScroll] = useState<boolean>(false);
     const [current , setCurrent] = useState<string>('');
     const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
     const [toggle, setIsToggle] = useState<boolean>(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
 
+    const { login, loginWithGoogle, user, logout } = useAuth();
     const params = useLocation();
 
     useEffect(()=>{
@@ -50,6 +54,62 @@ export default function NavbarDark() {
           };
     },[windowWidth])
 
+    const handleModalLogin = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError('');
+        setIsLoading(true);
+
+        try {
+            await login(email, password);
+            // Close modal
+            const modal = document.getElementById('login');
+            if (modal) {
+                const bootstrapModal = window.bootstrap.Modal.getInstance(modal);
+                if (bootstrapModal) {
+                    bootstrapModal.hide();
+                }
+            }
+            // Reset form
+            setEmail('');
+            setPassword('');
+        } catch (error) {
+            setError('Invalid email or password. Please try again.');
+            console.error('Login error:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleGoogleLogin = async () => {
+        setError('');
+        setIsLoading(true);
+        
+        try {
+            await loginWithGoogle();
+            // Close modal
+            const modal = document.getElementById('login');
+            if (modal) {
+                const bootstrapModal = window.bootstrap.Modal.getInstance(modal);
+                if (bootstrapModal) {
+                    bootstrapModal.hide();
+                }
+            }
+        } catch (error) {
+            setError('Google login failed. Please try again.');
+            console.error('Google login error:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleLogout = async () => {
+        try {
+            await logout();
+        } catch (error) {
+            console.error('Logout error:', error);
+        }
+    };
+
   return (
     <>
         <div className={`header header-light ${scroll ? 'header-fixed' : ''} `} data-sticky-element="">
@@ -63,7 +123,15 @@ export default function NavbarDark() {
                         <div className="mobile_nav">
                             <ul>
                                 <li>
-                                    <Link to="#login" className="d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#login"><BsPersonCircle className="me-1"/></Link>
+                                    {user ? (
+                                        <Link to="/dashboard" className="d-flex align-items-center">
+                                            <BsPersonCircle className="me-1"/>
+                                        </Link>
+                                    ) : (
+                                        <Link to="#login" className="d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#login">
+                                            <BsPersonCircle className="me-1"/>
+                                        </Link>
+                                    )}
                                 </li>
                                 <li>
                                     <a href="#cartSlider" className="cart-content" data-bs-toggle="offcanvas" role="button" aria-controls="cartSlider"><BsBasket2  className=""/><span className="head-cart-counter">3</span></a>
@@ -80,124 +148,59 @@ export default function NavbarDark() {
                         </div>
                         <span className='nav-menus-wrapper-close-button'  onClick={()=>setIsToggle(!toggle)}>✕</span>
                         <ul className="nav-menu">
-                            <li className={`${['/','/home-2','/home-3','/home-4','/home-5','/home-6','/home-7','/home-8','/home-9','/home-10','/home-splash','/home-map'].includes(current)? 'active' : ''}`}><Link to="#">Home<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
+                            <li className={`${current === '/' ? 'active' : ''}`}><Link to="/">Home</Link></li>
+
+                            <li className={`${['/contractors','/contractors/list','/contractors/map','/contractor'].includes(current) || current.startsWith('/contractor/')? 'active' : ''}`}><Link to="#">Find Contractors<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
                                 <ul className="nav-dropdown nav-submenu">
-                                    <li className={`${current === '/' ? 'active' : ''}`}><Link to="/">Home Layout 01</Link></li>
-                                    <li className={`${current === '/home-2' ? 'active' : ''}`}><Link to="/home-2">Home Layout 02</Link></li>
-                                    <li className={`${current === '/home-3' ? 'active' : ''}`}><Link to="/home-3">Home Layout 03</Link></li>
-                                    <li className={`${current === '/home-4' ? 'active' : ''}`}><Link to="/home-4">Home Layout 04</Link></li>
-                                    <li className={`${current === '/home-5' ? 'active' : ''}`}><Link to="/home-5">Home Layout 05</Link></li>
-                                    <li className={`${current === '/home-6' ? 'active' : ''}`}><Link to="/home-6">Home Layout 06</Link></li>
-                                    <li className={`${current === '/home-7' ? 'active' : ''}`}><Link to="/home-7">Home Layout 07</Link></li>
-                                    <li className={`${current === '/home-8' ? 'active' : ''}`}><Link to="/home-8">Home Layout 08</Link></li>
-                                    <li className={`${current === '/home-9' ? 'active' : ''}`}><Link to="/home-9">Home Layout 09</Link></li>
-                                    <li className={`${current === '/home-10' ? 'active' : ''}`}><Link to="/home-10">Home Layout 10</Link></li>
-                                    <li className={`${current === '/home-splash' ? 'active' : ''}`}><Link to="/home-splash">Home Splash</Link></li>
-                                    <li className={`${current === '/home-map' ? 'active' : ''}`}><Link to="/home-map">Home Map Layout</Link></li>
+                                    <li className={`${current === '/contractors' ? 'active' : ''}`}><Link to="/contractors">Grid View</Link></li>
+                                    <li className={`${current === '/contractors/list' ? 'active' : ''}`}><Link to="/contractors/list">List View</Link></li>
+                                    <li className={`${current === '/contractors/map' ? 'active' : ''}`}><Link to="/contractors/map">Map View</Link></li>
                                 </ul>
                             </li>
 
-                            <li className={`${['/grid-layout-01','/grid-layout-02','/grid-layout-03','/grid-layout-04','/grid-layout-05','/grid-layout-06','/list-layout-01','/list-layout-02','/list-layout-03','/list-layout-04','/list-layout-05','/half-map-01','/half-map-02','/half-map-03','/half-map-04','/half-map-05','/single-listing-01','/single-listing-02','/single-listing-03','/single-listing-04','/single-listing-05'].includes(current)? 'active' : ''}`}><Link to="#">Listings<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
+                            <li className={`${['/about','/contact','/pricing','/help','/faq','/blog','/privacy','/terms'].includes(current) || current.startsWith('/blog/')? 'active' : ''}`}><Link to="#">About<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
                                 <ul className="nav-dropdown nav-submenu">
-                                    <li className={`${['/grid-layout-01','/grid-layout-02','/grid-layout-03','/grid-layout-04','/grid-layout-05','/grid-layout-06'].includes(current)? 'active' : ''}`}><Link to="#">Grid Layouts<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
-                                        <ul className="nav-dropdown nav-submenu">
-                                            <li className={`${current === '/grid-layout-01' ? 'active' : ''}`}><Link to="/grid-layout-01">Grid Layout 01</Link></li>                                    
-                                            <li className={`${current === '/grid-layout-02' ? 'active' : ''}`}><Link to="/grid-layout-02">Grid Layout 02</Link></li>                                    
-                                            <li className={`${current === '/grid-layout-03' ? 'active' : ''}`}><Link to="/grid-layout-03">Grid Layout 03</Link></li>                                    
-                                            <li className={`${current === '/grid-layout-04' ? 'active' : ''}`}><Link to="/grid-layout-04">Grid Layout 04</Link></li>                                    
-                                            <li className={`${current === '/grid-layout-05' ? 'active' : ''}`}><Link to="/grid-layout-05">Grid Layout 05</Link></li>                                    
-                                            <li className={`${current === '/grid-layout-06' ? 'active' : ''}`}><Link to="/grid-layout-06">Grid Layout 06</Link></li>                                    
-                                        </ul>
-                                    </li>
-                                    <li className={`${['/list-layout-01','/list-layout-02','/list-layout-03','/list-layout-04','/list-layout-05'].includes(current)? 'active' : ''}`}><Link to="#">List Layouts<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
-                                        <ul className="nav-dropdown nav-submenu">
-                                            <li className={`${current === '/list-layout-01' ? 'active' : ''}`}><Link to="/list-layout-01">List Layout 01</Link></li>                                     
-                                            <li className={`${current === '/list-layout-02' ? 'active' : ''}`}><Link to="/list-layout-02">List Layout 02</Link></li>                                     
-                                            <li className={`${current === '/list-layout-03' ? 'active' : ''}`}><Link to="/list-layout-03">List Layout 03</Link></li>                                     
-                                            <li className={`${current === '/list-layout-04' ? 'active' : ''}`}><Link to="/list-layout-04">List Layout 04</Link></li>                                     
-                                            <li className={`${current === '/list-layout-05' ? 'active' : ''}`}><Link to="/list-layout-05">List Layout 05</Link></li>                                     
-                                        </ul>
-                                    </li>
-                                    <li className={`${['/half-map-01','/half-map-02','/half-map-03','/half-map-04','/half-map-05'].includes(current)? 'active' : ''}`}><Link to="#">Half Map Screen<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
-                                        <ul className="nav-dropdown nav-submenu">
-                                            <li className={`${current === '/half-map-01' ? 'active' : ''}`}><Link to="/half-map-01">Half Map Screen 01</Link></li>
-                                            <li className={`${current === '/half-map-02' ? 'active' : ''}`}><Link to="/half-map-02">Half Map Screen 02</Link></li>
-                                            <li className={`${current === '/half-map-03' ? 'active' : ''}`}><Link to="/half-map-03">Half Map Screen 03</Link></li>
-                                            <li className={`${current === '/half-map-04' ? 'active' : ''}`}><Link to="/half-map-04">Half Map Screen 04</Link></li>
-                                            <li className={`${current === '/half-map-05' ? 'active' : ''}`}><Link to="/half-map-05">Half Map Screen 05</Link></li>
-                                        </ul>
-                                    </li>
-                                    <li className={`${['/single-listing-01','/single-listing-02','/single-listing-03','/single-listing-04','/single-listing-05'].includes(current)? 'active' : ''}`}><Link to="#">Single Listings<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
-                                        <ul className="nav-dropdown nav-submenu">
-                                            <li className={`${current === '/single-listing-01' ? 'active' : ''}`}><Link to="/single-listing-01">Single Listing 01</Link></li>
-                                            <li className={`${current === '/single-listing-02' ? 'active' : ''}`}><Link to="/single-listing-02">Single Listing 02</Link></li>
-                                            <li className={`${current === '/single-listing-03' ? 'active' : ''}`}><Link to="/single-listing-03">Single Listing 03</Link></li>
-                                            <li className={`${current === '/single-listing-04' ? 'active' : ''}`}><Link to="/single-listing-04">Single Listing 04</Link></li>
-                                            <li className={`${current === '/single-listing-05' ? 'active' : ''}`}><Link to="/single-listing-05">Single Listing 05</Link></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-
-                            <li className={`${['/dashboard-user','/dashboard-my-profile','/dashboard-my-bookings','/dashboard-my-listings','/dashboard-bookmarks','/dashboard-messages','/dashboard-reviews','/dashboard-wallet','/dashboard-add-listing'].includes(current)? 'active' : ''}`}><Link to="#">User Dashboard<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
-                                <ul className="nav-dropdown nav-submenu">
-                                    <li className={`${current === '/dashboard-user' ? 'active' : ''}`}><Link to="/dashboard-user" className='d-flex'><BsSpeedometer className="me-1 align-self-center"/>Dashboard Area</Link></li>
-                                    <li className={`${current === '/dashboard-my-profile' ? 'active' : ''}`}><Link to="/dashboard-my-profile" className='d-flex'><BsPersonLinesFill className="me-1 align-self-center"/>My Profile</Link></li>
-                                    <li className={`${current === '/dashboard-my-bookings' ? 'active' : ''}`}><Link to="/dashboard-my-bookings" className='d-flex'><BsJournalCheck className="me-1 align-self-center"/>My Bookings</Link></li>
-                                    <li className={`${current === '/dashboard-my-listings' ? 'active' : ''}`}><Link to="/dashboard-my-listings" className='d-flex'><BsUiRadiosGrid className="me-1 align-self-center"/>My Listings</Link></li>
-                                    <li className={`${current === '/dashboard-bookmarks' ? 'active' : ''}`}><Link to="/dashboard-bookmarks" className='d-flex'><BsBookmarkStar className="me-1 align-self-center"/>Bookmarkes</Link></li>
-                                    <li className={`${current === '/dashboard-messages' ? 'active' : ''}`}><Link to="/dashboard-messages" className='d-flex'><BsChatDots className="me-1 align-self-center"/>Messages</Link></li>
-                                    <li className={`${current === '/dashboard-reviews' ? 'active' : ''}`}><Link to="/dashboard-reviews" className='d-flex'><BsYelp className="me-1 align-self-center"/>Reviews</Link></li>
-                                    <li className={`${current === '/dashboard-wallet' ? 'active' : ''}`}><Link to="/dashboard-wallet" className='d-flex'><BsWallet className="me-1 align-self-center"/>Wallet</Link></li>
-                                    <li className={`${current === '/dashboard-add-listing' ? 'active' : ''}`}><Link to="/dashboard-add-listing" className='d-flex'><BsPatchPlus className="me-1 align-self-center"/>Add Your Company</Link></li>
-                                </ul>
-                            </li>
-
-                            <li className={`${['/author-profile','/booking-page','/about-us','/blog','/contact-us','/pricing','/help-center','/comingsoon','/faq','/error','/elements','/privacy-policy','/checkout-page','/success-payment','/invoice-page','/viewcart'].includes(current)? 'active' : ''}`}><Link to="#">Pages<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
-                                <ul className="nav-dropdown nav-submenu">
-                                    <li><Link to="#" className='d-flex'><BsPersonCircle className="me-1 align-self-center"/>My Account<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
-                                        <ul className="nav-dropdown nav-submenu">
-                                            <li><Link to="/login" className='d-flex'><BsBoxArrowInRight className="me-1 align-self-center"/>User Login</Link></li>
-                                            <li><Link to="/register" className='d-flex'><BsPersonPlus className="me-1 align-self-center"/>Signup Page</Link></li>
-                                            <li><Link to="/forgot-password" className='d-flex'><BsQuestionCircle className="me-1 align-self-center"/>Forget Password</Link></li>
-                                            <li><Link to="/two-factor-auth" className='d-flex'><BsShieldCheck className="me-1 align-self-center"/>Two Step verification</Link></li>
-                                        </ul>
-                                    </li>
-                                    <li className={`${['/checkout-page','/success-payment','/invoice-page','/viewcart'].includes(current)? 'active' : ''}`}><Link to="#" className='d-flex'><BiSolidShoppingBagAlt className="me-1 align-self-center"/>Shop<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
-                                        <ul className="nav-dropdown nav-submenu">
-                                            <li className={`${current === '/checkout-page' ? 'active' : ''}`}><Link to="/checkout-page" className='d-flex'><BsBoxArrowInRight className="me-1 align-self-center"/>Checkout</Link></li>
-                                            <li className={`${current === '/success-payment' ? 'active' : ''}`}><Link to="/success-payment" className='d-flex'><BsPersonPlus className="me-1 align-self-center"/>Success Payment</Link></li>
-                                            <li className={`${current === '/invoice-page' ? 'active' : ''}`}><Link to="/invoice-page" className='d-flex'><BsQuestionCircle className="me-1 align-self-center"/>Invoice</Link></li>
-                                            <li className={`${current === '/viewcart' ? 'active' : ''}`}><Link to="/viewcart" className='d-flex'><BsShieldCheck className="me-1 align-self-center"/>Viewcart</Link></li>
-                                        </ul>
-                                    </li>
-                                    <li className={`${current === '/author-profile' ? 'active' : ''}`}><Link to="/author-profile" className='d-flex'><BsPersonVcard className="me-1 align-self-center"/>Author Profile</Link></li>
-                                    <li className={`${current === '/booking-page' ? 'active' : ''}`}><Link to="/booking-page" className='d-flex'><BsCalendar2Check className="me-1 align-self-center"/>Booking Page</Link></li>
-                                    <li className={`${current === '/about-us' ? 'active' : ''}`}><Link to="/about-us" className='d-flex'><BsPersonCheck className="me-1 align-self-center"/>About Us</Link></li>                                
-                                    <li className={`${current === '/blog' ? 'active' : ''}`}><Link to="/blog" className='d-flex'><BsBlockquoteLeft className="me-1 align-self-center"/>Blog Page</Link></li>
-                                    <li className={`${current === '/contact-us' ? 'active' : ''}`}><Link to="/contact-us" className='d-flex'><BsEnvelopeCheck className="me-1 align-self-center"/>Contact Us</Link></li>
-                                    <li className={`${current === '/pricing' ? 'active' : ''}`}><Link to="/pricing" className='d-flex'><BsCoin className="me-1 align-self-center"/>Pricing</Link></li>										
-                                    <li className={`${current === '/privacy-policy' ? 'active' : ''}`}><Link to="/privacy-policy" className='d-flex'><BsCoin className="me-1 align-self-center"/>Privacy Policy</Link></li>										
-                                    <li className={`${current === '/help-center' ? 'active' : ''}`}><Link to="/help-center" className='d-flex'><BsPatchQuestion className="me-1 align-self-center"/>Help Center</Link></li>
-                                    <li className={`${current === '/comingsoon' ? 'active' : ''}`}><Link to="/comingsoon" className='d-flex'><BsHourglassTop className="me-1 align-self-center"/>Coming Soon</Link></li>
-                                    <li className={`${current === '/faq' ? 'active' : ''}`}><Link to="/faq" className='d-flex'><BsInfoCircle className="me-1 align-self-center"/>FAQ's</Link></li>
-                                    <li className={`${current === '/error' ? 'active' : ''}`}><Link to="/error" className='d-flex'><BsXOctagon className="me-1 align-self-center"/>Error Page</Link></li>
-                                    <li className={`${current === '/elements' ? 'active' : ''}`}><Link to="/elements" className='d-flex'><BsGear className="me-1 align-self-center"/>Elements</Link></li>
+                                    <li className={`${current === '/about' ? 'active' : ''}`}><Link to="/about">About Us</Link></li>                                
+                                    <li className={`${current === '/contact' ? 'active' : ''}`}><Link to="/contact">Contact Us</Link></li>
+                                    <li className={`${current === '/pricing' ? 'active' : ''}`}><Link to="/pricing">Pricing</Link></li>
+                                    <li className={`${current === '/blog' ? 'active' : ''}`}><Link to="/blog">Blog</Link></li>					
+                                    <li className={`${current === '/help' ? 'active' : ''}`}><Link to="/help">Help Center</Link></li>
+                                    <li className={`${current === '/faq' ? 'active' : ''}`}><Link to="/faq">FAQ's</Link></li>
+                                    <li className={`${current === '/privacy' ? 'active' : ''}`}><Link to="/privacy">Privacy Policy</Link></li>
+                                    <li className={`${current === '/terms' ? 'active' : ''}`}><Link to="/terms">Terms of Service</Link></li>
                                 </ul>
                             </li>
                             
-                            <li><Link to="#" className="mob-addlisting light" ><BsGeoAltFill className="me-1"/>Add Your Company</Link></li>
+                            <li><Link to="/dashboard/add-listing" className="mob-addlisting light" ><BsGeoAltFill className="me-1"/>Add Your Company</Link></li>
                         </ul>
 
                         <ul className="nav-menu nav-menu-social align-to-right">
                             <li>
-                                <Link to="#login" className="d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#login"><BsPersonCircle className="fs-6 me-1"/><span className="navCl">SignUp or SignIn</span></Link>
+                                {user ? (
+                                    <div className="d-flex align-items-center gap-2">
+                                        <Link to="/dashboard" className="d-flex align-items-center">
+                                            <BsPersonCircle className="fs-6 me-1"/>
+                                            <span className="navCl">Welcome, {user.name}</span>
+                                        </Link>
+                                        <button 
+                                            onClick={handleLogout}
+                                            className="btn btn-sm btn-outline-primary"
+                                        >
+                                            Logout
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <Link to="#login" className="d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#login">
+                                        <BsPersonCircle className="fs-6 me-1"/>
+                                        <span className="navCl">SignUp or SignIn</span>
+                                    </Link>
+                                )}
                             </li>
                             <li>
                                 <a href="#cartSlider" className="cart-content" data-bs-toggle="offcanvas" role="button" aria-controls="cartSlider"><BsBasket2  className=""/><span className="head-cart-counter">3</span></a>
                             </li>
                             <li className="list-buttons">
-                                <Link to="/register"><BsGeoAlt className="fs-6 me-1"/>Add Your Company</Link>
+                                <Link to="/dashboard/add-listing"><BsGeoAlt className="fs-6 me-1"/>Add Your Company</Link>
                             </li>
                         </ul>
                     </div>
@@ -219,15 +222,39 @@ export default function NavbarDark() {
                             <p className="fs-6">Login to manage your account.</p>
                         </div>
 
-                        <form className="needs-validation px-lg-2" noValidate>
-                            <div className="row align-items-center justify-content-between g-3 mb-4">
-                                <div className="col-xl-6 col-lg-6 col-md-6"><Link to="#" className="btn btn-outline-secondary border rounded-3 text-md px-lg-2 full-width"><img src={googleLogo} className="img-fluid me-2" width="16" alt=""/>Login with Google</Link></div>
-                                <div className="col-xl-6 col-lg-6 col-md-6"><Link to="#" className="btn btn-outline-secondary border rounded-3 text-md px-lg-2 full-width"><img src={facebookLogo} className="img-fluid me-2" width="16" alt=""/>Login with Facebook</Link></div>
+                        {error && (
+                            <div className="alert alert-danger" role="alert">
+                                {error}
+                            </div>
+                        )}
+
+                        <form className="needs-validation px-lg-2" noValidate onSubmit={handleModalLogin}>
+                            <div className="row align-items-center justify-content-center g-3 mb-4">
+                                <div className="col-12">
+                                    <button 
+                                        type="button" 
+                                        onClick={handleGoogleLogin}
+                                        disabled={isLoading}
+                                        className="btn btn-outline-secondary border rounded-3 text-md px-lg-2 full-width"
+                                    >
+                                        <img src={googleLogo} className="img-fluid me-2" width="16" alt=""/>
+                                        {isLoading ? 'Loading...' : 'Login with Google'}
+                                    </button>
+                                </div>
                             </div>
                             
                             <div className="form-group form-border mb-4">
                                 <label className="form-label" htmlFor="email01">Your email</label>
-                                <input type="email" className="form-control" id="email01" placeholder="email@site.com" required/>
+                                <input 
+                                    type="email" 
+                                    className="form-control" 
+                                    id="email01" 
+                                    placeholder="email@site.com" 
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                    disabled={isLoading}
+                                />
                                 <span className="invalid-feedback">Please enter a valid email address.</span>
                             </div>
 
@@ -238,18 +265,33 @@ export default function NavbarDark() {
                                 </div>
 
                                 <div className="form-group form-border input-group-merge">
-                                    <input type="password" className="form-control" id="pass01" placeholder="8+ characters required" required/>
+                                    <input 
+                                        type="password" 
+                                        className="form-control" 
+                                        id="pass01" 
+                                        placeholder="8+ characters required" 
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required
+                                        disabled={isLoading}
+                                    />
                                 </div>
 
                                 <span className="invalid-feedback">Please enter a valid password.</span>
                             </div>
 
                             <div className="d-grid mb-3">
-                                <button type="submit" className="btn btn-primary fw-medium">Log in</button>
+                                <button 
+                                    type="submit" 
+                                    className="btn btn-primary fw-medium"
+                                    disabled={isLoading || !email || !password}
+                                >
+                                    {isLoading ? 'Logging in...' : 'Log in'}
+                                </button>
                             </div>
 
                             <div className="text-center">
-                                <p>Don't have an account yet? <Link className="link fw-medium text-primary" to="/signup">Sign up here</Link></p>
+                                <p>Don't have an account yet? <Link className="link fw-medium text-primary" to="/register">Sign up here</Link></p>
                             </div>
                         </form>
                     </div>
@@ -267,7 +309,7 @@ export default function NavbarDark() {
 
         <div className="offcanvas offcanvas-end" data-bs-scroll="true" tabIndex={-1} id="cartSlider" aria-labelledby="cartSliderLabel">
             <div className="offcanvas-header border-bottom d-flex justify-content-between">
-                <h6 className="offcanvas-title" id="cartSliderLabel">Your cart Items</h6>
+                <h6 className="offcanvas-title" id="cartSliderLabel">Your Service Cart</h6>
                 <Link to="#" className="square--35 circle text-muted-2 border" data-bs-dismiss="offcanvas" aria-label="Close"><FiX className=""/></Link>
             </div>
             <div className="offcanvas-body">
@@ -278,8 +320,8 @@ export default function NavbarDark() {
                             <div className="d-flex align-items-center justify-content-start gap-3">
                                 <div className="cartiteThumb"><figure className="d-block m-0"><img src={list1} className="img-fluid rounded-2" width="60" alt=""/></figure></div>
                                 <div className="cartCaption">
-                                    <h6 className="lh-base m-0">Spicy Burger</h6>
-                                    <p className="m-0">1x$25.50</p>
+                                    <h6 className="lh-base m-0">Bathroom Renovation</h6>
+                                    <p className="m-0">1x$2,850.00</p>
                                 </div>
                             </div>
                             
@@ -290,8 +332,8 @@ export default function NavbarDark() {
                             <div className="d-flex align-items-center justify-content-start gap-3">
                                 <div className="cartiteThumb"><figure className="d-block m-0"><img src={list2} className="img-fluid rounded-2" width="60" alt=""/></figure></div>
                                 <div className="cartCaption">
-                                    <h6 className="lh-base m-0">Premium Package</h6>
-                                    <p className="m-0">1x$22.10</p>
+                                    <h6 className="lh-base m-0">Kitchen Flooring</h6>
+                                    <p className="m-0">1x$1,450.00</p>
                                 </div>
                             </div>
                             
@@ -302,8 +344,8 @@ export default function NavbarDark() {
                             <div className="d-flex align-items-center justify-content-start gap-3">
                                 <div className="cartiteThumb"><figure className="d-block m-0"><img src={list3} className="img-fluid rounded-2" width="60" alt=""/></figure></div>
                                 <div className="cartCaption">
-                                    <h6 className="lh-base m-0">Platinum Plaster</h6>
-                                    <p className="m-0">1x$17.40</p>
+                                    <h6 className="lh-base m-0">Exterior Painting</h6>
+                                    <p className="m-0">1x$980.00</p>
                                 </div>
                             </div>
                             
@@ -313,7 +355,7 @@ export default function NavbarDark() {
                     </div>
                     
                     <div className="cartSubtotal w-100 py-3 border-top mt-3">
-                        <h6 className="m-0">Subtotal: $128.75</h6>
+                        <h6 className="m-0">Subtotal: $5,280.00</h6>
                     </div>
                     
                 </div>
@@ -336,11 +378,11 @@ export default function NavbarDark() {
                     </div>
                 </div>
                 <div className="popularSearches d-flex align-items-center justify-content-center gap-2 flex-wrap">
-                    <div className="singleItem"><Link to="#" className="badge badge-xs badge-primary rounded-pill">Real Estate</Link></div>	
-                    <div className="singleItem"><Link to="#" className="badge badge-xs badge-primary rounded-pill">Eat & Drink</Link></div>	
-                    <div className="singleItem"><Link to="#" className="badge badge-xs badge-primary rounded-pill">Shopping</Link></div>	
-                    <div className="singleItem"><Link to="#" className="badge badge-xs badge-primary rounded-pill">Nightlife</Link></div>	
-                    <div className="singleItem"><Link to="#" className="badge badge-xs badge-primary rounded-pill">Services</Link></div>	
+                    <div className="singleItem"><Link to="#" className="badge badge-xs badge-primary rounded-pill">Plumbing</Link></div>	
+                    <div className="singleItem"><Link to="#" className="badge badge-xs badge-primary rounded-pill">Electrical</Link></div>	
+                    <div className="singleItem"><Link to="#" className="badge badge-xs badge-primary rounded-pill">HVAC</Link></div>	
+                    <div className="singleItem"><Link to="#" className="badge badge-xs badge-primary rounded-pill">Painting</Link></div>	
+                    <div className="singleItem"><Link to="#" className="badge badge-xs badge-primary rounded-pill">Roofing</Link></div>	
                 </div>
             </div>
         </div>

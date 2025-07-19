@@ -67,7 +67,7 @@ export default function IndexTen() {
             <div className="container">
                 <div className="row row-cols-xl-6 row-cols-lg-6 row-cols-md-5 row-cols-sm-3 row-cols-2 g-xl-4 g-3">
                     {categoryData.map((item:CategoryData,index:number)=>{
-                        let Icon = item.icon
+                        const Icon = item.icon
                         return(
                             <div className="col" key={index}>
                                 <div className="cardio">

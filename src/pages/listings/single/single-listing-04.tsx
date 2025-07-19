@@ -21,9 +21,9 @@ import BackToTop from '../../../components/back-to-top'
 import { listData } from '../../../data/data'
 
 export default function SingleListing4() {
-    let params = useParams()
-    let id:any = params.id
-    let data = listData.find((item)=>item.id === parseInt(id))
+    const params = useParams()
+    const id:any = params.id
+    const data = listData.find((item)=>item.id === parseInt(id))
   return (
     <>
         <NavbarDark/>

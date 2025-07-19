@@ -13,7 +13,7 @@ export default function CategoriesThree() {
   return (
         <div className="row align-items-center justify-content-between row-cols-xl-5 row-cols-lg-5 row-cols-md-4 row-cols-sm-3 row-cols-2 g-xl-4 g-3">
             {categoryData.slice(0,10).map((item:CategoryData,index:number)=>{
-                let Icon = item.icon
+                const Icon = item.icon
                 return(
                     <div className="col" key={index}>
                         <div className="category-small-wrapper">

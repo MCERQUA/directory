@@ -73,7 +73,7 @@ export default function BlogSidebar() {
                     <div className="blogShare">
                         <ul>
                             {blogSocial.map((item,index)=>{
-                                let Icon = item
+                                const Icon = item
                                 return(
                                     <li key={index}><Link to="#"><Icon className=""/></Link></li>
                                 )
