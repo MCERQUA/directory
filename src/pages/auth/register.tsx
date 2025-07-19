@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import bg from '../../assets/img/auth-bg.png';
 import logo from '../../assets/img/icon.png';
-import { FaFacebook, FaGooglePlusG, FaEye, FaEyeSlash } from 'react-icons/fa6';
+import { FaGooglePlusG, FaEye, FaEyeSlash } from 'react-icons/fa6';
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -18,7 +18,7 @@ export default function Register() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   
-  const { register, loginWithGoogle, loginWithFacebook } = useAuth();
+  const { register, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,21 +84,6 @@ export default function Register() {
     } catch (error) {
       setError('Google signup failed. Please try again.');
       console.error('Google signup error:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleFacebookSignup = async () => {
-    setError('');
-    setIsLoading(true);
-    
-    try {
-      await loginWithFacebook();
-      navigate('/dashboard-user');
-    } catch (error) {
-      setError('Facebook signup failed. Please try again.');
-      console.error('Facebook signup error:', error);
     } finally {
       setIsLoading(false);
     }
@@ -246,38 +231,23 @@ export default function Register() {
 
                       <div className="prixer my-5">
                         <div className="devider-wraps position-relative">
-                          <div className="devider-text text-muted text-md">Or Signup with</div>
+                          <div className="devider-text text-muted text-md">Or signup with</div>
                         </div>
                       </div>
 
                       <div className="social-login">
-                        <div className="d-flex align-items-center justify-content-center flex-wrap gap-3 p-0">
-                          <div className="flex-first flex-fill mob-100">
-                            <button
-                              type="button"
-                              onClick={handleGoogleSignup}
-                              className="btn bg-white border border-2 text-dark full-width"
-                              disabled={isLoading}
-                            >
-                              <FaGooglePlusG className="color--googleplus me-2" />
-                              <span className="fw-medium text-md">
-                                {isLoading ? 'Loading...' : 'Signup with Google'}
-                              </span>
-                            </button>
-                          </div>
-                          <div className="flex-last flex-fill mob-100">
-                            <button
-                              type="button"
-                              onClick={handleFacebookSignup}
-                              className="btn bg-white border border-2 text-dark full-width"
-                              disabled={isLoading}
-                            >
-                              <FaFacebook className="color--facebook me-2" />
-                              <span className="fw-medium text-md">
-                                {isLoading ? 'Loading...' : 'Signup with Facebook'}
-                              </span>
-                            </button>
-                          </div>
+                        <div className="d-flex align-items-center justify-content-center">
+                          <button
+                            type="button"
+                            onClick={handleGoogleSignup}
+                            className="btn bg-white border border-2 text-dark full-width"
+                            disabled={isLoading}
+                          >
+                            <FaGooglePlusG className="color--googleplus me-2" />
+                            <span className="fw-medium text-md">
+                              {isLoading ? 'Loading...' : 'Signup with Google'}
+                            </span>
+                          </button>
                         </div>
                       </div>
                     </form>
