@@ -1,0 +1,168 @@
+import { useEffect } from 'react';
+
+import { Route, Routes } from 'react-router-dom'
+import IndexOne from './pages/index/index-one'
+import IndexTwo from './pages/index/index-two';
+import IndexThree from './pages/index/index-three';
+import IndexFour from './pages/index/index-four';
+import IndexFive from './pages/index/index-five';
+import IndexSix from './pages/index/index-six';
+import IndexSeven from './pages/index/index-seven';
+import IndexEight from './pages/index/index-eight';
+import IndexNine from './pages/index/index-nine';
+import IndexTen from './pages/index/index-ten';
+import IndexEleven from './pages/index/index-eleven';
+import IndexMap from './pages/index/index-map';
+
+import GridLayout1 from './pages/listings/grid-layout/grid-layout-01';
+import GridLayout2 from './pages/listings/grid-layout/grid-layout-02';
+import GridLayout3 from './pages/listings/grid-layout/grid-layout-03';
+import GridLayout4 from './pages/listings/grid-layout/grid-layout-04';
+import GridLayout5 from './pages/listings/grid-layout/grid-layout-05';
+import GridLayout6 from './pages/listings/grid-layout/grid-layout-06';
+
+import ListLayout1 from './pages/listings/list-layout/list-layout-01';
+import ListLayout2 from './pages/listings/list-layout/list-layout-02';
+import ListLayout3 from './pages/listings/list-layout/list-layout-03';
+import ListLayout4 from './pages/listings/list-layout/list-layout-04';
+import ListLayout5 from './pages/listings/list-layout/list-layout-05';
+
+import HalfMap1 from './pages/listings/half-map/half-map-01';
+import HalfMap2 from './pages/listings/half-map/half-map-02';
+import HalfMap3 from './pages/listings/half-map/half-map-03';
+import HalfMap4 from './pages/listings/half-map/half-map-04';
+import HalfMap5 from './pages/listings/half-map/half-map-05';
+
+import SingleListing1 from './pages/listings/single/single-listing-01';
+import SingleListing2 from './pages/listings/single/single-listing-02';
+import SingleListing3 from './pages/listings/single/single-listing-03';
+import SingleListing4 from './pages/listings/single/single-listing-04';
+import SingleListing5 from './pages/listings/single/single-listing-05';
+
+import DashboardUser from './pages/dashboard/dashboard-user';
+import DashboardMyProfile from './pages/dashboard/dashboard-my-profile';
+import DashboardMyBookings from './pages/dashboard/dashboard-my-bookings';
+import DashboardMyListings from './pages/dashboard/dashboard-my-listings';
+import DashboardBookmarks from './pages/dashboard/dashboard-bookmarks';
+import DashboardMessages from './pages/dashboard/dashboard-messages';
+import DashboardReviews from './pages/dashboard/dashboard-reviews';
+import DashboardWallet from './pages/dashboard/dashboard-wallet';
+import DashboardAddListing from './pages/dashboard/dashboard-add-listing';
+
+import Login from './pages/auth/login';
+import Register from './pages/auth/register';
+import ForgotPassword from './pages/auth/forgot-password';
+import TwoFactorAuth from './pages/auth/two-factor-auth';
+import AuthorProfile from './pages/inner-pages/author-profile';
+import BookingPage from './pages/inner-pages/booking-page';
+import AboutUs from './pages/inner-pages/about-us';
+import Blog from './pages/inner-pages/blog';
+import BlogDetail from './pages/inner-pages/blog-detail';
+import ContactUs from './pages/inner-pages/contact-us';
+import Pricing from './pages/inner-pages/pricing';
+import HelpCenter from './pages/inner-pages/help-center';
+import Comingsoon from './pages/inner-pages/comingsoon';
+import SingleHelps from './pages/inner-pages/single-helps';
+import Faq from './pages/inner-pages/faq';
+import Error from './pages/inner-pages/error';
+import Elements from './pages/inner-pages/elements';
+import CheckoutPage from './pages/inner-pages/checkout-page';
+import SuccessPayment from './pages/inner-pages/success-payment';
+import InvoicePage from './pages/inner-pages/invoice-page';
+import PrivacyPolicy from './pages/inner-pages/privacy-policy';
+import Viewcart from './pages/inner-pages/viewcart';
+
+function App() {
+  useEffect(() => {
+      const tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+      tooltipTriggerList.forEach((tooltipTriggerEl) => {
+        new window.bootstrap.Tooltip(tooltipTriggerEl);
+      });
+    }, []);
+  return (
+    <>
+      <Routes>
+        <Route path='/' element={<IndexOne/>}/>
+        <Route path='/home-2' element={<IndexTwo/>}/>
+        <Route path='/home-3' element={<IndexThree/>}/>
+        <Route path='/home-4' element={<IndexFour/>}/>
+        <Route path='/home-5' element={<IndexFive/>}/>
+        <Route path='/home-6' element={<IndexSix/>}/>
+        <Route path='/home-7' element={<IndexSeven/>}/>
+        <Route path='/home-8' element={<IndexEight/>}/>
+        <Route path='/home-9' element={<IndexNine/>}/>
+        <Route path='/home-10' element={<IndexTen/>}/>
+        <Route path='/home-splash' element={<IndexEleven/>}/>
+        <Route path='/home-map' element={<IndexMap/>}/>
+
+        <Route path='/grid-layout-01' element={<GridLayout1/>}/>
+        <Route path='/grid-layout-02' element={<GridLayout2/>}/>
+        <Route path='/grid-layout-03' element={<GridLayout3/>}/>
+        <Route path='/grid-layout-04' element={<GridLayout4/>}/>
+        <Route path='/grid-layout-05' element={<GridLayout5/>}/>
+        <Route path='/grid-layout-06' element={<GridLayout6/>}/>
+
+        <Route path='/list-layout-01' element={<ListLayout1/>}/>
+        <Route path='/list-layout-02' element={<ListLayout2/>}/>
+        <Route path='/list-layout-03' element={<ListLayout3/>}/>
+        <Route path='/list-layout-04' element={<ListLayout4/>}/>
+        <Route path='/list-layout-05' element={<ListLayout5/>}/>
+
+        <Route path='/half-map-01' element={<HalfMap1/>}/>
+        <Route path='/half-map-02' element={<HalfMap2/>}/>
+        <Route path='/half-map-03' element={<HalfMap3/>}/>
+        <Route path='/half-map-04' element={<HalfMap4/>}/>
+        <Route path='/half-map-05' element={<HalfMap5/>}/>
+
+        <Route path='/single-listing-01' element={<SingleListing1/>}/>
+        <Route path='/single-listing-01/:id' element={<SingleListing1/>}/>
+        <Route path='/single-listing-02' element={<SingleListing2/>}/>
+        <Route path='/single-listing-02/:id' element={<SingleListing2/>}/>
+        <Route path='/single-listing-03' element={<SingleListing3/>}/>
+        <Route path='/single-listing-03/:id' element={<SingleListing3/>}/>
+        <Route path='/single-listing-04' element={<SingleListing4/>}/>
+        <Route path='/single-listing-04/:id' element={<SingleListing4/>}/>
+        <Route path='/single-listing-05' element={<SingleListing5/>}/>
+        <Route path='/single-listing-05/:id' element={<SingleListing5/>}/>
+
+        <Route path='/dashboard-user' element={<DashboardUser/>}/>
+        <Route path='/dashboard-my-profile' element={<DashboardMyProfile/>}/>
+        <Route path='/dashboard-my-bookings' element={<DashboardMyBookings/>}/>
+        <Route path='/dashboard-my-listings' element={<DashboardMyListings/>}/>
+        <Route path='/dashboard-bookmarks' element={<DashboardBookmarks/>}/>
+        <Route path='/dashboard-messages' element={<DashboardMessages/>}/>
+        <Route path='/dashboard-reviews' element={<DashboardReviews/>}/>
+        <Route path='/dashboard-wallet' element={<DashboardWallet/>}/>
+        <Route path='/dashboard-add-listing' element={<DashboardAddListing/>}/>
+
+        <Route path='/login' element={<Login/>}/>
+        <Route path='/register' element={<Register/>}/>
+        <Route path='/forgot-password' element={<ForgotPassword/>}/>
+        <Route path='/two-factor-auth' element={<TwoFactorAuth/>}/>
+
+        <Route path='/author-profile' element={<AuthorProfile/>}/>
+        <Route path='/booking-page' element={<BookingPage/>}/>
+        <Route path='/about-us' element={<AboutUs/>}/>
+        <Route path='/blog' element={<Blog/>}/>
+        <Route path='/blog-detail' element={<BlogDetail/>}/>
+        <Route path='/blog-detail/:id' element={<BlogDetail/>}/>
+        <Route path='/contact-us' element={<ContactUs/>}/>
+        <Route path='/pricing' element={<Pricing/>}/>
+        <Route path='/help-center' element={<HelpCenter/>}/>
+        <Route path='/single-helps' element={<SingleHelps/>}/>
+        <Route path='/comingsoon' element={<Comingsoon/>}/>
+        <Route path='/faq' element={<Faq/>}/>
+        <Route path='/error' element={<Error/>}/>
+        <Route path='/elements' element={<Elements/>}/>
+
+        <Route path='/checkout-page' element={<CheckoutPage/>}/>
+        <Route path='/success-payment' element={<SuccessPayment/>}/>
+        <Route path='/invoice-page' element={<InvoicePage/>}/>
+        <Route path='/privacy-policy' element={<PrivacyPolicy/>}/>
+        <Route path='/viewcart' element={<Viewcart/>}/>
+      </Routes>
+    </>
+  )
+}
+
+export default App
