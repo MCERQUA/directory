@@ -1,6 +1,6 @@
 [build]
   publish = "dist"
-  command = "npm ci && npm run build"
+  command = "ls -la src/pages/auth/ && npm run build"
 
 [build.environment]
   NODE_VERSION = "18"
