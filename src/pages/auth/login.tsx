@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import bg from '../../assets/img/auth-bg.png';
 import logo from '../../assets/img/icon.png';
-import { FaEye, FaFacebook, FaGooglePlusG, FaEyeSlash } from 'react-icons/fa6';
+import { FaEye, FaGooglePlusG, FaEyeSlash } from 'react-icons/fa6';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -12,7 +12,7 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   
-  const { login, loginWithGoogle, loginWithFacebook } = useAuth();
+  const { login, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -41,21 +41,6 @@ export default function Login() {
     } catch (error) {
       setError('Google login failed. Please try again.');
       console.error('Google login error:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleFacebookLogin = async () => {
-    setError('');
-    setIsLoading(true);
-    
-    try {
-      await loginWithFacebook();
-      navigate('/dashboard-user');
-    } catch (error) {
-      setError('Facebook login failed. Please try again.');
-      console.error('Facebook login error:', error);
     } finally {
       setIsLoading(false);
     }
@@ -170,33 +155,18 @@ export default function Login() {
                         </div>
 
                         <div className="social-login">
-                          <div className="d-flex align-items-center justify-content-center flex-wrap gap-3 p-0">
-                            <div className="flex-first flex-fill mob-100">
-                              <button
-                                type="button"
-                                onClick={handleGoogleLogin}
-                                className="btn bg-white border border-2 text-dark full-width"
-                                disabled={isLoading}
-                              >
-                                <FaGooglePlusG className="color--googleplus me-2" />
-                                <span className="fw-medium text-md">
-                                  {isLoading ? 'Loading...' : 'Signin with Google'}
-                                </span>
-                              </button>
-                            </div>
-                            <div className="flex-last flex-fill mob-100">
-                              <button
-                                type="button"
-                                onClick={handleFacebookLogin}
-                                className="btn bg-white border border-2 text-dark full-width"
-                                disabled={isLoading}
-                              >
-                                <FaFacebook className="color--facebook me-2" />
-                                <span className="fw-medium text-md">
-                                  {isLoading ? 'Loading...' : 'Signin with Facebook'}
-                                </span>
-                              </button>
-                            </div>
+                          <div className="d-flex align-items-center justify-content-center">
+                            <button
+                              type="button"
+                              onClick={handleGoogleLogin}
+                              className="btn bg-white border border-2 text-dark full-width"
+                              disabled={isLoading}
+                            >
+                              <FaGooglePlusG className="color--googleplus me-2" />
+                              <span className="fw-medium text-md">
+                                {isLoading ? 'Loading...' : 'Signin with Google'}
+                              </span>
+                            </button>
                           </div>
                         </div>
                       </form>
