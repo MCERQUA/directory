@@ -1,5 +1,6 @@
 import { useState,useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import { useAuth } from '../../contexts/AuthContext'
 
 
 
@@ -16,6 +17,7 @@ import { BiSolidShoppingBagAlt } from 'react-icons/bi'
 
 
 export default function AdminNavbar() {
+    const { profile } = useAuth()
     const [scroll,setScroll] = useState<boolean>(false);
         const [current , setCurrent] = useState<string>('');
         const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
@@ -60,7 +62,7 @@ export default function AdminNavbar() {
                         <div className="mobile_nav">
                             <ul>
                                 <li>
-                                    <Link data-bs-toggle="offcanvas" to="#offcanvasExample" role="button" aria-controls="offcanvasExample" className="d-inline-flex py-0 pt-1 px-1"><div className="d-inline-flex w-8 h-8 circle overflow-hidden"><img src={team1} className="img-fluid" alt=""/></div></Link>
+                                    <Link data-bs-toggle="offcanvas" to="#offcanvasExample" role="button" aria-controls="offcanvasExample" className="d-inline-flex py-0 pt-1 px-1"><div className="d-inline-flex w-8 h-8 circle overflow-hidden"><img src={profile?.avatar_url || team1} className="img-fluid" alt="Profile"/></div></Link>
                                 </li>
                                 <li>
                                     <Link to="#cartSlider" className="cart-content" data-bs-toggle="offcanvas" role="button" aria-controls="cartSlider"><BsBasket2 className=""/><span className="head-cart-counter">3</span></Link>
@@ -193,7 +195,7 @@ export default function AdminNavbar() {
                             <li>
                                 <div className="btn-group account-drop">
                                     <Link to="#" className="nav-link btn-order-by-filt" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <div className="d-inline-flex w-8 h-8 circle overflow-hidden"><img src={team1} className="img-fluid" alt=""/></div>
+                                        <div className="d-inline-flex w-8 h-8 circle overflow-hidden"><img src={profile?.avatar_url || team1} className="img-fluid" alt="Profile"/></div>
                                         <span className="fw-medium d-inline-flex ms-2 text-light">Shreethemes<FaSortDown className="ms-1"/></span>
                                     </Link>
                                     <div className="dropdown-menu pull-right animated flipInX">

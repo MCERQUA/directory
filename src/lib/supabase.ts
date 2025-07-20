@@ -287,3 +287,66 @@ export const markMessagesAsRead = async (bookingId: string) => {
 
   if (error) throw error
 }
+
+// Avatar Upload Functions
+export const uploadAvatar = async (file: File) => {
+  const user = await getCurrentUser()
+  if (!user) throw new Error('No authenticated user')
+
+  // Create unique filename
+  const fileExt = file.name.split('.').pop()
+  const fileName = `${user.id}-${Date.now()}.${fileExt}`
+  const filePath = `avatars/${fileName}`
+
+  // Upload file to Supabase Storage
+  const { error: uploadError } = await supabase.storage
+    .from('avatars')
+    .upload(filePath, file, {
+      cacheControl: '3600',
+      upsert: false
+    })
+
+  if (uploadError) throw uploadError
+
+  // Get public URL
+  const { data: urlData } = supabase.storage
+    .from('avatars')
+    .getPublicUrl(filePath)
+
+  if (!urlData?.publicUrl) throw new Error('Failed to get avatar URL')
+
+  // Update profile with new avatar URL
+  const { error: updateError } = await supabase
+    .from('profiles')
+    .update({ avatar_url: urlData.publicUrl })
+    .eq('id', user.id)
+
+  if (updateError) throw updateError
+
+  return urlData.publicUrl
+}
+
+export const deleteAvatar = async (avatarUrl: string) => {
+  const user = await getCurrentUser()
+  if (!user) throw new Error('No authenticated user')
+
+  // Extract file path from URL
+  const urlParts = avatarUrl.split('/')
+  const fileName = urlParts[urlParts.length - 1]
+  const filePath = `avatars/${fileName}`
+
+  // Delete from storage
+  const { error: deleteError } = await supabase.storage
+    .from('avatars')
+    .remove([filePath])
+
+  if (deleteError) throw deleteError
+
+  // Update profile to remove avatar URL
+  const { error: updateError } = await supabase
+    .from('profiles')
+    .update({ avatar_url: null })
+    .eq('id', user.id)
+
+  if (updateError) throw updateError
+}

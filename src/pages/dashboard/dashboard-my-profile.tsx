@@ -5,6 +5,7 @@ import AdminSidebar from '../../components/admin/admin-sidebar'
 import BackToTop from '../../components/back-to-top'
 import ProfileForm from '../../components/profile/ProfileForm'
 import PasswordUpdateForm from '../../components/profile/PasswordUpdateForm'
+import AvatarUpload from '../../components/profile/AvatarUpload'
 
 import defaultAvatar from '../../assets/img/team-2.jpg'
 
@@ -64,6 +65,9 @@ export default function DashboardMyProfile() {
                                                             />
                                                         </figure>
                                                     </div>
+                                                    <AvatarUpload 
+                                                        currentAvatarUrl={profile?.avatar_url} 
+                                                    />
                                                 </div>
                                                 <div className="dash-prf-start-bottom mx-auto mt-3">
                                                     <div className="text-center mb-3">
