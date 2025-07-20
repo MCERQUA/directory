@@ -1,34 +1,98 @@
 import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 
 import AdminNavbar from '../../components/navbar/admin-navbar'
 import AdminSidebar from '../../components/admin/admin-sidebar'
 import BackToTop from '../../components/back-to-top'
 
-import { bookingData } from '../../data/data'
+import { getUserBookings, updateBookingStatus, Booking } from '../../lib/supabase'
+import { useAuth } from '../../contexts/AuthContext'
 
-import { BsCheck2Circle, BsEnvelopeDash, BsX } from 'react-icons/bs'
+import { BsCheck2Circle, BsEnvelopeDash, BsX, BsClock, BsCalendarCheck, BsExclamationTriangle } from 'react-icons/bs'
 
 import { FaHeart } from 'react-icons/fa'
 
-interface BookingData{ 
-    image: string;
-    title: string;
-    tag: string;
-    pending: boolean;
-    unpaid: boolean;
-    approved: boolean;
-    cancelled: boolean;
-    reject: boolean;
-    approve: boolean;
-    sendMsg: boolean;
-    date: string;
-    info: string;
-    name: string;
-    contact: string;
-    price: string;
-}
-
 export default function DashboardMyBookings() {
+  const { profile } = useAuth()
+  const [bookings, setBookings] = useState<Booking[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [updatingId, setUpdatingId] = useState<string | null>(null)
+  const [filter, setFilter] = useState<string>('all')
+
+  useEffect(() => {
+    if (profile?.user_type) {
+      loadBookings()
+    } else {
+      setLoading(false)
+    }
+  }, [profile])
+
+  const loadBookings = async () => {
+    try {
+      setLoading(true)
+      const userType = profile?.user_type === 'contractor' ? 'contractor' : 'customer'
+      const data = await getUserBookings(userType)
+      setBookings(data)
+    } catch (err: any) {
+      setError(err.message || 'Failed to load bookings')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleStatusUpdate = async (id: string, status: string, notes?: string) => {
+    try {
+      setUpdatingId(id)
+      const updatedBooking = await updateBookingStatus(id, status, notes)
+      setBookings(prev => prev.map(booking => 
+        booking.id === id ? updatedBooking : booking
+      ))
+    } catch (err: any) {
+      alert(err.message || 'Failed to update booking status')
+    } finally {
+      setUpdatingId(null)
+    }
+  }
+
+  const getStatusBadge = (status: string) => {
+    const statusConfig: Record<string, { bg: string; text: string; icon?: React.ReactNode }> = {
+      'pending': { bg: 'bg-warning', text: 'Pending', icon: <BsClock className="me-1" /> },
+      'confirmed': { bg: 'bg-info', text: 'Confirmed', icon: <BsCheck2Circle className="me-1" /> },
+      'scheduled': { bg: 'bg-primary', text: 'Scheduled', icon: <BsCalendarCheck className="me-1" /> },
+      'in_progress': { bg: 'bg-info', text: 'In Progress' },
+      'completed': { bg: 'bg-success', text: 'Completed', icon: <BsCheck2Circle className="me-1" /> },
+      'cancelled': { bg: 'bg-danger', text: 'Cancelled', icon: <BsX className="me-1" /> },
+      'rescheduled': { bg: 'bg-secondary', text: 'Rescheduled' },
+      'no_show': { bg: 'bg-danger', text: 'No Show', icon: <BsExclamationTriangle className="me-1" /> }
+    }
+    return statusConfig[status] || { bg: 'bg-secondary', text: status.charAt(0).toUpperCase() + status.slice(1) }
+  }
+
+  const filteredBookings = bookings.filter(booking => {
+    if (filter === 'all') return true
+    if (filter === 'active') return ['pending', 'confirmed', 'scheduled', 'in_progress'].includes(booking.status || '')
+    if (filter === 'completed') return booking.status === 'completed'
+    if (filter === 'cancelled') return ['cancelled', 'no_show'].includes(booking.status || '')
+    return booking.status === filter
+  })
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    })
+  }
+
+  const formatTime = (timeString: string | null) => {
+    if (!timeString) return ''
+    return new Date(`2000-01-01T${timeString}`).toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    })
+  }
   return (
     <>
      <AdminNavbar/>
@@ -51,51 +115,213 @@ export default function DashboardMyBookings() {
                             <div className="row align-items-start g-4 mb-lg-5 mb-4">
                                 <div className="col-xl-12 col-lg-12 col-md-12">
                                     <div className="card rounded-3 shadow-sm">
-                                        <div className="card-header px-4 py-3">
-                                            <h4 className="m-0">Recent Bookings</h4>
+                                        <div className="card-header px-4 py-3 d-flex justify-content-between align-items-center">
+                                            <h4 className="m-0">My Bookings</h4>
+                                            <div className="d-flex gap-2">
+                                                <select 
+                                                    className="form-select form-select-sm" 
+                                                    value={filter} 
+                                                    onChange={(e) => setFilter(e.target.value)}
+                                                    style={{width: 'auto'}}
+                                                >
+                                                    <option value="all">All Bookings</option>
+                                                    <option value="active">Active</option>
+                                                    <option value="pending">Pending</option>
+                                                    <option value="confirmed">Confirmed</option>
+                                                    <option value="completed">Completed</option>
+                                                    <option value="cancelled">Cancelled</option>
+                                                </select>
+                                            </div>
                                         </div>
                                         <div className="card-body p-0">
-                                            <ul className="dashboardListgroup">
-                                                {bookingData.map((item:BookingData,index:number)=>{
-                                                    return(
-                                                    <li  key={index}>
-                                                        <div className="bookingActivities">
-                                                            <div className="d-flex align-items-start justify-content-start gap-3 flex-wrap">
-                                                                <div className="bookingAvatar">
-                                                                    <figure className="m-0"><img src={item.image} className="img-fluid circle avatar-xl" alt="Avatar"/></figure>
-                                                                </div>
-                                                                
-                                                                <div className="bookingInfo">
-                                                                    <div className="bookingTitle">
-                                                                        <h5 className="titlesName">{item.title}<span className="Bookscats">{item.tag}</span></h5>
-                                                                        <div className="d-flex align-items-center justify-content-start gap-2">
-                                                                            {item.pending && <span className="badge badge-xs pending rounded-pill">Pending</span>}
-                                                                            {item.unpaid && <span className="badge badge-xs unpaid rounded-pill">Unpaid</span>}
-                                                                            {item.approved &&  <span className="badge badge-xs approved rounded-pill">Approved</span>}
-                                                                            {item.cancelled &&  <span className="badge badge-xs cancelled rounded-pill">Cancelled</span>}
+                                            {error && (
+                                                <div className="alert alert-danger m-4">
+                                                    {error}
+                                                </div>
+                                            )}
+                                            
+                                            {loading ? (
+                                                <div className="text-center py-5">
+                                                    <div className="spinner-border text-primary" role="status">
+                                                        <span className="visually-hidden">Loading...</span>
+                                                    </div>
+                                                </div>
+                                            ) : filteredBookings.length === 0 ? (
+                                                <div className="text-center py-5">
+                                                    <div className="text-muted">
+                                                        <h5>No Bookings Found</h5>
+                                                        <p>
+                                                            {filter === 'all' 
+                                                                ? "You don't have any bookings yet." 
+                                                                : `No ${filter} bookings found.`
+                                                            }
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <ul className="dashboardListgroup">
+                                                    {filteredBookings.map((booking) => {
+                                                        const statusConfig = getStatusBadge(booking.status || 'pending')
+                                                        const isContractor = profile?.user_type === 'contractor'
+                                                        const clientInfo = isContractor ? (booking as any).customer : (booking as any).contractor
+                                                        
+                                                        return (
+                                                            <li key={booking.id}>
+                                                                <div className="bookingActivities">
+                                                                    <div className="d-flex align-items-start justify-content-start gap-3 flex-wrap">
+                                                                        <div className="bookingAvatar">
+                                                                            <figure className="m-0">
+                                                                                <div className="avatar-xl bg-light rounded-circle d-flex align-items-center justify-content-center">
+                                                                                    <span className="text-primary fw-bold fs-4">
+                                                                                        {clientInfo?.full_name?.charAt(0) || '?'}
+                                                                                    </span>
+                                                                                </div>
+                                                                            </figure>
+                                                                        </div>
+                                                                        
+                                                                        <div className="bookingInfo flex-grow-1">
+                                                                            <div className="bookingTitle">
+                                                                                <h5 className="titlesName">
+                                                                                    {booking.title}
+                                                                                    <span className="Bookscats">#{booking.booking_reference}</span>
+                                                                                </h5>
+                                                                                <div className="d-flex align-items-center justify-content-start gap-2">
+                                                                                    <span className={`badge badge-xs ${statusConfig.bg} rounded-pill`}>
+                                                                                        {statusConfig.icon}
+                                                                                        {statusConfig.text}
+                                                                                    </span>
+                                                                                    {booking.urgency_level === 'high' && (
+                                                                                        <span className="badge badge-xs bg-danger rounded-pill">Urgent</span>
+                                                                                    )}
+                                                                                    {booking.urgency_level === 'emergency' && (
+                                                                                        <span className="badge badge-xs bg-danger rounded-pill">Emergency</span>
+                                                                                    )}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div className="bookingDetails">
+                                                                                <div className="singledetailInfo">
+                                                                                    <span className="listTitle">Date & Time</span>
+                                                                                    {formatDate(booking.scheduled_date)}
+                                                                                    {booking.scheduled_start_time && ` at ${formatTime(booking.scheduled_start_time)}`}
+                                                                                </div>
+                                                                                <div className="singledetailInfo">
+                                                                                    <span className="listTitle">Service Address</span>
+                                                                                    {booking.service_address}, {booking.service_city}, {booking.service_state}
+                                                                                </div>
+                                                                                <div className="singledetailInfo">
+                                                                                    <span className="listTitle">{isContractor ? 'Customer' : 'Contractor'}</span>
+                                                                                    {clientInfo?.full_name || 'N/A'}
+                                                                                </div>
+                                                                                <div className="singledetailInfo">
+                                                                                    <span className="listTitle">Contact</span>
+                                                                                    {clientInfo?.phone || clientInfo?.email || 'N/A'}
+                                                                                </div>
+                                                                                {(booking.quoted_price || booking.estimated_cost) && (
+                                                                                    <div className="singledetailInfo">
+                                                                                        <span className="listTitle">Price</span>
+                                                                                        ${booking.quoted_price || booking.estimated_cost}
+                                                                                    </div>
+                                                                                )}
+                                                                                {booking.description && (
+                                                                                    <div className="singledetailInfo">
+                                                                                        <span className="listTitle">Description</span>
+                                                                                        {booking.description.length > 100 
+                                                                                            ? booking.description.substring(0, 100) + '...'
+                                                                                            : booking.description
+                                                                                        }
+                                                                                    </div>
+                                                                                )}
+                                                                            </div>
+                                                                            
+                                                                            {isContractor && booking.status === 'pending' && (
+                                                                                <div className="bookingAction">
+                                                                                    <div className="d-flex align-items-center justify-content-start flex-wrap gap-3">
+                                                                                        <button 
+                                                                                            className="btn btn-sm btn-light-danger fw-medium rounded-pill"
+                                                                                            onClick={() => handleStatusUpdate(booking.id, 'cancelled', 'Declined by contractor')}
+                                                                                            disabled={updatingId === booking.id}
+                                                                                        >
+                                                                                            <BsX className="me-1"/>
+                                                                                            {updatingId === booking.id ? 'Processing...' : 'Decline'}
+                                                                                        </button>
+                                                                                        <button 
+                                                                                            className="btn btn-sm btn-light-success fw-medium rounded-pill"
+                                                                                            onClick={() => handleStatusUpdate(booking.id, 'confirmed', 'Accepted by contractor')}
+                                                                                            disabled={updatingId === booking.id}
+                                                                                        >
+                                                                                            <BsCheck2Circle className="me-1"/>
+                                                                                            {updatingId === booking.id ? 'Processing...' : 'Accept'}
+                                                                                        </button>
+                                                                                        <Link 
+                                                                                            to={`/dashboard-messages?booking=${booking.id}`} 
+                                                                                            className="btn btn-sm btn-secondary fw-medium rounded-pill"
+                                                                                        >
+                                                                                            <BsEnvelopeDash className="me-1"/>Send Message
+                                                                                        </Link>
+                                                                                    </div>
+                                                                                </div>
+                                                                            )}
+                                                                            
+                                                                            {isContractor && booking.status === 'confirmed' && (
+                                                                                <div className="bookingAction">
+                                                                                    <div className="d-flex align-items-center justify-content-start flex-wrap gap-3">
+                                                                                        <button 
+                                                                                            className="btn btn-sm btn-primary fw-medium rounded-pill"
+                                                                                            onClick={() => handleStatusUpdate(booking.id, 'in_progress')}
+                                                                                            disabled={updatingId === booking.id}
+                                                                                        >
+                                                                                            Start Work
+                                                                                        </button>
+                                                                                        <Link 
+                                                                                            to={`/dashboard-messages?booking=${booking.id}`} 
+                                                                                            className="btn btn-sm btn-secondary fw-medium rounded-pill"
+                                                                                        >
+                                                                                            <BsEnvelopeDash className="me-1"/>Message
+                                                                                        </Link>
+                                                                                    </div>
+                                                                                </div>
+                                                                            )}
+                                                                            
+                                                                            {isContractor && booking.status === 'in_progress' && (
+                                                                                <div className="bookingAction">
+                                                                                    <div className="d-flex align-items-center justify-content-start flex-wrap gap-3">
+                                                                                        <button 
+                                                                                            className="btn btn-sm btn-success fw-medium rounded-pill"
+                                                                                            onClick={() => handleStatusUpdate(booking.id, 'completed', 'Work completed successfully')}
+                                                                                            disabled={updatingId === booking.id}
+                                                                                        >
+                                                                                            Mark Complete
+                                                                                        </button>
+                                                                                        <Link 
+                                                                                            to={`/dashboard-messages?booking=${booking.id}`} 
+                                                                                            className="btn btn-sm btn-secondary fw-medium rounded-pill"
+                                                                                        >
+                                                                                            <BsEnvelopeDash className="me-1"/>Message
+                                                                                        </Link>
+                                                                                    </div>
+                                                                                </div>
+                                                                            )}
+                                                                            
+                                                                            {(!isContractor || !['pending', 'confirmed', 'in_progress'].includes(booking.status || '')) && (
+                                                                                <div className="bookingAction">
+                                                                                    <div className="d-flex align-items-center justify-content-start flex-wrap gap-3">
+                                                                                        <Link 
+                                                                                            to={`/dashboard-messages?booking=${booking.id}`} 
+                                                                                            className="btn btn-sm btn-secondary fw-medium rounded-pill"
+                                                                                        >
+                                                                                            <BsEnvelopeDash className="me-1"/>View Messages
+                                                                                        </Link>
+                                                                                    </div>
+                                                                                </div>
+                                                                            )}
                                                                         </div>
                                                                     </div>
-                                                                    <div className="bookingDetails">
-                                                                        <div className="singledetailInfo"><span className="listTitle">Booking Date</span>{item.date}</div>
-                                                                        <div className="singledetailInfo"><span className="listTitle">Booking Info</span>{item.info}</div>
-                                                                        <div className="singledetailInfo"><span className="listTitle">Client Name</span>{item.name}</div>
-                                                                        <div className="singledetailInfo"><span className="listTitle">Contact</span>{item.contact}</div>
-                                                                        <div className="singledetailInfo"><span className="listTitle">Price</span>{item.price}</div>
-                                                                    </div>
-                                                                    <div className="bookingAction">
-                                                                        <div className="d-flex align-items-center justify-content-start flex-wrap gap-3">
-                                                                            {item.reject &&  <Link to="#" className="btn btn-sm btn-light-danger fw-medium rounded-pill"><BsX className="me-1"/>Reject</Link>}
-                                                                            {item.approve &&  <Link to="#" className="btn btn-sm btn-light-success fw-medium rounded-pill"><BsCheck2Circle className="me-1"/>Approve</Link>}
-                                                                            {item.sendMsg &&  <Link to="#" className="btn btn-sm btn-secondary fw-medium rounded-pill" data-bs-toggle="modal" data-bs-target="#messageModal"><BsEnvelopeDash className="me-1"/>Send Message</Link>}
-                                                                        </div>
-                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    )
-                                                })}
-                                            </ul>
+                                                            </li>
+                                                        )
+                                                    })}
+                                                </ul>
+                                            )}
                                         </div>
                                     </div>
                                 </div>

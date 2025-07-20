@@ -105,3 +105,185 @@ export const updatePassword = async (password: string) => {
   if (error) throw error
   return data
 }
+
+// Business Listings Functions
+export const getUserListings = async () => {
+  const user = await getCurrentUser()
+  if (!user) throw new Error('No authenticated user')
+
+  const { data, error } = await supabase
+    .from('business_listings')
+    .select(`
+      *,
+      categories (
+        name,
+        icon
+      )
+    `)
+    .eq('owner_id', user.id)
+    .order('created_at', { ascending: false })
+
+  if (error) throw error
+  return data
+}
+
+export const createListing = async (listing: BusinessListingInsert) => {
+  const user = await getCurrentUser()
+  if (!user) throw new Error('No authenticated user')
+
+  const { data, error } = await supabase
+    .from('business_listings')
+    .insert({
+      ...listing,
+      owner_id: user.id
+    })
+    .select()
+    .single()
+
+  if (error) throw error
+  return data
+}
+
+export const updateListing = async (id: string, updates: BusinessListingUpdate) => {
+  const { data, error } = await supabase
+    .from('business_listings')
+    .update({
+      ...updates,
+      updated_at: new Date().toISOString()
+    })
+    .eq('id', id)
+    .select()
+    .single()
+
+  if (error) throw error
+  return data
+}
+
+export const deleteListing = async (id: string) => {
+  const { error } = await supabase
+    .from('business_listings')
+    .delete()
+    .eq('id', id)
+
+  if (error) throw error
+}
+
+export const getCategories = async () => {
+  const { data, error } = await supabase
+    .from('categories')
+    .select('*')
+    .eq('is_active', true)
+    .order('display_order', { ascending: true })
+
+  if (error) throw error
+  return data
+}
+
+// Bookings Functions
+export const getUserBookings = async (userType: 'contractor' | 'customer') => {
+  const user = await getCurrentUser()
+  if (!user) throw new Error('No authenticated user')
+
+  const column = userType === 'contractor' ? 'contractor_id' : 'customer_id'
+  
+  const { data, error } = await supabase
+    .from('bookings')
+    .select(`
+      *,
+      business_listings (
+        title,
+        business_name
+      ),
+      customer:customer_id (
+        full_name,
+        email,
+        phone
+      ),
+      contractor:contractor_id (
+        full_name,
+        email,
+        phone,
+        business_name
+      )
+    `)
+    .eq(column, user.id)
+    .order('created_at', { ascending: false })
+
+  if (error) throw error
+  return data
+}
+
+export const updateBookingStatus = async (id: string, status: string, notes?: string) => {
+  const { data, error } = await supabase
+    .from('bookings')
+    .update({
+      status,
+      contractor_notes: notes,
+      updated_at: new Date().toISOString()
+    })
+    .eq('id', id)
+    .select()
+    .single()
+
+  if (error) throw error
+  return data
+}
+
+// Messages Functions
+export const getBookingMessages = async (bookingId: string) => {
+  const { data, error } = await supabase
+    .from('booking_messages')
+    .select(`
+      *,
+      sender:sender_id (
+        full_name,
+        avatar_url
+      )
+    `)
+    .eq('booking_id', bookingId)
+    .order('created_at', { ascending: true })
+
+  if (error) throw error
+  return data
+}
+
+export const sendMessage = async (bookingId: string, message: string, messageType: string = 'text') => {
+  const user = await getCurrentUser()
+  if (!user) throw new Error('No authenticated user')
+
+  const { data, error } = await supabase
+    .from('booking_messages')
+    .insert({
+      booking_id: bookingId,
+      sender_id: user.id,
+      message,
+      message_type: messageType
+    })
+    .select(`
+      *,
+      sender:sender_id (
+        full_name,
+        avatar_url
+      )
+    `)
+    .single()
+
+  if (error) throw error
+  return data
+}
+
+export const markMessagesAsRead = async (bookingId: string) => {
+  const user = await getCurrentUser()
+  if (!user) throw new Error('No authenticated user')
+
+  const { error } = await supabase
+    .from('booking_messages')
+    .update({
+      is_read: true,
+      read_at: new Date().toISOString()
+    })
+    .eq('booking_id', bookingId)
+    .neq('sender_id', user.id)
+
+  if (error) throw error
+}
