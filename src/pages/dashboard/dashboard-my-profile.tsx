@@ -58,7 +58,7 @@ export default function DashboardMyProfile() {
                                 <div className="col-xl-4 col-lg-4 col-md-5">
                                     <div className="card rounded-3 shadow-sm">
                                         <div className="card-body py-5 p-4">
-                                            <div className="dash-prf-start d-flex flex-column align-items-start justify-content-start">
+                                            <div className="dash-prf-start d-flex flex-column align-items-center justify-content-start">
                                                 <div className="dash-prf-start-upper mx-auto">
                                                     <div className="dash-prf-start-thumb w-40 h-40 mb-2">
                                                         <figure>

@@ -293,17 +293,17 @@ export const uploadAvatar = async (file: File) => {
   const user = await getCurrentUser()
   if (!user) throw new Error('No authenticated user')
 
-  // Create unique filename
+  // Create unique filename with user folder structure for RLS policies
   const fileExt = file.name.split('.').pop()
-  const fileName = `${user.id}-${Date.now()}.${fileExt}`
-  const filePath = fileName
+  const fileName = `avatar-${Date.now()}.${fileExt}`
+  const filePath = `${user.id}/${fileName}` // This format matches RLS policy expectations
 
   // Upload file to Supabase Storage
   const { error: uploadError } = await supabase.storage
     .from('avatars')
     .upload(filePath, file, {
       cacheControl: '3600',
-      upsert: false
+      upsert: true // Allow overwriting existing avatars
     })
 
   if (uploadError) throw uploadError
@@ -330,10 +330,19 @@ export const deleteAvatar = async (avatarUrl: string) => {
   const user = await getCurrentUser()
   if (!user) throw new Error('No authenticated user')
 
-  // Extract file path from URL
+  // Extract file path from URL - handle both old and new path formats
   const urlParts = avatarUrl.split('/')
   const fileName = urlParts[urlParts.length - 1]
-  const filePath = fileName
+  
+  // Check if this is an old format (user-id-timestamp.ext) or new format (user-id/avatar-timestamp.ext)
+  let filePath: string
+  if (fileName.startsWith(user.id + '-')) {
+    // Old format: file was stored in root with user ID prefix
+    filePath = fileName
+  } else {
+    // New format: file is stored in user folder
+    filePath = `${user.id}/${fileName}`
+  }
 
   // Delete from storage
   const { error: deleteError } = await supabase.storage
