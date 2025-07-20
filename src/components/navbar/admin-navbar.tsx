@@ -7,7 +7,11 @@ import { useAuth } from '../../contexts/AuthContext'
 import list1 from '../../assets/img/list-3.jpg'
 import list2 from '../../assets/img/list-4.jpg'
 import list3 from '../../assets/img/list-5.jpg'
-import team1 from '../../assets/img/team-2.jpg'
+// Generate a default avatar URL using the user's initials
+const getDefaultAvatar = (name?: string | null) => {
+  const initials = name ? name.split(' ').map(n => n[0]).join('').toUpperCase() : 'U'
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(initials)}&background=c71f37&color=fff&size=80`
+}
 
 
 import { BsPersonCircle,BsBasket2,BsSearch, BsGeoAlt, BsSpeedometer, BsPersonLinesFill, BsJournalCheck, BsUiRadiosGrid, BsBookmarkStar, BsChatDots, BsYelp, BsWallet, BsPatchPlus, BsBoxArrowInRight, BsPersonPlus, BsQuestionCircle, BsShieldCheck, BsPersonVcard, BsCalendar2Check, BsPersonCheck, BsBlockquoteLeft, BsEnvelopeCheck, BsCoin, BsPatchQuestion, BsHourglassTop, BsInfoCircle, BsXOctagon, BsGear, BsGeoAltFill, BsX } from "react-icons/bs";
@@ -62,7 +66,7 @@ export default function AdminNavbar() {
                         <div className="mobile_nav">
                             <ul>
                                 <li>
-                                    <Link data-bs-toggle="offcanvas" to="#offcanvasExample" role="button" aria-controls="offcanvasExample" className="d-inline-flex py-0 pt-1 px-1"><div className="d-inline-flex w-8 h-8 circle overflow-hidden"><img src={profile?.avatar_url || team1} className="img-fluid" alt="Profile"/></div></Link>
+                                    <Link data-bs-toggle="offcanvas" to="#offcanvasExample" role="button" aria-controls="offcanvasExample" className="d-inline-flex py-0 pt-1 px-1"><div className="d-inline-flex w-8 h-8 circle overflow-hidden"><img src={profile?.avatar_url || getDefaultAvatar(profile?.full_name)} className="img-fluid" alt="Profile"/></div></Link>
                                 </li>
                                 <li>
                                     <Link to="#cartSlider" className="cart-content" data-bs-toggle="offcanvas" role="button" aria-controls="cartSlider"><BsBasket2 className=""/><span className="head-cart-counter">3</span></Link>
@@ -195,7 +199,7 @@ export default function AdminNavbar() {
                             <li>
                                 <div className="btn-group account-drop">
                                     <Link to="#" className="nav-link btn-order-by-filt" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <div className="d-inline-flex w-8 h-8 circle overflow-hidden"><img src={profile?.avatar_url || team1} className="img-fluid" alt="Profile"/></div>
+                                        <div className="d-inline-flex w-8 h-8 circle overflow-hidden"><img src={profile?.avatar_url || getDefaultAvatar(profile?.full_name)} className="img-fluid" alt="Profile"/></div>
                                         <span className="fw-medium d-inline-flex ms-2 text-light">Shreethemes<FaSortDown className="ms-1"/></span>
                                     </Link>
                                     <div className="dropdown-menu pull-right animated flipInX">

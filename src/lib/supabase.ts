@@ -296,7 +296,7 @@ export const uploadAvatar = async (file: File) => {
   // Create unique filename
   const fileExt = file.name.split('.').pop()
   const fileName = `${user.id}-${Date.now()}.${fileExt}`
-  const filePath = `avatars/${fileName}`
+  const filePath = fileName
 
   // Upload file to Supabase Storage
   const { error: uploadError } = await supabase.storage
@@ -333,7 +333,7 @@ export const deleteAvatar = async (avatarUrl: string) => {
   // Extract file path from URL
   const urlParts = avatarUrl.split('/')
   const fileName = urlParts[urlParts.length - 1]
-  const filePath = `avatars/${fileName}`
+  const filePath = fileName
 
   // Delete from storage
   const { error: deleteError } = await supabase.storage

@@ -7,7 +7,11 @@ import ProfileForm from '../../components/profile/ProfileForm'
 import PasswordUpdateForm from '../../components/profile/PasswordUpdateForm'
 import AvatarUpload from '../../components/profile/AvatarUpload'
 
-import defaultAvatar from '../../assets/img/team-2.jpg'
+// Generate a default avatar URL using the user's initials
+const getDefaultAvatar = (name?: string | null) => {
+  const initials = name ? name.split(' ').map(n => n[0]).join('').toUpperCase() : 'U'
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(initials)}&background=c71f37&color=fff&size=200`
+}
 
 import { FaHeart } from 'react-icons/fa'
 import { useAuth } from '../../contexts/AuthContext'
@@ -59,7 +63,7 @@ export default function DashboardMyProfile() {
                                                     <div className="dash-prf-start-thumb w-40 h-40 mb-2">
                                                         <figure>
                                                             <img 
-                                                                src={profile?.avatar_url || defaultAvatar} 
+                                                                src={profile?.avatar_url || getDefaultAvatar(profile?.full_name)} 
                                                                 className="img-fluid circle" 
                                                                 alt={profile?.full_name || "Profile"} 
                                                             />
@@ -79,10 +83,6 @@ export default function DashboardMyProfile() {
                                                         {profile?.is_verified && (
                                                             <span className="badge bg-success mt-1 ms-1">Verified</span>
                                                         )}
-                                                    </div>
-                                                    <div className="upload-btn-wrapper small">
-                                                        <button className="btn btn-md btn-light-primary fw-medium">Change Profile Image</button>
-                                                        <input type="file" name="myfile" accept="image/*"/>
                                                     </div>
                                                 </div>
                                             </div>
