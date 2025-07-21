@@ -106,7 +106,7 @@ export default function AdminNavbar() {
                                 <div className="btn-group account-drop">
                                     <Link to="#" className="nav-link btn-order-by-filt" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <div className="d-inline-flex w-8 h-8 circle overflow-hidden"><img src={profile?.avatar_url || getDefaultAvatar(profile?.full_name)} className="img-fluid" alt="Profile"/></div>
-                                        <span className="fw-medium d-inline-flex ms-2 text-light">{profile?.full_name || 'User'}<FaSortDown className="ms-1"/></span>
+                                        <span className={`fw-medium d-inline-flex ms-2 ${scroll ? 'text-dark' : 'text-light'}`}>{profile?.full_name || 'User'}<FaSortDown className="ms-1"/></span>
                                     </Link>
                                     <div className="dropdown-menu pull-right animated flipInX">
                                         <div className="drp_menu_headr bg-primary">

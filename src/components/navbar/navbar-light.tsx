@@ -169,20 +169,20 @@ export default function NavbarLight() {
                                 {user ? (
                                     <div className="d-flex align-items-center gap-2">
                                         <Link to="/dashboard" className="d-flex align-items-center">
-                                            <BsPersonCircle className="fs-6 me-1"/>
-                                            <span className="navCl">Welcome, {user.profile?.full_name || user.email}</span>
+                                            <BsPersonCircle className={`fs-6 me-1 ${scroll ? 'text-dark' : 'text-light'}`}/>
+                                            <span className={`navCl ${scroll ? 'text-dark' : 'text-light'}`}>Welcome, {user.profile?.full_name || user.email}</span>
                                         </Link>
                                         <button 
                                             onClick={handleLogout}
-                                            className="btn btn-sm btn-outline-light"
+                                            className={`btn btn-sm ${scroll ? 'btn-outline-dark' : 'btn-outline-light'}`}
                                         >
                                             Logout
                                         </button>
                                     </div>
                                 ) : (
                                     <Link to="#login" className="d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#login">
-                                        <BsPersonCircle className="fs-6 me-1"/>
-                                        <span className="navCl">SignUp or SignIn</span>
+                                        <BsPersonCircle className={`fs-6 me-1 ${scroll ? 'text-dark' : 'text-light'}`}/>
+                                        <span className={`navCl ${scroll ? 'text-dark' : 'text-light'}`}>SignUp or SignIn</span>
                                     </Link>
                                 )}
                             </li>
