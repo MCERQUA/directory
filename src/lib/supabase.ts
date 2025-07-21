@@ -526,3 +526,111 @@ export const getUserRecentMessages = async () => {
     return []
   }
 }
+
+// Public Listings Functions (for website display)
+export const getPublicListings = async (limit: number = 50) => {
+  const { data, error } = await supabase
+    .from('business_listings')
+    .select(`
+      *,
+      categories (
+        name,
+        slug
+      )
+    `)
+    .eq('status', 'active')
+    .order('created_at', { ascending: false })
+    .limit(limit)
+
+  if (error) throw error
+  return data || []
+}
+
+export const getFeaturedListings = async (limit: number = 6) => {
+  const { data, error } = await supabase
+    .from('business_listings')
+    .select(`
+      *,
+      categories (
+        name,
+        slug
+      )
+    `)
+    .eq('status', 'active')
+    .eq('is_featured', true)
+    .order('created_at', { ascending: false })
+    .limit(limit)
+
+  if (error) throw error
+  return data || []
+}
+
+export const getListingsByCategory = async (categoryId: string, limit: number = 20) => {
+  const { data, error } = await supabase
+    .from('business_listings')
+    .select(`
+      *,
+      categories (
+        name,
+        slug
+      )
+    `)
+    .eq('status', 'active')
+    .eq('category_id', categoryId)
+    .order('created_at', { ascending: false })
+    .limit(limit)
+
+  if (error) throw error
+  return data || []
+}
+
+export const searchListings = async (query: string, city?: string, limit: number = 20) => {
+  let queryBuilder = supabase
+    .from('business_listings')
+    .select(`
+      *,
+      categories (
+        name,
+        slug
+      )
+    `)
+    .eq('status', 'active')
+
+  if (query) {
+    queryBuilder = queryBuilder.or(`title.ilike.%${query}%,description.ilike.%${query}%,business_name.ilike.%${query}%`)
+  }
+
+  if (city) {
+    queryBuilder = queryBuilder.ilike('city', `%${city}%`)
+  }
+
+  const { data, error } = await queryBuilder
+    .order('created_at', { ascending: false })
+    .limit(limit)
+
+  if (error) throw error
+  return data || []
+}
+
+export const getListingById = async (id: string) => {
+  const { data, error } = await supabase
+    .from('business_listings')
+    .select(`
+      *,
+      categories (
+        name,
+        slug
+      ),
+      profiles (
+        full_name,
+        avatar_url,
+        phone
+      )
+    `)
+    .eq('id', id)
+    .eq('status', 'active')
+    .single()
+
+  if (error) throw error
+  return data
+}

@@ -89,6 +89,14 @@ export const categoryData = [
 ]
 
 // Listing data - empty array, real data comes from Supabase
+// Import Supabase functions for real data
+import { getPublicListings, getFeaturedListings } from '../lib/supabase';
+
+// Real data comes from Supabase - export functions instead of static arrays
+export const getListData = getPublicListings;
+export const getFeaturedListData = getFeaturedListings;
+
+// For backwards compatibility, provide empty array (components should migrate to async functions)
 export const listData: any[] = [];
 
 // Review testimonials - empty array, real data comes from Supabase

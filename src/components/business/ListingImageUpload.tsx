@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { BsPatchPlus, BsX, BsCheck } from 'react-icons/bs';
 import { supabase } from '../../lib/supabase';
@@ -84,14 +84,19 @@ export default function ListingImageUpload({ onImagesChange }: ListingImageUploa
     }
   }, []);
 
-  const updateParentImages = () => {
+  const updateParentImages = useCallback(() => {
     const uploadedImages = images.filter(img => img.uploaded && img.publicUrl);
     const logo = uploadedImages.find(img => img.type === 'logo')?.publicUrl;
     const featured = uploadedImages.find(img => img.type === 'featured')?.publicUrl;
     const gallery = uploadedImages.filter(img => img.type === 'gallery').map(img => img.publicUrl!);
 
     onImagesChange({ logo, featured, gallery });
-  };
+  }, [images, onImagesChange]);
+
+  // Update parent when images change
+  useEffect(() => {
+    updateParentImages();
+  }, [updateParentImages]);
 
   const removeImage = (imageToRemove: UploadedImage) => {
     setImages(prev => prev.filter(img => img !== imageToRemove));
