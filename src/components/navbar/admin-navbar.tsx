@@ -83,20 +83,25 @@ export default function AdminNavbar() {
                         </div>
                         <span className='nav-menus-wrapper-close-button'  onClick={()=>setIsToggle(!toggle)}>✕</span>
                         <ul className="nav-menu">
-                            <li className={`${['/','/home-2','/home-3','/home-4','/home-5','/home-6','/home-7','/home-8','/home-9','/home-10','/home-splash','/home-map'].includes(current)? 'active' : ''}`}><Link to="#">Home<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
+                            <li className={`${current === '/' ? 'active' : ''}`}>
+                                <Link to="/">
+                                    <BsSpeedometer className="me-2"/>
+                                    Home
+                                </Link>
+                            </li>
+                            <li className={`${current === '/grid-layout-01' ? 'active' : ''}`}>
+                                <Link to="/grid-layout-01">
+                                    <BsUiRadiosGrid className="me-2"/>
+                                    Browse Services
+                                </Link>
+                            </li>
+                            <li className={`${['/dashboard-user','/dashboard-my-profile','/dashboard-my-listings','/dashboard-my-bookings','/dashboard-messages','/dashboard-my-favourites','/dashboard-my-reviews','/dashboard-earning-reports'].includes(current)? 'active' : ''}`}><Link to="#">Dashboard<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
                                 <ul className="nav-dropdown nav-submenu">
-                                    <li className={`${current === '/' ? 'active' : ''}`}><Link to="/">Home Layout 01</Link></li>
-                                    <li className={`${current === '/home-2' ? 'active' : ''}`}><Link to="/home-2">Home Layout 02</Link></li>
-                                    <li className={`${current === '/home-3' ? 'active' : ''}`}><Link to="/home-3">Home Layout 03</Link></li>
-                                    <li className={`${current === '/home-4' ? 'active' : ''}`}><Link to="/home-4">Home Layout 04</Link></li>
-                                    <li className={`${current === '/home-5' ? 'active' : ''}`}><Link to="/home-5">Home Layout 05</Link></li>
-                                    <li className={`${current === '/home-6' ? 'active' : ''}`}><Link to="/home-6">Home Layout 06</Link></li>
-                                    <li className={`${current === '/home-7' ? 'active' : ''}`}><Link to="/home-7">Home Layout 07</Link></li>
-                                    <li className={`${current === '/home-8' ? 'active' : ''}`}><Link to="/home-8">Home Layout 08</Link></li>
-                                    <li className={`${current === '/home-9' ? 'active' : ''}`}><Link to="/home-9">Home Layout 09</Link></li>
-                                    <li className={`${current === '/home-10' ? 'active' : ''}`}><Link to="/home-10">Home Layout 10</Link></li>
-                                    <li className={`${current === '/home-splash' ? 'active' : ''}`}><Link to="/home-splash">Home Splash</Link></li>
-                                    <li className={`${current === '/home-map' ? 'active' : ''}`}><Link to="/home-map">Home Map Layout</Link></li>
+                                    <li className={`${current === '/dashboard-user' ? 'active' : ''}`}><Link to="/dashboard-user" className='d-flex'><BsSpeedometer className="me-1 align-self-center"/>Dashboard</Link></li>
+                                    <li className={`${current === '/dashboard-my-profile' ? 'active' : ''}`}><Link to="/dashboard-my-profile" className='d-flex'><BsPersonLinesFill className="me-1 align-self-center"/>My Profile</Link></li>
+                                    <li className={`${current === '/dashboard-my-bookings' ? 'active' : ''}`}><Link to="/dashboard-my-bookings" className='d-flex'><BsJournalCheck className="me-1 align-self-center"/>My Bookings</Link></li>
+                                    <li className={`${current === '/dashboard-my-listings' ? 'active' : ''}`}><Link to="/dashboard-my-listings" className='d-flex'><BsUiRadiosGrid className="me-1 align-self-center"/>My Listings</Link></li>
+                                    <li className={`${current === '/dashboard-messages' ? 'active' : ''}`}><Link to="/dashboard-messages" className='d-flex'><BsChatDots className="me-1 align-self-center"/>Messages</Link></li>
                                 </ul>
                             </li>
 
@@ -200,11 +205,11 @@ export default function AdminNavbar() {
                                 <div className="btn-group account-drop">
                                     <Link to="#" className="nav-link btn-order-by-filt" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <div className="d-inline-flex w-8 h-8 circle overflow-hidden"><img src={profile?.avatar_url || getDefaultAvatar(profile?.full_name)} className="img-fluid" alt="Profile"/></div>
-                                        <span className="fw-medium d-inline-flex ms-2 text-light">Shreethemes<FaSortDown className="ms-1"/></span>
+                                        <span className="fw-medium d-inline-flex ms-2 text-light">{profile?.full_name || 'User'}<FaSortDown className="ms-1"/></span>
                                     </Link>
                                     <div className="dropdown-menu pull-right animated flipInX">
                                         <div className="drp_menu_headr bg-primary">
-                                            <h4>Hi, Shreethemes</h4>
+                                            <h4>Hi, {profile?.full_name || 'User'}</h4>
                                             <div className="drp_menu_headr-right"><button type="button" className="btn btn-whites text-dark">My Profile</button></div>
                                         </div>
                                         <ul>
