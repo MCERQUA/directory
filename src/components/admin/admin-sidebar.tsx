@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { BsBookmarkStar, BsChatDots, BsJournalCheck, BsPatchPlus, BsPersonLinesFill, BsSpeedometer, BsUiRadiosGrid, BsWallet, BsYelp } from 'react-icons/bs'
+import { BsBookmarkStar, BsChatDots, BsJournalCheck, BsPatchPlus, BsPersonLinesFill, BsSpeedometer, BsUiRadiosGrid, BsYelp } from 'react-icons/bs'
 import { useAuth } from '../../contexts/AuthContext'
 
 export default function AdminSidebar() {
@@ -34,7 +34,6 @@ export default function AdminSidebar() {
                     <li><Link to="/dashboard/bookmarks" className={`${['/dashboard/bookmarks', '/dashboard-bookmarks'].includes(current) ? 'active' : ''}`}><BsBookmarkStar className="me-2"/>Bookmarkes</Link></li>
                     <li><Link to="/dashboard/messages" className={`${['/dashboard/messages', '/dashboard-messages'].includes(current) ? 'active' : ''}`}><BsChatDots className="me-2"/>Messages<span className="notti_coun style-1">3</span></Link></li>
                     <li><Link to="/dashboard/reviews" className={`${['/dashboard/reviews', '/dashboard-reviews'].includes(current) ? 'active' : ''}`}><BsYelp className="me-2"/>Reviews</Link></li>
-                    <li><Link to="/dashboard/wallet" className={`${['/dashboard/wallet', '/dashboard-wallet'].includes(current) ? 'active' : ''}`}><BsWallet className="me-2"/>Wallet</Link></li>
                     <li><Link to="/dashboard/add-listing" className={`${['/dashboard/add-listing', '/dashboard-add-listing'].includes(current) ? 'active' : ''}`}><BsPatchPlus className="me-2"/>Add Listing</Link></li>
                 </ul>
             </div>

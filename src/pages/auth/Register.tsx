@@ -11,7 +11,7 @@ export default function Register() {
     email: '',
     password: '',
     confirmPassword: '',
-    userType: 'customer' as 'contractor' | 'customer',
+    userType: 'contractor' as 'contractor' | 'customer',
     agreeToTerms: false,
   });
   const [showPassword, setShowPassword] = useState(false);

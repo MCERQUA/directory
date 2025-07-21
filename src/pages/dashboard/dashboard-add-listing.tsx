@@ -90,10 +90,6 @@ export default function DashboardAddListing() {
             return;
         }
 
-        if (profile?.user_type !== 'contractor') {
-            alert('Only contractor accounts can create listings');
-            return;
-        }
 
         setLoading(true);
         
@@ -118,14 +114,14 @@ export default function DashboardAddListing() {
                     hourly_rate: formData.hourly_rate ? parseFloat(formData.hourly_rate) : null,
                     min_project_budget: formData.min_project_budget ? parseFloat(formData.min_project_budget) : null,
                     max_project_budget: formData.max_project_budget ? parseFloat(formData.max_project_budget) : null,
-                    status: 'pending'
+                    status: 'active'
                 })
                 .select()
                 .single();
 
             if (error) throw error;
 
-            alert('Listing created successfully! It will be reviewed before going live.');
+            alert('Listing created successfully and is now live!');
             navigate('/dashboard/listings');
         } catch (error: any) {
             console.error('Error creating listing:', error);
