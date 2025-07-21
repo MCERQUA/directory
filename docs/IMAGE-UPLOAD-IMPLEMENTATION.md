@@ -4,7 +4,7 @@
 **Status:** ✅ COMPLETED & UPDATED  
 **Build Status:** ✅ SUCCESSFUL  
 **Feature:** Full image upload functionality for contractor listings  
-**Latest Update:** Fixed storage bucket configuration to use `business-images`  
+**Latest Update:** Fixed storage bucket configuration to use `business-images` + RLS policies  
 
 ## 🚨 **Problem Resolved**
 
@@ -52,6 +52,12 @@
 - ✅ `review-images` (public) - For review attachments
 - ✅ `documents` (private) - For secure documents
 - ✅ `booking-attachments` (private) - For booking files
+
+**Row Level Security (RLS) Policies:**
+- ✅ `Authenticated users can upload business images` - Allows logged-in users to upload
+- ✅ `Authenticated users can update business images` - Allows modification of uploads
+- ✅ `Authenticated users can delete business images` - Allows removal of uploads
+- ✅ `Business images are publicly accessible` - Public read access for displaying images
 
 **Upload Process:**
 ```typescript
