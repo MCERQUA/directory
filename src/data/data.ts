@@ -102,8 +102,37 @@ export const listData: any[] = [];
 // Review testimonials - empty array, real data comes from Supabase
 export const reviewData: any[] = [];
 
-// Blog data - empty array, real data comes from Supabase or CMS
-export const blogData: any[] = [];
+// Blog data
+import blog1 from '../assets/img/blog-1.jpg'
+import blog2 from '../assets/img/blog-2.jpg'
+import blog3 from '../assets/img/blog-3.jpg'
+
+export const blogData = [
+    {
+        id: 1,
+        image: blog1,
+        title: 'Essential Home Maintenance Tips for Every Season',
+        desc: 'Keep your home in top condition year-round with our comprehensive seasonal maintenance checklist. From HVAC tune-ups to gutter cleaning, we cover everything you need to know.',
+        date: 'December 15, 2024',
+        views: '2.5k views'
+    },
+    {
+        id: 2,
+        image: blog2,
+        title: 'How to Choose the Right Contractor for Your Project',
+        desc: 'Learn the key factors to consider when selecting a contractor for your home improvement project. Get tips on vetting credentials, comparing quotes, and ensuring quality work.',
+        date: 'December 10, 2024',
+        views: '1.8k views'
+    },
+    {
+        id: 3,
+        image: blog3,
+        title: 'Kitchen Renovation Trends That Add Value to Your Home',
+        desc: 'Discover the latest kitchen renovation trends that not only enhance your daily life but also increase your home\'s market value. From smart appliances to sustainable materials.',
+        date: 'December 5, 2024',
+        views: '3.2k views'
+    }
+];
 
 // Footer links - kept as these are static site content
 export const footerLink1 = ['About ContractorHub', 'Find Contractors', 'Contractor Signup', 'Careers'];
@@ -229,7 +258,7 @@ export const counterData = [
 // Team data - empty array, real data comes from CMS/Supabase
 export const teamData: any[] = [];
 
-// Blog related data - empty arrays
+// Blog related data - most viewed blog posts
 export const mostViewBlog: any[] = [];
 
 // Blog tags - kept as static content for filtering
