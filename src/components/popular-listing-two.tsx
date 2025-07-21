@@ -93,7 +93,8 @@ export default function PopularListingTwo() {
         console.error('Error loading popular listings:', error)
         console.log('Error details:', error instanceof Error ? error.message : 'Unknown error')
         console.log('Using mock data as fallback...')
-        setListings(mockListings)
+        console.log('Mock data:', mockListings)
+        setListings(mockListings as BusinessListing[])
         setError(null)
       } finally {
         setLoading(false)
@@ -132,6 +133,8 @@ export default function PopularListingTwo() {
     )
   }
 
+  console.log('Current state:', { loading, listingsCount: listings.length, error })
+  
   if (!loading && listings.length === 0) {
     return (
       <div className="row align-items-center justify-content-center">
@@ -159,7 +162,8 @@ export default function PopularListingTwo() {
                         1440: { slidesPerView: 4 },
                     }}
                 >
-                {listings.map((listing)=>{
+                {listings.map((listing, index)=>{
+                    console.log('Rendering listing:', index, listing.title)
                     return(
                         <SwiperSlide className="singleItem" key={listing.id}>
                             <div className="listingitem-container">
