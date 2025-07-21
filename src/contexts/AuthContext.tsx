@@ -39,7 +39,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setProfile(profileData);
       setUser({ ...user, profile: profileData });
     } catch (error) {
-      console.error('Error loading profile:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error loading profile:', error);
+      }
       setProfile(null);
       setUser({ ...user, profile: null });
     }
@@ -52,13 +54,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const { data: { session }, error } = await supabase.auth.getSession();
         
         if (error) {
-          console.error('Error getting session:', error);
+          if (import.meta.env.DEV) {
+            console.error('Error getting session:', error);
+          }
         } else if (session?.user) {
           setSession(session);
           await loadProfile(session.user);
         }
       } catch (error) {
-        console.error('Error in getInitialSession:', error);
+        if (import.meta.env.DEV) {
+          console.error('Error in getInitialSession:', error);
+        }
       } finally {
         setLoading(false);
       }
@@ -69,7 +75,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        console.log('Auth state changed:', event, session);
+        // Only log auth events in development, never log session data
+        if (import.meta.env.DEV) {
+          console.log('Auth state changed:', event);
+        }
         
         setSession(session);
         
@@ -93,7 +102,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       await signInWithEmail(email, password);
       // User state will be updated by the auth state change listener
     } catch (error: any) {
-      console.error('Login error:', error);
+      if (import.meta.env.DEV) {
+        console.error('Login error:', error);
+      }
       throw new Error(error.message || 'Login failed');
     } finally {
       setLoading(false);
@@ -111,7 +122,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       await signUpWithEmail(email, password, name, userType);
       // User state will be updated by the auth state change listener
     } catch (error: any) {
-      console.error('Registration error:', error);
+      if (import.meta.env.DEV) {
+        console.error('Registration error:', error);
+      }
       throw new Error(error.message || 'Registration failed');
     } finally {
       setLoading(false);
@@ -124,7 +137,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       await signInWithGoogle();
       // User state will be updated by the auth state change listener
     } catch (error: any) {
-      console.error('Google login error:', error);
+      if (import.meta.env.DEV) {
+        console.error('Google login error:', error);
+      }
       throw new Error(error.message || 'Google login failed');
     } finally {
       setLoading(false);
@@ -137,7 +152,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       await signOut();
       // User state will be updated by the auth state change listener
     } catch (error: any) {
-      console.error('Logout error:', error);
+      if (import.meta.env.DEV) {
+        console.error('Logout error:', error);
+      }
       throw new Error(error.message || 'Logout failed');
     } finally {
       setLoading(false);
@@ -149,7 +166,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setLoading(true);
       await resetPassword(email);
     } catch (error: any) {
-      console.error('Password reset error:', error);
+      if (import.meta.env.DEV) {
+        console.error('Password reset error:', error);
+      }
       throw new Error(error.message || 'Password reset failed');
     } finally {
       setLoading(false);
@@ -177,7 +196,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setProfile(data);
       setUser({ ...user, profile: data });
     } catch (error: any) {
-      console.error('Profile update error:', error);
+      if (import.meta.env.DEV) {
+        console.error('Profile update error:', error);
+      }
       throw new Error(error.message || 'Profile update failed');
     } finally {
       setLoading(false);
@@ -190,7 +211,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       await loadProfile(user);
     } catch (error) {
-      console.error('Error refreshing profile:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error refreshing profile:', error);
+      }
     }
   };
 

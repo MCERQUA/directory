@@ -399,7 +399,11 @@ export const getUserDashboardStats = async () => {
       pendingBookings: pendingBookings || 0,
     }
   } catch (error) {
-    console.error('Error fetching dashboard stats:', error)
+    if (import.meta.env.DEV) {
+      console.error('Error fetching dashboard stats:', error)
+    } else {
+      console.error('Dashboard stats loading failed')
+    }
     return {
       activeListings: 0,
       totalListings: 0,
@@ -471,7 +475,11 @@ export const getUserRecentActivities = async () => {
       .slice(0, 5)
 
   } catch (error) {
-    console.error('Error fetching recent activities:', error)
+    if (import.meta.env.DEV) {
+      console.error('Error fetching recent activities:', error)
+    } else {
+      console.error('Recent activities loading failed')
+    }
     return []
   }
 }
@@ -502,7 +510,11 @@ export const getUserRecentMessages = async () => {
 
     return messages || []
   } catch (error) {
-    console.error('Error fetching recent messages:', error)
+    if (import.meta.env.DEV) {
+      console.error('Error fetching recent messages:', error)
+    } else {
+      console.error('Recent messages loading failed')
+    }
     return []
   }
 }

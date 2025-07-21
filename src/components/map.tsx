@@ -3,7 +3,10 @@ import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
 export default function Map() {
     const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-    console.log('Using Google Maps API Key:', apiKey ? `${apiKey.substring(0, 10)}...` : 'No key found');
+    // Only log API key status in development, never partial keys
+    if (import.meta.env.DEV) {
+        console.log('Google Maps API Key status:', apiKey ? 'loaded' : 'missing');
+    }
     
     const defaultProps = {
         center: {

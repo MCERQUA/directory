@@ -83,12 +83,22 @@ function App() {
       new window.bootstrap.Tooltip(tooltipTriggerEl);
     });
 
-    // Load Google Identity Services
+    // Load Google Identity Services with security headers
     const loadGoogleScript = () => {
       const script = document.createElement('script');
       script.src = 'https://accounts.google.com/gsi/client';
       script.async = true;
       script.defer = true;
+      script.crossOrigin = 'anonymous';
+      script.referrerPolicy = 'no-referrer';
+      
+      // Add error handling for script loading
+      script.onerror = () => {
+        if (import.meta.env.DEV) {
+          console.error('Failed to load Google Identity Services script');
+        }
+      };
+      
       document.head.appendChild(script);
     };
 
