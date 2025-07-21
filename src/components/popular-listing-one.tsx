@@ -1,7 +1,8 @@
 // @ts-nocheck 
 
 import { Link } from 'react-router-dom';
-import { listData } from '../data/data'
+import { useState, useEffect } from 'react'
+import { getPublicListings, BusinessListing } from '../lib/supabase'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay,Pagination } from 'swiper/modules';
 import 'swiper/css';
@@ -28,19 +29,25 @@ interface ListData{
 }
 
 export default function PopularListingOne() {
-  if (!listData || listData.length === 0) {
-    return (
-      <div className="row align-items-center justify-content-center">
-        <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-          <div className="text-center py-5">
-            <div className="text-muted">
-              <h5>No Listings Available</h5>
-              <p>Listings will appear here once contractors join the platform.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+  const [listings, setListings] = useState<BusinessListing[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const loadListings = async () => {
+      try {
+        const data = await getPublicListings(8)
+        setListings(data)
+      } catch (error) {
+        console.error('Error loading popular listings:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    loadListings()
+  }, [])
+
+  if (loading || listings.length === 0) {
+    return null // Don't show anything if no data
   }
 
   return (
@@ -60,10 +67,9 @@ export default function PopularListingOne() {
                         1440: { slidesPerView: 4 },
                     }}
                 >
-                {listData.map((item:ListData,index:number)=>{
-                    const Icon = item.tagIcon
+                {listings.map((listing)=>{
                     return(
-                        <SwiperSlide className="singleItem" key={index}>
+                        <SwiperSlide className="singleItem" key={listing.id}>
                             <div className="listingitem-container">
                                 <div className="singlelisting-item">
                                     <div className="listing-top-item">
