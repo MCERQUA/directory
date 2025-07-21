@@ -8,12 +8,8 @@ import googleLogo from '../../assets/img/google.png'
 import brand1 from '../../assets/img/brand/logo-1.png'
 import brand2 from '../../assets/img/brand/logo-2.png'
 import brand3 from '../../assets/img/brand/logo-3.png'
-import list1 from '../../assets/img/list-3.jpg'
-import list2 from '../../assets/img/list-4.jpg'
-import list3 from '../../assets/img/list-5.jpg'
 
-import { BsPersonCircle, BsBasket2, BsSearch, BsGeoAlt, BsGeoAltFill, BsX } from "react-icons/bs";
-import { FiX } from 'react-icons/fi';
+import { BsPersonCircle, BsSearch, BsGeoAlt, BsGeoAltFill, BsX } from "react-icons/bs";
 
 
 export default function NavbarLight() {
@@ -137,9 +133,6 @@ export default function NavbarLight() {
                                     )}
                                 </li>
                                 <li>
-                                    <a href="#cartSlider" className="cart-content" data-bs-toggle="offcanvas" role="button" aria-controls="cartSlider"><BsBasket2  className=""/><span className="head-cart-counter">3</span></a>
-                                </li>
-                                <li>
                                     <Link to="#searchSlider" className="d-flex align-items-center" data-bs-toggle="offcanvas" role="button" aria-controls="searchSlider"><BsSearch className="me-1"/></Link>
                                 </li>
                             </ul>
@@ -193,9 +186,6 @@ export default function NavbarLight() {
                                     </Link>
                                 )}
                             </li>
-                            <li>
-                                <a href="#cartSlider" className="cart-content" data-bs-toggle="offcanvas" role="button" aria-controls="cartSlider"><BsBasket2  className=""/><span className="head-cart-counter">3</span></a>
-                            </li>
                             <li className="list-buttons light">
                                 <Link to="/dashboard/add-listing"><BsGeoAlt className="fs-6 me-1"/>Add Your Company</Link>
                             </li>
@@ -210,7 +200,7 @@ export default function NavbarLight() {
             <div className="modal-dialog" id="loginmodal">
                 <div className="modal-content">
                     <div className="modal-header justify-content-end border-0 pb-0">
-                        <Link to="#" className="square--30 circle bg-light-danger text-danger" data-bs-dismiss="modal" aria-label="Close"><FiX className=""/></Link>
+                        <Link to="#" className="square--30 circle bg-light-danger text-danger" data-bs-dismiss="modal" aria-label="Close"><BsX className=""/></Link>
                     </div>
                     
                     <div className="modal-body px-4">
@@ -304,67 +294,6 @@ export default function NavbarLight() {
             </div>
         </div>
 
-        <div className="offcanvas offcanvas-end" data-bs-scroll="true" tabIndex={-1} id="cartSlider" aria-labelledby="cartSliderLabel">
-            <div className="offcanvas-header border-bottom d-flex justify-content-between">
-                <h6 className="offcanvas-title" id="cartSliderLabel">Your Service Cart</h6>
-                <Link to="#" className="square--35 circle text-muted-2 border" data-bs-dismiss="offcanvas" aria-label="Close"><FiX className=""/></Link>
-            </div>
-            <div className="offcanvas-body">
-                <div className="cartItems w-100">
-                    <div className="d-flex align-items-center justify-content-start flex-column gap-3">
-                        
-                        <div className="singleCartitem d-flex align-items-center justify-content-between gap-4 w-100">
-                            <div className="d-flex align-items-center justify-content-start gap-3">
-                                <div className="cartiteThumb"><figure className="d-block m-0"><img src={list1} className="img-fluid rounded-2" width="60" alt=""/></figure></div>
-                                <div className="cartCaption">
-                                    <h6 className="lh-base m-0">Bathroom Renovation</h6>
-                                    <p className="m-0">1x$2,850.00</p>
-                                </div>
-                            </div>
-                            
-                            <div className="removeItemcart"><Link to="#" className="square--35 circle badge-secondary"><FiX className=""/></Link></div>
-                        </div>
-                        
-                        <div className="singleCartitem d-flex align-items-center justify-content-between gap-3 w-100">
-                            <div className="d-flex align-items-center justify-content-start gap-3">
-                                <div className="cartiteThumb"><figure className="d-block m-0"><img src={list2} className="img-fluid rounded-2" width="60" alt=""/></figure></div>
-                                <div className="cartCaption">
-                                    <h6 className="lh-base m-0">Kitchen Flooring</h6>
-                                    <p className="m-0">1x$1,450.00</p>
-                                </div>
-                            </div>
-                            
-                            <div className="removeItemcart"><Link to="#" className="square--35 circle badge-secondary"><FiX className=""/></Link></div>
-                        </div>
-                        
-                        <div className="singleCartitem d-flex align-items-center justify-content-between gap-3 w-100">
-                            <div className="d-flex align-items-center justify-content-start gap-3">
-                                <div className="cartiteThumb"><figure className="d-block m-0"><img src={list3} className="img-fluid rounded-2" width="60" alt=""/></figure></div>
-                                <div className="cartCaption">
-                                    <h6 className="lh-base m-0">Exterior Painting</h6>
-                                    <p className="m-0">1x$980.00</p>
-                                </div>
-                            </div>
-                            
-                            <div className="removeItemcart"><Link to="" className="square--35 circle badge-secondary"><FiX className=""/></Link></div>
-                        </div>
-                    
-                    </div>
-                    
-                    <div className="cartSubtotal w-100 py-3 border-top mt-3">
-                        <h6 className="m-0">Subtotal: $5,280.00</h6>
-                    </div>
-                    
-                </div>
-                
-                <div className="cartButtons w-100 py-2">
-                    <div className="d-flex align-items-center justify-content-center flex-wrap gap-2">
-                        <Link to="/viewcart" className="btn btn-md btn-light-primary fw-medium flex-fill">View Cart</Link>
-                        <Link to="/checkout-page" className="btn btn-md btn-primary fw-medium flex-fill">Checkout</Link>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div className="offcanvas offcanvas-top h-auto" tabIndex={-1} id="searchSlider" aria-labelledby="searchSliderLabel">
             <div className="offcanvas-body" id="searchSliderLabel">
                 <div className="searchForm w-100 mb-3">
