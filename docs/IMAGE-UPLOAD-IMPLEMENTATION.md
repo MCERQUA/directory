@@ -1,9 +1,10 @@
 # Image Upload Implementation for Listings
 
 **Implementation Date:** July 21, 2025  
-**Status:** ✅ COMPLETED  
+**Status:** ✅ COMPLETED & UPDATED  
 **Build Status:** ✅ SUCCESSFUL  
 **Feature:** Full image upload functionality for contractor listings  
+**Latest Update:** Fixed storage bucket configuration to use `business-images`  
 
 ## 🚨 **Problem Resolved**
 
@@ -40,10 +41,17 @@
 
 ### **3. Integrated Supabase Storage**
 **Storage Setup:**
-- **Bucket:** `listing-images`
+- **Bucket:** `business-images` (updated from `listing-images`)
 - **File Structure:** `listings/{type-timestamp-random}.ext`
 - **Permissions:** Public read access for listing images
 - **Cache Control:** 3600 seconds for optimal performance
+
+**Available Storage Buckets:**
+- ✅ `business-images` (public) - Used for listing images, logos, and galleries
+- ✅ `avatars` (public) - For user profile images  
+- ✅ `review-images` (public) - For review attachments
+- ✅ `documents` (private) - For secure documents
+- ✅ `booking-attachments` (private) - For booking files
 
 **Upload Process:**
 ```typescript
@@ -52,11 +60,11 @@ const uploadToSupabase = async (file: File, type: string) => {
   const filePath = `listings/${fileName}`;
   
   const { error } = await supabase.storage
-    .from('listing-images')
+    .from('business-images')
     .upload(filePath, file);
     
   const { data } = supabase.storage
-    .from('listing-images')
+    .from('business-images')
     .getPublicUrl(filePath);
     
   return data.publicUrl;
@@ -128,7 +136,7 @@ Store URLs in database → Display on listing pages
 - Future: `logo_url` field can be added for business logos
 
 **Storage Location:**
-- **Supabase Storage Bucket:** `listing-images`
+- **Supabase Storage Bucket:** `business-images`
 - **Public URLs:** Automatically generated and cached
 - **File Organization:** `listings/type-timestamp-unique.ext`
 

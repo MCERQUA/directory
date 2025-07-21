@@ -97,6 +97,20 @@ The app uses a comprehensive routing system with 60+ routes covering all page va
 - Mock data in data.ts (1,067 lines) ready for API replacement
 - Image assets organized by category (listings, team, blog, categories, cities, events)
 - Icon system using React Icons (Bootstrap Icons, Font Awesome 6)
+- Supabase backend integration with real-time data and file storage
+- Image upload system with drag & drop functionality (react-dropzone)
+
+### Supabase Integration
+- **Database**: PostgreSQL with real-time subscriptions
+- **Authentication**: Email/password, Google OAuth, session management
+- **Storage Buckets**:
+  - `business-images` (public) - Listing images, logos, and galleries
+  - `avatars` (public) - User profile images
+  - `review-images` (public) - Review attachments
+  - `documents` (private) - Secure documents
+  - `booking-attachments` (private) - Booking files
+- **Security**: Row Level Security (RLS) policies, environment-gated logging
+- **API Functions**: User management, listing CRUD, dashboard statistics
 
 ### Data Structures
 - **Listings**: 9 sample listings with full metadata (status, rating, features, location, pricing)

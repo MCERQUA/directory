@@ -31,7 +31,7 @@ export default function ListingImageUpload({ onImagesChange }: ListingImageUploa
       const filePath = `listings/${fileName}`;
 
       const { error: uploadError } = await supabase.storage
-        .from('listing-images')
+        .from('business-images')
         .upload(filePath, file, {
           cacheControl: '3600',
           upsert: false
@@ -40,7 +40,7 @@ export default function ListingImageUpload({ onImagesChange }: ListingImageUploa
       if (uploadError) throw uploadError;
 
       const { data: urlData } = supabase.storage
-        .from('listing-images')
+        .from('business-images')
         .getPublicUrl(filePath);
 
       return urlData.publicUrl;
