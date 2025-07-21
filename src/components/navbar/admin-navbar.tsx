@@ -4,9 +4,6 @@ import { useAuth } from '../../contexts/AuthContext'
 
 
 
-import list1 from '../../assets/img/list-3.jpg'
-import list2 from '../../assets/img/list-4.jpg'
-import list3 from '../../assets/img/list-5.jpg'
 // Generate a default avatar URL using the user's initials
 const getDefaultAvatar = (name?: string | null) => {
   const initials = name ? name.split(' ').map(n => n[0]).join('').toUpperCase() : 'U'
@@ -14,8 +11,7 @@ const getDefaultAvatar = (name?: string | null) => {
 }
 
 
-import { BsBasket2, BsSpeedometer, BsPersonLinesFill, BsJournalCheck, BsUiRadiosGrid, BsChatDots, BsPersonCheck, BsEnvelopeCheck, BsX, BsSearch, BsBookmarkStar, BsYelp, BsWallet, BsPatchPlus, BsGeoAlt } from "react-icons/bs";
-import { FiX } from 'react-icons/fi';
+import { BsSpeedometer, BsPersonLinesFill, BsJournalCheck, BsUiRadiosGrid, BsChatDots, BsPersonCheck, BsEnvelopeCheck, BsX, BsSearch, BsBookmarkStar, BsYelp, BsWallet, BsPatchPlus, BsGeoAlt } from "react-icons/bs";
 import { FaSortDown } from 'react-icons/fa6'
 
 
@@ -68,9 +64,6 @@ export default function AdminNavbar() {
                                     <Link data-bs-toggle="offcanvas" to="#offcanvasExample" role="button" aria-controls="offcanvasExample" className="d-inline-flex py-0 pt-1 px-1"><div className="d-inline-flex w-8 h-8 circle overflow-hidden"><img src={profile?.avatar_url || getDefaultAvatar(profile?.full_name)} className="img-fluid" alt="Profile"/></div></Link>
                                 </li>
                                 <li>
-                                    <Link to="#cartSlider" className="cart-content" data-bs-toggle="offcanvas" role="button" aria-controls="cartSlider"><BsBasket2 className=""/><span className="head-cart-counter">3</span></Link>
-                                </li>
-                                <li>
                                     <Link to="#searchSlider" className="d-flex align-items-center" data-bs-toggle="offcanvas" role="button" aria-controls="searchSlider"><BsSearch className="me-1"/></Link>
                                 </li>
                             </ul>
@@ -94,23 +87,12 @@ export default function AdminNavbar() {
                                     Browse Services
                                 </Link>
                             </li>
-                            <li className={`${['/dashboard-user','/dashboard-my-profile','/dashboard-my-listings','/dashboard-my-bookings','/dashboard-messages','/dashboard-my-favourites','/dashboard-my-reviews','/dashboard-earning-reports'].includes(current)? 'active' : ''}`}><Link to="#">Dashboard<span className="submenu-indicator"><span className="submenu-indicator-chevron"></span></span></Link>
-                                <ul className="nav-dropdown nav-submenu">
-                                    <li className={`${current === '/dashboard-user' ? 'active' : ''}`}><Link to="/dashboard-user" className='d-flex'><BsSpeedometer className="me-1 align-self-center"/>Dashboard</Link></li>
-                                    <li className={`${current === '/dashboard-my-profile' ? 'active' : ''}`}><Link to="/dashboard-my-profile" className='d-flex'><BsPersonLinesFill className="me-1 align-self-center"/>My Profile</Link></li>
-                                    <li className={`${current === '/dashboard-my-bookings' ? 'active' : ''}`}><Link to="/dashboard-my-bookings" className='d-flex'><BsJournalCheck className="me-1 align-self-center"/>My Bookings</Link></li>
-                                    <li className={`${current === '/dashboard-my-listings' ? 'active' : ''}`}><Link to="/dashboard-my-listings" className='d-flex'><BsUiRadiosGrid className="me-1 align-self-center"/>My Listings</Link></li>
-                                    <li className={`${current === '/dashboard-messages' ? 'active' : ''}`}><Link to="/dashboard-messages" className='d-flex'><BsChatDots className="me-1 align-self-center"/>Messages</Link></li>
-                                </ul>
-                            </li>
-
                             <li className={`${current === '/about-us' ? 'active' : ''}`}>
                                 <Link to="/about-us">
                                     <BsPersonCheck className="me-2"/>
                                     About
                                 </Link>
                             </li>
-
                             <li className={`${current === '/contact-us' ? 'active' : ''}`}>
                                 <Link to="/contact-us">
                                     <BsEnvelopeCheck className="me-2"/>
@@ -120,9 +102,6 @@ export default function AdminNavbar() {
                         </ul>
 
                         <ul className="nav-menu nav-menu-social align-to-right">
-                            <li>
-                                <a href="#cartSlider" className="cart-content" data-bs-toggle="offcanvas" role="button" aria-controls="cartSlider"><BsBasket2 className=""/><span className="head-cart-counter">3</span></a>
-                            </li>
                             <li>
                                 <div className="btn-group account-drop">
                                     <Link to="#" className="nav-link btn-order-by-filt" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -158,67 +137,6 @@ export default function AdminNavbar() {
         </div>
         <div className="clearfix"></div>
 
-        <div className="offcanvas offcanvas-end" data-bs-scroll="true" tabIndex={-1} id="cartSlider" aria-labelledby="cartSliderLabel">
-            <div className="offcanvas-header border-bottom d-flex justify-content-between">
-                <h6 className="offcanvas-title" id="cartSliderLabel">Your cart Items</h6>
-                <Link to="#" className="square--35 circle text-muted-2 border" data-bs-dismiss="offcanvas" aria-label="Close"><FiX className=""/></Link>
-            </div>
-            <div className="offcanvas-body">
-                <div className="cartItems w-100">
-                    <div className="d-flex align-items-center justify-content-start flex-column gap-3">
-                        
-                        <div className="singleCartitem d-flex align-items-center justify-content-between gap-4 w-100">
-                            <div className="d-flex align-items-center justify-content-start gap-3">
-                                <div className="cartiteThumb"><figure className="d-block m-0"><img src={list1} className="img-fluid rounded-2" width="60" alt=""/></figure></div>
-                                <div className="cartCaption">
-                                    <h6 className="lh-base m-0">Spicy Burger</h6>
-                                    <p className="m-0">1x$25.50</p>
-                                </div>
-                            </div>
-                            
-                            <div className="removeItemcart"><Link to="#" className="square--35 circle badge-secondary"><FiX className=""/></Link></div>
-                        </div>
-                        
-                        <div className="singleCartitem d-flex align-items-center justify-content-between gap-3 w-100">
-                            <div className="d-flex align-items-center justify-content-start gap-3">
-                                <div className="cartiteThumb"><figure className="d-block m-0"><img src={list2} className="img-fluid rounded-2" width="60" alt=""/></figure></div>
-                                <div className="cartCaption">
-                                    <h6 className="lh-base m-0">Premium Package</h6>
-                                    <p className="m-0">1x$22.10</p>
-                                </div>
-                            </div>
-                            
-                            <div className="removeItemcart"><Link to="#" className="square--35 circle badge-secondary"><FiX className=""/></Link></div>
-                        </div>
-                        
-                        <div className="singleCartitem d-flex align-items-center justify-content-between gap-3 w-100">
-                            <div className="d-flex align-items-center justify-content-start gap-3">
-                                <div className="cartiteThumb"><figure className="d-block m-0"><img src={list3} className="img-fluid rounded-2" width="60" alt=""/></figure></div>
-                                <div className="cartCaption">
-                                    <h6 className="lh-base m-0">Platinum Plaster</h6>
-                                    <p className="m-0">1x$17.40</p>
-                                </div>
-                            </div>
-                            
-                            <div className="removeItemcart"><Link to="" className="square--35 circle badge-secondary"><FiX className=""/></Link></div>
-                        </div>
-                    
-                    </div>
-                    
-                    <div className="cartSubtotal w-100 py-3 border-top mt-3">
-                        <h6 className="m-0">Subtotal: $128.75</h6>
-                    </div>
-                    
-                </div>
-                
-                <div className="cartButtons w-100 py-2">
-                    <div className="d-flex align-items-center justify-content-center flex-wrap gap-2">
-                        <Link to="/viewcart" className="btn btn-md btn-light-primary fw-medium flex-fill">View Cart</Link>
-                        <Link to="/checkout-page" className="btn btn-md btn-primary fw-medium flex-fill">Checkout</Link>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div className="offcanvas offcanvas-end offcanvas-menu" tabIndex={-1} id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
 				<div className="offcanvas-header">
