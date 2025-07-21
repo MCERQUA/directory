@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 
 import AdminNavbar from '../../components/navbar/admin-navbar'
@@ -14,6 +14,7 @@ import { FaHeart } from 'react-icons/fa'
 
 export default function DashboardMyListings() {
   const { profile } = useAuth()
+  const navigate = useNavigate()
   const [listings, setListings] = useState<BusinessListing[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -136,7 +137,7 @@ export default function DashboardMyListings() {
                                                     <h4 className="m-0">Manage Listings</h4>
                                                     <button 
                                                         className="btn btn-primary btn-sm"
-                                                        onClick={() => setShowForm(true)}
+                                                        onClick={() => navigate('/dashboard/add-listing')}
                                                     >
                                                         <BsPlus className="me-1" />
                                                         Add New Listing
@@ -163,7 +164,7 @@ export default function DashboardMyListings() {
                                                                 <div className="mt-4">
                                                                     <button 
                                                                         className="btn btn-primary"
-                                                                        onClick={() => setShowForm(true)}
+                                                                        onClick={() => navigate('/dashboard/add-listing')}
                                                                     >
                                                                         Add Your First Listing
                                                                     </button>

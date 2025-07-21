@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import AdminNavbar from '../../components/navbar/admin-navbar'
 import AdminSidebar from '../../components/admin/admin-sidebar'
 import BackToTop from '../../components/back-to-top';
-import ImageUplod from '../../components/admin/image-uplod';
+import ListingImageUpload from '../../components/business/ListingImageUpload';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
 
@@ -36,11 +36,18 @@ interface FormData {
     max_project_budget: string;
 }
 
+interface ImageData {
+    logo?: string;
+    featured?: string;
+    gallery: string[];
+}
+
 export default function DashboardAddListing() {
     const { user, profile } = useAuth();
     const navigate = useNavigate();
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(false);
+    const [imageData, setImageData] = useState<ImageData>({ gallery: [] });
     const [formData, setFormData] = useState<FormData>({
         title: '',
         business_name: profile?.business_name || '',
@@ -115,6 +122,8 @@ export default function DashboardAddListing() {
                     hourly_rate: formData.hourly_rate ? parseFloat(formData.hourly_rate) : null,
                     min_project_budget: formData.min_project_budget ? parseFloat(formData.min_project_budget) : null,
                     max_project_budget: formData.max_project_budget ? parseFloat(formData.max_project_budget) : null,
+                    featured_image_url: imageData.featured || null,
+                    gallery_images: imageData.gallery.length > 0 ? imageData.gallery : null,
                     status: 'active'
                 })
                 .select()
@@ -426,7 +435,7 @@ export default function DashboardAddListing() {
                                                             </div>
                                                         </div>
                                                         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                                            <ImageUplod />
+                                                            <ListingImageUpload onImagesChange={setImageData} />
                                                         </div>
                                                     </div>
                                                 </div>
