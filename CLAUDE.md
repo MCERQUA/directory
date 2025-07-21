@@ -143,3 +143,55 @@ The app uses a comprehensive routing system with 60+ routes covering all page va
 **Usage**: Simply execute `/directory-setup` to start or continue the setup process
 **Progress Tracking**: All task completion status saved in setup-progress.json
 **Recovery**: Can resume from any interruption point across multiple sessions
+
+## 🚨 ERROR TRACKING PROTOCOL
+
+### Mandatory Procedures
+When an error persists after 3 attempts, the following protocol is MANDATORY:
+
+### /track-error
+**Purpose**: Initialize error tracking with Slack integration and systematic documentation
+**Location**: `.claude/commands/track-error.md`
+**Usage**: `/track-error [ERROR_ID]` - Auto-generates ID if not provided
+
+### /check-progress  
+**Purpose**: Review resolution attempts and trigger alerts if thresholds exceeded
+**Location**: `.claude/commands/check-progress.md`
+**Usage**: `/check-progress [ERROR_ID]` - Monitors progress and escalates as needed
+
+### /log-resolution
+**Purpose**: Document resolution attempts and update tracking systems
+**Location**: `.claude/commands/log-resolution.md`  
+**Usage**: `/log-resolution [ERROR_ID] [STATUS] [NOTES]` - Logs attempts and manages lifecycle
+
+### /slack-alert
+**Purpose**: Manually trigger Slack notifications for error tracking events
+**Location**: `.claude/commands/slack-alert.md`
+**Usage**: `/slack-alert [ERROR_ID] [ALERT_TYPE] [MESSAGE]` - Custom notifications
+
+1. **Slack Alert**: Post to #cca-coi-updates-feed with session ID and error type
+2. **Error Logging**: Update docs/AI-ERROR-TRACKER.md before analysis
+3. **Investigation**: Use systematic approach with ultrathinking
+4. **Progress Updates**: Post to Slack after each significant action
+5. **Resolution Alert**: Post final solution to #echo-updates-feed
+
+### Available Commands
+- `/track-error [ID]` - Initialize error tracking with Slack integration
+- `/check-progress [ID]` - Review attempts and trigger alerts if needed
+- `/log-resolution [ID]` - Log attempt and update trackers
+- `/slack-alert [ID]` - Manually trigger Slack notifications 
+
+### Error Tracking Files
+- **Individual Issues**: .claude/error-tracking/issue-[ID].md
+- **Global Tracker**: docs/AI-ERROR-TRACKER.md
+- **Resolved Archive**: .claude/error-tracking/resolved/
+
+### Severity Levels
+- **CRITICAL**: System-breaking, blocks all progress
+- **HIGH**: Major functionality affected
+- **MEDIUM**: Feature-specific, workarounds available
+- **LOW**: Minor issues, cosmetic problems
+
+### Session ID Format
+SESSION-[TIMESTAMP]-[ISSUE_ID]
+Example: SESSION-1705321200-456

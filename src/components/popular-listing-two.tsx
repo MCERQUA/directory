@@ -78,7 +78,7 @@ export default function PopularListingTwo() {
         
         // Add a race condition with timeout to prevent hanging
         const timeoutPromise = new Promise((_, reject) => {
-          setTimeout(() => reject(new Error('Request timeout')), 8000)
+          setTimeout(() => reject(new Error('Request timeout')), 30000)
         })
         
         const data = await Promise.race([

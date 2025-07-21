@@ -13,7 +13,20 @@ export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: true
-  }
+  },
+  global: {
+    headers: {
+      'x-client-info': 'directory-site@1.0.0',
+    },
+  },
+  db: {
+    schema: 'public',
+  },
+  realtime: {
+    params: {
+      eventsPerSecond: 10,
+    },
+  },
 })
 
 // Helper types
@@ -531,20 +544,58 @@ export const getUserRecentMessages = async () => {
 export const getPublicListings = async (limit: number = 50) => {
   try {
     console.log('Attempting to connect to Supabase...')
+    console.log('Supabase URL:', import.meta.env.VITE_SUPABASE_URL)
+    console.log('Using anon key:', import.meta.env.VITE_SUPABASE_ANON_KEY ? 'Yes' : 'No')
     
-    // Test basic connection first
-    const { error: testError } = await supabase
+    // Test 1: Basic connectivity - just ping the health endpoint
+    console.log('Testing basic Supabase connectivity...')
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/rest/v1/`, {
+        headers: {
+          'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`
+        }
+      })
+      console.log('Basic connectivity status:', response.status)
+    } catch (fetchError) {
+      console.error('Basic connectivity failed:', fetchError)
+      throw new Error('Cannot reach Supabase server')
+    }
+    
+    // Test 2: Check if business_listings table exists
+    console.log('Testing business_listings table access...')
+    const { data: testData, error: testError } = await supabase
       .from('business_listings')
       .select('count', { count: 'exact' })
       .limit(1)
     
     if (testError) {
-      console.error('Supabase connection test failed:', testError)
-      throw new Error(`Database connection failed: ${testError.message}`)
+      console.error('Table access test failed:', testError)
+      console.error('Error code:', testError.code)
+      console.error('Error message:', testError.message)
+      console.error('Error details:', testError.details)
+      throw new Error(`Table access failed: ${testError.message}`)
     }
     
-    console.log('Connection test successful, fetching listings...')
+    console.log('Table access successful. Row count:', testData?.length || 'unknown')
+    console.log('Proceeding to fetch listings...')
     
+    // Try a simpler query first without joins
+    console.log('Attempting simple query without joins...')
+    const { data: simpleData, error: simpleError } = await supabase
+      .from('business_listings')
+      .select('id, title, description, status')
+      .limit(3)
+    
+    if (simpleError) {
+      console.error('Simple query failed:', simpleError)
+      throw new Error(`Simple query failed: ${simpleError.message}`)
+    }
+    
+    console.log('Simple query successful, found', simpleData?.length || 0, 'records')
+    
+    // If simple query works, try the full query
+    console.log('Attempting full query with joins...')
     const { data, error } = await supabase
       .from('business_listings')
       .select(`

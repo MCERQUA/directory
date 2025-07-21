@@ -22,11 +22,23 @@ export default function ListLayout1() {
     const loadListings = async () => {
       try {
         console.log('Loading public listings...')
-        const data = await getPublicListings(50)
-        console.log('Loaded listings:', data)
-        setListings(data)
+        
+        // Add timeout to prevent hanging
+        const timeoutPromise = new Promise((_, reject) => {
+          setTimeout(() => reject(new Error('Request timeout')), 30000)
+        })
+        
+        const data = await Promise.race([
+          getPublicListings(50),
+          timeoutPromise
+        ]) as BusinessListing[]
+        
+        console.log('Loaded listings:', data?.length || 0, 'items')
+        setListings(data || [])
       } catch (error) {
         console.error('Error loading listings:', error)
+        // Don't set error state, just leave empty listings array
+        setListings([])
       } finally {
         setLoading(false)
       }
