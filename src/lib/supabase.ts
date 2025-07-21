@@ -529,21 +529,46 @@ export const getUserRecentMessages = async () => {
 
 // Public Listings Functions (for website display)
 export const getPublicListings = async (limit: number = 50) => {
-  const { data, error } = await supabase
-    .from('business_listings')
-    .select(`
-      *,
-      categories (
-        name,
-        slug
-      )
-    `)
-    .eq('status', 'active')
-    .order('created_at', { ascending: false })
-    .limit(limit)
+  try {
+    console.log('Attempting to connect to Supabase...')
+    
+    // Test basic connection first
+    const { error: testError } = await supabase
+      .from('business_listings')
+      .select('count', { count: 'exact' })
+      .limit(1)
+    
+    if (testError) {
+      console.error('Supabase connection test failed:', testError)
+      throw new Error(`Database connection failed: ${testError.message}`)
+    }
+    
+    console.log('Connection test successful, fetching listings...')
+    
+    const { data, error } = await supabase
+      .from('business_listings')
+      .select(`
+        *,
+        categories (
+          name,
+          slug
+        )
+      `)
+      .eq('status', 'active')
+      .order('created_at', { ascending: false })
+      .limit(limit)
 
-  if (error) throw error
-  return data || []
+    if (error) {
+      console.error('Error fetching listings:', error)
+      throw new Error(`Failed to fetch listings: ${error.message}`)
+    }
+    
+    console.log(`Successfully fetched ${data?.length || 0} listings`)
+    return data || []
+  } catch (error) {
+    console.error('getPublicListings error:', error)
+    throw error
+  }
 }
 
 export const getFeaturedListings = async (limit: number = 6) => {

@@ -75,12 +75,23 @@ export default function PopularListingTwo() {
     const loadListings = async () => {
       try {
         console.log('Loading popular listings for homepage...')
-        const data = await getPublicListings(6)
+        
+        // Add a race condition with timeout to prevent hanging
+        const timeoutPromise = new Promise((_, reject) => {
+          setTimeout(() => reject(new Error('Request timeout')), 8000)
+        })
+        
+        const data = await Promise.race([
+          getPublicListings(6),
+          timeoutPromise
+        ])
+        
         console.log('Popular listings loaded:', data)
         setListings(data || [])
         setError(null)
       } catch (error) {
         console.error('Error loading popular listings:', error)
+        console.log('Error details:', error instanceof Error ? error.message : 'Unknown error')
         console.log('Using mock data as fallback...')
         setListings(mockListings)
         setError(null)
@@ -89,18 +100,7 @@ export default function PopularListingTwo() {
       }
     }
 
-    // Add timeout to prevent infinite loading
-    const timeoutId = setTimeout(() => {
-      if (loading) {
-        console.warn('Loading timeout - forcing completion')
-        setLoading(false)
-        setError('Loading took too long. Please try refreshing the page.')
-      }
-    }, 10000) // 10 second timeout
-
     loadListings()
-
-    return () => clearTimeout(timeoutId)
   }, [])
 
   if (loading) {
