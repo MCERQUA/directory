@@ -4,10 +4,11 @@ import { useState, useEffect } from 'react';
 import AdminNavbar from '../../components/navbar/admin-navbar'
 import AdminSidebar from '../../components/admin/admin-sidebar'
 import BackToTop from '../../components/back-to-top';
+import ImageUplod from '../../components/admin/image-uplod';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
 
-import { FaFile } from 'react-icons/fa6';
+import { FaFile, FaImages } from 'react-icons/fa6';
 import { BsGeoAlt, BsPatchQuestionFill, BsPlusCircle, BsStopwatch } from 'react-icons/bs';
 
 
@@ -391,6 +392,41 @@ export default function DashboardAddListing() {
                                                                     onChange={handleInputChange}
                                                                 />
                                                             </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="row align-items-start g-4 mb-lg-5 mb-4">
+                                        <div className="col-xl-12 col-lg-12 col-md-12">
+                                            <div className="card rounded-3 shadow-sm">
+                                                <div className="card-header py-4 px-4">
+                                                    <h4 className="fs-5 fw-medium"><FaImages className="text-primary me-2"/>Images & Media</h4>
+                                                </div>
+                                                <div className="card-body">
+                                                    <div className="row">
+                                                        <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                                            <div className="form-group form-border">
+                                                                <label className="lableTitle">Business Logo</label>
+                                                                <p className="text-muted small mb-2">Upload your business logo (recommended: 200x200px)</p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                                            <div className="form-group form-border">
+                                                                <label className="lableTitle">Featured Image</label>
+                                                                <p className="text-muted small mb-2">Main image for your listing (recommended: 800x600px)</p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                                            <div className="form-group form-border">
+                                                                <label className="lableTitle">Gallery Images</label>
+                                                                <p className="text-muted small mb-2">Showcase your work samples and projects</p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                                            <ImageUplod />
                                                         </div>
                                                     </div>
                                                 </div>
