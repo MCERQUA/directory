@@ -21,7 +21,9 @@ export default function ListLayout1() {
   useEffect(() => {
     const loadListings = async () => {
       try {
+        console.log('Loading public listings...')
         const data = await getPublicListings(50)
+        console.log('Loaded listings:', data)
         setListings(data)
       } catch (error) {
         console.error('Error loading listings:', error)

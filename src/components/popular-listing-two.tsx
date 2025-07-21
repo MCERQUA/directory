@@ -14,7 +14,9 @@ export default function PopularListingTwo() {
   useEffect(() => {
     const loadListings = async () => {
       try {
+        console.log('Loading popular listings for homepage...')
         const data = await getPublicListings(6)
+        console.log('Popular listings loaded:', data)
         setListings(data)
       } catch (error) {
         console.error('Error loading popular listings:', error)
