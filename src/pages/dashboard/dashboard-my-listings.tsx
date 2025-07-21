@@ -22,11 +22,7 @@ export default function DashboardMyListings() {
   const [deletingId, setDeletingId] = useState<string | null>(null)
 
   useEffect(() => {
-    if (profile?.user_type === 'contractor') {
-      loadListings()
-    } else {
-      setLoading(false)
-    }
+    loadListings()
   }, [profile])
 
   const loadListings = async () => {
@@ -106,34 +102,6 @@ export default function DashboardMyListings() {
     return stars
   }
 
-  if (profile?.user_type !== 'contractor') {
-    return (
-      <>
-        <AdminNavbar/>
-        <section className="p-0">
-          <div className="container-fluid p-0">
-            <div className="row user-dashboard g-0">
-              <AdminSidebar/>
-              <div className="col-xl-10 col-lg-9 col-md-12 pt-lg-0 pt-5">
-                <div className="user-dashboard-box bg-light pt-lg-0 pt-5">
-                  <div className="dashHeader p-xl-5 p-4 pb-xl-0 pb-0">
-                    <h2 className="fw-medium mb-0">My Listings</h2>
-                  </div>
-                  <div className="dashCaption p-xl-5 p-3 p-md-4">
-                    <div className="alert alert-info">
-                      <h5>Contractor Account Required</h5>
-                      <p className="mb-0">You need a contractor account to manage listings. Please contact support to upgrade your account.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <BackToTop/>
-      </>
-    )
-  }
 
   return (
     <>

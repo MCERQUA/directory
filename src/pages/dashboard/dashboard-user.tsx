@@ -4,11 +4,12 @@ import AdminSidebar from '../../components/admin/admin-sidebar'
 import RecentActivity from '../../components/admin/recent-activity';
 import BackToTop from '../../components/back-to-top';
 import { useAuth } from '../../contexts/AuthContext';
-
-import { adminCounter } from '../../data/data'
+import { getUserDashboardStats, getUserRecentMessages } from '../../lib/supabase';
 
 import CountUp from 'react-countup';
 import { IconType } from 'react-icons';
+import { BsPinMapFill, BsGraphUpArrow, BsJournalCheck, BsClock } from 'react-icons/bs';
+import { useState, useEffect } from 'react';
 
 interface CounterData{
     icon: IconType;
@@ -21,8 +22,70 @@ interface CounterData{
 
 export default function DashboardUser() {
     const { user, profile } = useAuth();
+    const [dashboardStats, setDashboardStats] = useState({
+        activeListings: 0,
+        totalListings: 0,
+        totalBookings: 0,
+        pendingBookings: 0,
+    });
+    const [recentMessages, setRecentMessages] = useState<any[]>([]);
     
     const displayName = profile?.full_name || user?.email?.split('@')[0] || 'User';
+
+    useEffect(() => {
+        if (user) {
+            loadDashboardData();
+        }
+    }, [user]);
+
+    const loadDashboardData = async () => {
+        try {
+            const [stats, messages] = await Promise.all([
+                getUserDashboardStats(),
+                getUserRecentMessages()
+            ]);
+            setDashboardStats(stats);
+            setRecentMessages(messages);
+        } catch (error) {
+            console.error('Error loading dashboard data:', error);
+        }
+    };
+
+    // Create dynamic counter data based on real stats
+    const dynamicCounters: CounterData[] = [
+        {
+            icon: BsPinMapFill,
+            iconStyle: 'text-success',
+            number: dashboardStats.activeListings,
+            symbol: '',
+            title: 'Active Listings',
+            bg: 'bg-light-success'
+        },
+        {
+            icon: BsGraphUpArrow,
+            iconStyle: 'text-primary',
+            number: dashboardStats.totalListings,
+            symbol: '',
+            title: 'Total Listings',
+            bg: 'bg-light-primary'
+        },
+        {
+            icon: BsJournalCheck,
+            iconStyle: 'text-info',
+            number: dashboardStats.totalBookings,
+            symbol: '',
+            title: 'Total Bookings',
+            bg: 'bg-light-info'
+        },
+        {
+            icon: BsClock,
+            iconStyle: 'text-warning',
+            number: dashboardStats.pendingBookings,
+            symbol: '',
+            title: 'Pending Bookings',
+            bg: 'bg-light-warning'
+        }
+    ];
 
     return (
         <>
@@ -38,16 +101,8 @@ export default function DashboardUser() {
                                     <h2 className="fw-medium mb-0">Hello, {displayName}</h2>
                                 </div>
                             <div className="dashCaption p-xl-5 p-3 p-md-4">
-                                <div className="row align-items-start g-4 mb-4">
-                                    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                        <div className="alert alert-primary alert-dismissible fade show" role="alert">
-                                            Your listing <strong>Holy Guacamole!</strong> has been approved!.
-                                            <button type="button" className="btn-close text-sm text-primary" data-bs-dismiss="alert" aria-label="Close"></button>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div className="row align-items-start g-4 mb-lg-5 mb-4">
-                                    {adminCounter.map((item:CounterData,index:number)=>{
+                                    {dynamicCounters.map((item:CounterData,index:number)=>{
                                         const Icon = item.icon
                                         return(
                                             <div className="col-xl-3 col-lg-6 col-md-6 col-sm-6" key={index}>
@@ -81,11 +136,34 @@ export default function DashboardUser() {
                                             </div>
                                             <div className="card-body p-4">
                                                 <div className="messagesWrapers d-flex flex-column gap-4">
-                                                    
-                                                    <div className="text-center py-4">
-                                                        <p className="text-muted">No messages yet. Start connecting with clients!</p>
-                                                    </div>
-                                                
+                                                    {recentMessages.length > 0 ? (
+                                                        recentMessages.map((message, index) => (
+                                                            <div key={index} className="d-flex align-items-start gap-3">
+                                                                <div className="flex-shrink-0">
+                                                                    <div className="w-8 h-8 circle bg-light-primary d-flex align-items-center justify-content-center">
+                                                                        <span className="text-primary fw-medium">
+                                                                            {message.sender?.full_name?.charAt(0) || 'U'}
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex-grow-1">
+                                                                    <h6 className="mb-1">{message.sender?.full_name || 'User'}</h6>
+                                                                    <p className="text-muted mb-1 text-sm">
+                                                                        {message.message.length > 60 
+                                                                            ? message.message.substring(0, 60) + '...' 
+                                                                            : message.message}
+                                                                    </p>
+                                                                    <small className="text-muted">
+                                                                        {new Date(message.created_at).toLocaleDateString()}
+                                                                    </small>
+                                                                </div>
+                                                            </div>
+                                                        ))
+                                                    ) : (
+                                                        <div className="text-center py-4">
+                                                            <p className="text-muted">No messages yet. Start connecting with clients!</p>
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>

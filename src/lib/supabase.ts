@@ -359,3 +359,150 @@ export const deleteAvatar = async (avatarUrl: string) => {
 
   if (updateError) throw updateError
 }
+
+// Dashboard Statistics Functions
+export const getUserDashboardStats = async () => {
+  const user = await getCurrentUser()
+  if (!user) throw new Error('No authenticated user')
+
+  try {
+    // Get user's listings count
+    const { count: activeListings } = await supabase
+      .from('business_listings')
+      .select('id', { count: 'exact' })
+      .eq('owner_id', user.id)
+      .eq('status', 'active')
+
+    // Get total listings count (all statuses)
+    const { count: totalListings } = await supabase
+      .from('business_listings')
+      .select('id', { count: 'exact' })
+      .eq('owner_id', user.id)
+
+    // Get bookings count
+    const { count: totalBookings } = await supabase
+      .from('bookings')
+      .select('id', { count: 'exact' })
+      .eq('contractor_id', user.id)
+
+    // Get pending bookings count
+    const { count: pendingBookings } = await supabase
+      .from('bookings')
+      .select('id', { count: 'exact' })
+      .eq('contractor_id', user.id)
+      .eq('status', 'pending')
+
+    return {
+      activeListings: activeListings || 0,
+      totalListings: totalListings || 0,
+      totalBookings: totalBookings || 0,
+      pendingBookings: pendingBookings || 0,
+    }
+  } catch (error) {
+    console.error('Error fetching dashboard stats:', error)
+    return {
+      activeListings: 0,
+      totalListings: 0,
+      totalBookings: 0,
+      pendingBookings: 0,
+    }
+  }
+}
+
+// Recent Activities Functions
+export const getUserRecentActivities = async () => {
+  const user = await getCurrentUser()
+  if (!user) throw new Error('No authenticated user')
+
+  try {
+    const activities: any[] = []
+
+    // Get recent bookings
+    const { data: recentBookings } = await supabase
+      .from('bookings')
+      .select(`
+        id,
+        status,
+        created_at,
+        customer:profiles!customer_id (full_name),
+        business_listings (title)
+      `)
+      .eq('contractor_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(3)
+
+    if (recentBookings) {
+      recentBookings.forEach(booking => {
+        activities.push({
+          type: 'booking',
+          message: `New booking from ${booking.customer?.full_name || 'Customer'} for ${booking.business_listings?.title || 'your service'}`,
+          status: booking.status,
+          date: booking.created_at,
+          icon: 'booking'
+        })
+      })
+    }
+
+    // Get recent listing status changes (simulated)
+    const { data: recentListings } = await supabase
+      .from('business_listings')
+      .select('id, title, status, created_at, updated_at')
+      .eq('owner_id', user.id)
+      .order('updated_at', { ascending: false })
+      .limit(2)
+
+    if (recentListings) {
+      recentListings.forEach(listing => {
+        if (listing.status === 'active') {
+          activities.push({
+            type: 'listing_approved',
+            message: `Your listing "${listing.title}" is now live!`,
+            status: 'approved',
+            date: listing.updated_at,
+            icon: 'approval'
+          })
+        }
+      })
+    }
+
+    // Sort all activities by date
+    return activities
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .slice(0, 5)
+
+  } catch (error) {
+    console.error('Error fetching recent activities:', error)
+    return []
+  }
+}
+
+// Get Recent Messages for Dashboard Preview
+export const getUserRecentMessages = async () => {
+  const user = await getCurrentUser()
+  if (!user) throw new Error('No authenticated user')
+
+  try {
+    // Get recent messages from user's bookings
+    const { data: messages } = await supabase
+      .from('booking_messages')
+      .select(`
+        id,
+        message,
+        created_at,
+        sender:profiles!sender_id (full_name),
+        booking:booking_id (
+          customer:profiles!customer_id (full_name),
+          contractor:profiles!contractor_id (full_name)
+        )
+      `)
+      .or(`booking_id.in.(select id from bookings where contractor_id.eq.${user.id}),booking_id.in.(select id from bookings where customer_id.eq.${user.id})`)
+      .neq('sender_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(3)
+
+    return messages || []
+  } catch (error) {
+    console.error('Error fetching recent messages:', error)
+    return []
+  }
+}
