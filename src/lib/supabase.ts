@@ -543,81 +543,46 @@ export const getUserRecentMessages = async () => {
 // Public Listings Functions (for website display)
 export const getPublicListings = async (limit: number = 50) => {
   try {
-    console.log('Attempting to connect to Supabase...')
-    console.log('Supabase URL:', import.meta.env.VITE_SUPABASE_URL)
-    console.log('Using anon key:', import.meta.env.VITE_SUPABASE_ANON_KEY ? 'Yes' : 'No')
+    console.log('Loading contractor listings from Supabase...')
     
-    // Test 1: Basic connectivity - just ping the health endpoint
-    console.log('Testing basic Supabase connectivity...')
+    // Try direct REST API call to bypass potential Supabase client timeout issues
     try {
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/rest/v1/`, {
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/rest/v1/business_listings?status=eq.active&order=created_at.desc&limit=${limit}&select=*`, {
         headers: {
           'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY,
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          'Content-Type': 'application/json'
         }
       })
-      console.log('Basic connectivity status:', response.status)
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+      }
+      
+      const data = await response.json()
+      console.log(`Successfully loaded ${data?.length || 0} contractor listings via REST API`)
+      return data || []
     } catch (fetchError) {
-      console.error('Basic connectivity failed:', fetchError)
-      throw new Error('Cannot reach Supabase server')
-    }
-    
-    // Test 2: Check if business_listings table exists
-    console.log('Testing business_listings table access...')
-    const { data: testData, error: testError } = await supabase
-      .from('business_listings')
-      .select('count', { count: 'exact' })
-      .limit(1)
-    
-    if (testError) {
-      console.error('Table access test failed:', testError)
-      console.error('Error code:', testError.code)
-      console.error('Error message:', testError.message)
-      console.error('Error details:', testError.details)
-      throw new Error(`Table access failed: ${testError.message}`)
-    }
-    
-    console.log('Table access successful. Row count:', testData?.length || 'unknown')
-    console.log('Proceeding to fetch listings...')
-    
-    // Try a simpler query first without joins
-    console.log('Attempting simple query without joins...')
-    const { data: simpleData, error: simpleError } = await supabase
-      .from('business_listings')
-      .select('id, title, description, status')
-      .limit(3)
-    
-    if (simpleError) {
-      console.error('Simple query failed:', simpleError)
-      throw new Error(`Simple query failed: ${simpleError.message}`)
-    }
-    
-    console.log('Simple query successful, found', simpleData?.length || 0, 'records')
-    
-    // If simple query works, try the full query
-    console.log('Attempting full query with joins...')
-    const { data, error } = await supabase
-      .from('business_listings')
-      .select(`
-        *,
-        categories (
-          name,
-          slug
-        )
-      `)
-      .eq('status', 'active')
-      .order('created_at', { ascending: false })
-      .limit(limit)
+      console.warn('Direct REST API failed, trying Supabase client:', fetchError)
+      
+      // Fallback to Supabase client
+      const { data, error } = await supabase
+        .from('business_listings')
+        .select('*')
+        .eq('status', 'active')
+        .order('created_at', { ascending: false })
+        .limit(limit)
 
-    if (error) {
-      console.error('Error fetching listings:', error)
-      throw new Error(`Failed to fetch listings: ${error.message}`)
+      if (error) {
+        console.error('Supabase client query failed:', error)
+        throw new Error(`Database query failed: ${error.message}`)
+      }
+      
+      console.log(`Successfully loaded ${data?.length || 0} contractor listings via Supabase client`)
+      return data || []
     }
-    
-    console.log(`Successfully fetched ${data?.length || 0} listings`)
-    return data || []
   } catch (error) {
-    console.error('getPublicListings error:', error)
+    console.error('Failed to load contractor listings:', error)
     throw error
   }
 }
