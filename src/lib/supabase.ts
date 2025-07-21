@@ -490,6 +490,18 @@ export const getUserRecentMessages = async () => {
   if (!user) throw new Error('No authenticated user')
 
   try {
+    // First get user's bookings, then get messages from those bookings
+    const { data: userBookings } = await supabase
+      .from('bookings')
+      .select('id')
+      .or(`contractor_id.eq.${user.id},customer_id.eq.${user.id}`)
+
+    if (!userBookings || userBookings.length === 0) {
+      return []
+    }
+
+    const bookingIds = userBookings.map(booking => booking.id)
+
     // Get recent messages from user's bookings
     const { data: messages } = await supabase
       .from('booking_messages')
@@ -497,13 +509,9 @@ export const getUserRecentMessages = async () => {
         id,
         message,
         created_at,
-        sender:profiles!sender_id (full_name),
-        booking:booking_id (
-          customer:profiles!customer_id (full_name),
-          contractor:profiles!contractor_id (full_name)
-        )
+        sender:profiles!sender_id (full_name)
       `)
-      .or(`booking_id.in.(select id from bookings where contractor_id.eq.${user.id}),booking_id.in.(select id from bookings where customer_id.eq.${user.id})`)
+      .in('booking_id', bookingIds)
       .neq('sender_id', user.id)
       .order('created_at', { ascending: false })
       .limit(3)

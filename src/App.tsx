@@ -83,14 +83,14 @@ function App() {
       new window.bootstrap.Tooltip(tooltipTriggerEl);
     });
 
-    // Load Google Identity Services with security headers
+    // Load Google Identity Services
     const loadGoogleScript = () => {
       const script = document.createElement('script');
       script.src = 'https://accounts.google.com/gsi/client';
       script.async = true;
       script.defer = true;
-      script.crossOrigin = 'anonymous';
-      script.referrerPolicy = 'no-referrer';
+      // Remove crossOrigin to prevent CORS issues with Google's script
+      // Google's GSI client doesn't support CORS headers
       
       // Add error handling for script loading
       script.onerror = () => {
